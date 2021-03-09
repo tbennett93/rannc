@@ -25,6 +25,8 @@ namespace Rannc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //remove for prod? Will this cause security issues and is it even needed if api on same server?
+            //if needed, increase security on it by only allowing certain access
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAnyCorsPolicy", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
@@ -47,6 +49,7 @@ namespace Rannc
 
             app.UseRouting();
 
+            //remove for prod? Will this cause security issues and is it even needed if api on same server?
             app.UseCors("AllowAnyCorsPolicy");
 
 
