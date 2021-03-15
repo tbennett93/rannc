@@ -1,0 +1,38 @@
+Authentication
+	Build logins - x
+	build login/identity for JWTs
+		https://code-maze.com/wp-content/uploads/2020/02/ASP.NET-Core-Identity-JWT.pdf
+	Implement a check on the userdb for login credentials, instead of only allowing John D, allow access to the db
+		think about security here and how we're storing passwords
+	build a user creation controller and register page to store users in the db
+	Sign JWTs using JWS (done?)
+	
+		
+
+my-rankings
+	build hand coded my-rankings and have it displayed on my-rankings page
+	have user accessing my-rankings submit a GET for their rankings
+	display their rankings (loosely)
+	build my=rankings table
+	replace hard coded my-rankings with db call
+	
+	build post method for adding new rankings category
+	should update page async
+
+my rankings/id
+	build hand coded my-rankings/id and have it displayed on my-rankings/id page
+	have user accessing my-rankings/id submit a GET for their rankings
+	display their rankings (loosely)
+	build my=rankings/id table
+	replace hard coded my-rankings with db call
+	
+	build post method for adding new rankings
+	build front end sorting and allow this to submit to db on submit/save
+	should update page async
+
+Build my-rankings/id model - hand built
+Build my-rankings GET API - any user
+Display rankings in angular and when clicked take you to rankings/id
+Build rankings ID in GET API - any user
+display this in angular when clicked
+2FA

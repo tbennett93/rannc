@@ -9,7 +9,13 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Rannc.Models;
+using Rannc.Services;
 
 namespace Rannc
 {
@@ -25,16 +31,43 @@ namespace Rannc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //remove for prod? Will this cause security issues and is it even needed if api on same server?
-            //if needed, increase security on it by only allowing certain access
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAnyCorsPolicy", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-            });
 
+            services.AddDbContext<UserContext>(opts =>
+                //TODO in development, this looks at the secrets.json file. in deployment, this will need switching to 
+                opts.UseSqlServer(Configuration["ConnectionStrings:ConnectionString/UserDB"]));
+
+
+            services.AddAuthentication(opt => {
+                    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = "http://localhost:44359",
+                        ValidAudience = "http://localhost:4200",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenSecretKey"]))
+                    };
+                });
             services.AddControllers();
 
+            //TODO tighten security on this - consider if the tightening is needed though if using https
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
+            services.AddTransient<ITokenService, TokenService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,24 +77,15 @@ namespace Rannc
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            //remove for prod? Will this cause security issues and is it even needed if api on same server?
-            app.UseCors("AllowAnyCorsPolicy");
-
-
+            app.UseCors("EnableCORS");
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-
-
         }
     }
 }

@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragAndDropTestComponent } from './drag-and-drop-test/drag-and-drop-test.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -28,8 +28,12 @@ import { TopCategoriesComponent } from './top-categories/top-categories.componen
 import { SocialComponent } from './social/social.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import {AuthGuard} from './auth.guard';
 
-
+export function tokenGetter() {
+  return localStorage.getItem("jwt");
+};
 
 @NgModule({
   declarations: [
@@ -62,14 +66,23 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     MatIconModule,
     RouterModule.forRoot([
       {path: 'home', component: HomeComponent},
-      {path: 'my-rankings', component: MyRankingsComponent},
+      //route blocked by AuthGuard which only lets a page be accessible if a token exists and hasnt expired
+      {path: 'my-rankings', component: MyRankingsComponent, canActivate: [AuthGuard]},
       {path: 'top-categories', component: TopCategoriesComponent},
       {path: 'social', component: SocialComponent},
       {path: 'login', component: LoginComponent},
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: '**', component: PageNotFoundComponent}
 
-    ])
+    ]),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:44359"],
+        blacklistedRoutes: []
+      }
+    }),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
