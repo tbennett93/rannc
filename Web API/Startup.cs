@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Rannc.Data;
 using Rannc.Models;
 using Rannc.Services;
 
@@ -68,6 +69,8 @@ namespace Rannc
             });
 
             services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IPasswordHasherService, PasswordHasherService>();
+            services.AddTransient<UserSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,6 +89,15 @@ namespace Rannc
             {
                 endpoints.MapControllers();
             });
+
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    //creates an instance with prerequisites if any
+                    var seeder = scope.ServiceProvider.GetService<UserSeeder>();
+                    //making configure wait for seed to finish
+                    //cannot make Configure async as it isn't expected to run asynchronously
+                    seeder.Seed();
+                }
         }
     }
 }

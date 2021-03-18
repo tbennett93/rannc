@@ -14,18 +14,19 @@ namespace Rannc.Models
 
         }
 
-        public DbSet<LoginModel> LoginModels { get; set; }
+        public DbSet<LoginModel> LoginModel { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<LoginModel>().HasData(new LoginModel
-            {
-                Id = 1,
-                UserName = "johndoe",
-                Password = "def@123"
-            });
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    //base.OnModelCreating(modelBuilder);
+        //    modelBuilder.Entity<LoginModel>().HasData(new LoginModel
+        //    {
+        //        Id = 1,
+        //        UserName = "johndoe",
+        //        Password = "def@123"
+        //    });
 
-        }
     }
+
+
 }

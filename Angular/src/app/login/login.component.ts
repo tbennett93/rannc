@@ -21,14 +21,17 @@ export class LoginComponent {
   //  the server will know what web token was issued where and thus can reject false or expired or null web tokens
   login(form: NgForm) {
     const credentials = form.value;
-    this.http.post("https://localhost:44359/API/auth/login", credentials, {
+    this.http.post("https://localhost:44359/api/token/refresh", credentials, {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
     }).subscribe(response => {
       const token = (<any>response).token;
+      const refreshToken = (<any>response).refreshToken;
+
       //local storage is storage used by the browser to store key val pairs
       localStorage.setItem("jwt", token);
+      localStorage.setItem("refreshToken", refreshToken);
       this.invalidLogin = false;
       console.log(token);
       this.router.navigate(["/"]);
@@ -39,6 +42,7 @@ export class LoginComponent {
 
   logOut() {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("refreshToken");
  }
 
 }

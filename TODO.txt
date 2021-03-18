@@ -1,9 +1,16 @@
 Authentication
 	Build logins - x
-	build login/identity for JWTs
+	Build guard to stop unauthenticated user access - x
+	Implement password hashing
+		add password salt to db
+		user password change inserts hashed salted password 
+		user login references salted hased password
+		change password adds 
+	build identity/secure password/refresh tokens for JWTs
 		https://code-maze.com/wp-content/uploads/2020/02/ASP.NET-Core-Identity-JWT.pdf
 	Implement a check on the userdb for login credentials, instead of only allowing John D, allow access to the db
 		think about security here and how we're storing passwords
+		this is used in the TokenService as a call to the user ID is required to get refreshtoken data from db
 	build a user creation controller and register page to store users in the db
 	Sign JWTs using JWS (done?)
 	
@@ -36,3 +43,6 @@ Display rankings in angular and when clicked take you to rankings/id
 Build rankings ID in GET API - any user
 display this in angular when clicked
 2FA
+
+git
+

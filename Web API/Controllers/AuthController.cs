@@ -17,10 +17,13 @@ namespace Rannc.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserContext userContext;
-        private readonly ITokenService tokenService;
+        readonly UserContext userContext;
+        readonly ITokenService tokenService;
 
-        private AuthController(UserContext userContext, ITokenService tokenService)
+        public AuthController(
+            UserContext userContext, 
+            ITokenService tokenService,
+            IPasswordHasherService passwordHasherService)
         {
             this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
             this.tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
@@ -36,7 +39,7 @@ namespace Rannc.Controllers
             }
 
 
-            var user = userContext.LoginModels.FirstOrDefault(u => 
+            var user = userContext.LoginModel.FirstOrDefault(u => 
                 u.UserName == loginModel.UserName &&
                 u.Password == loginModel.Password
                 );
@@ -63,7 +66,7 @@ namespace Rannc.Controllers
 
             return Ok(new
             {
-                Token = accessToken,
+                AccessToken = accessToken,
                 RefreshToken = refreshToken
             });
 

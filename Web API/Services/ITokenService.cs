@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rannc.Services
 {
-    interface ITokenService
+    public interface ITokenService
     {
         string GenerateAccessToken(IEnumerable<Claim> claims);
         string GenerateRefreshToken();
