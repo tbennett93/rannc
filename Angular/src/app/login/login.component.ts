@@ -21,12 +21,13 @@ export class LoginComponent {
   //  the server will know what web token was issued where and thus can reject false or expired or null web tokens
   login(form: NgForm) {
     const credentials = form.value;
-    this.http.post("https://localhost:44359/api/token/refresh", credentials, {
+    this.http.post("https://localhost:44359/api/auth/login", credentials, {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
     }).subscribe(response => {
-      const token = (<any>response).token;
+      console.log(response);
+      const token = (<any>response).accessToken;
       const refreshToken = (<any>response).refreshToken;
 
       //local storage is storage used by the browser to store key val pairs

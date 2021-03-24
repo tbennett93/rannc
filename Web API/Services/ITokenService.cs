@@ -11,5 +11,7 @@ namespace Rannc.Services
         string GenerateAccessToken(IEnumerable<Claim> claims);
         string GenerateRefreshToken();
         ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
+
+        public DateTime RefreshTokenTime { get;  }
     }
 }

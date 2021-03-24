@@ -46,7 +46,7 @@ namespace Rannc.Controllers
             var newAccessToken = tokenService.GenerateAccessToken(principal.Claims);
             var newRefreshToken = tokenService.GenerateRefreshToken();
             user.RefreshToken = newRefreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+            user.RefreshTokenExpiryTime = tokenService.RefreshTokenTime;
             userContext.SaveChanges();
 
             return new ObjectResult(new

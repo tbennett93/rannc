@@ -12,6 +12,7 @@ namespace Rannc.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+        [Required]
         public string UserName { get; set; }
         public string Password { get; set; }
         public byte[] PasswordSalt { get; set; }

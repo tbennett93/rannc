@@ -15,7 +15,27 @@ namespace Rannc.Models
         }
 
         public DbSet<LoginModel> LoginModel { get; set; }
+        public DbSet<CategoryModel> Categories { get; set; }
+        public DbSet<CategoryItemsModel> CategoryItems { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<LoginModel>()
+                .HasIndex(u => u.UserName)
+                .IsUnique();
+            modelBuilder.Entity<LoginModel>().Property(p => p.Password).IsRequired();
+            modelBuilder.Entity<LoginModel>().Property(p => p.PasswordSalt).IsRequired();
+            modelBuilder.Entity<LoginModel>().Property(p => p.Password).IsRequired();
+
+            modelBuilder.Entity<CategoryModel>().Property(p => p.DateCreated).IsRequired();
+            modelBuilder.Entity<CategoryModel>().Property(p => p.LoginModelId).IsRequired();
+
+            modelBuilder.Entity<CategoryItemsModel>().Property(p => p.Order).IsRequired();
+            modelBuilder.Entity<CategoryItemsModel>().Property(p => p.CategoryModelId).IsRequired();
+
+
+
+        }
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    //base.OnModelCreating(modelBuilder);

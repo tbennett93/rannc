@@ -13,7 +13,9 @@ namespace Rannc.Services
 {
     public class TokenService : ITokenService
     {
-        private IConfiguration Configuration;
+        public DateTime RefreshTokenTime => DateTime.Now.AddDays(30);
+
+        private readonly IConfiguration Configuration;
         public TokenService(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -41,6 +43,7 @@ namespace Rannc.Services
                 return Convert.ToBase64String(randomNumber);
             }
         }
+
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
             var tokenValidationParameters = new TokenValidationParameters
@@ -59,5 +62,6 @@ namespace Rannc.Services
                 throw new SecurityTokenException("Invalid token");
             return principal;
         }
+
     }
 }

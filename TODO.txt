@@ -2,40 +2,69 @@ Authentication
 	Build logins - x
 	Build guard to stop unauthenticated user access - x
 	Implement password hashing
-		add password salt to db
-		user password change inserts hashed salted password 
-		user login references salted hased password
-		change password adds 
-	build identity/secure password/refresh tokens for JWTs
-		https://code-maze.com/wp-content/uploads/2020/02/ASP.NET-Core-Identity-JWT.pdf
-	Implement a check on the userdb for login credentials, instead of only allowing John D, allow access to the db
-		think about security here and how we're storing passwords
-		this is used in the TokenService as a call to the user ID is required to get refreshtoken data from db
-	build a user creation controller and register page to store users in the db
-	Sign JWTs using JWS (done?)
+		add password salt to db x
+		user login references salted hased password x
+	register new user x	
 	
-		
+	
 
 my-rankings
-	build hand coded my-rankings and have it displayed on my-rankings page
-	have user accessing my-rankings submit a GET for their rankings
-	display their rankings (loosely)
-	build my=rankings table
-	replace hard coded my-rankings with db call
+	seed a user category and user items
+		Each category can have many category items (many to one)
+		each category item will contain an entry in either 
 	
-	build post method for adding new rankings category
-	should update page async
+		category
+			id
+			name
+			create date
+			user fk
+			
+		category items
+			id 
+			name
+			item type
+				nullable
+			item order
+				(this will allow ordering within categories, even 
+			user comment
+			category fk
+			
+		seed x
+			
+			
+		
+		
+	implement logins such that a iser cam pm;y access tjeor own data
+		build GetCategories action
+			consider list of actions
+		build hand coded my-rankings and have it displayed on my-rankings page
+		have user accessing my-rankings submit a GET for their rankings
+		display their rankings (loosely)
+		build my=rankings table x
+		
+		ADD LOGGING
+		
+		!!!!!!!
+		in angular make a type of the model and map the resonses to that type
+		HIDE LOGIN MODEL ID and LOGIN MODEL FROM OUTPUT JSON
+		move HTTP GET + imports to service
+		replace .topromise in angular as this has been deprecated
+		!!!!!!!
 
-my rankings/id
-	build hand coded my-rankings/id and have it displayed on my-rankings/id page
-	have user accessing my-rankings/id submit a GET for their rankings
-	display their rankings (loosely)
-	build my=rankings/id table
-	replace hard coded my-rankings with db call
-	
-	build post method for adding new rankings
-	build front end sorting and allow this to submit to db on submit/save
-	should update page async
+		
+	my rankings/id
+		build hand coded my-rankings/id and have it displayed on my-rankings/id page
+		have user accessing my-rankings/id submit a GET for their rankings
+		display their rankings (loosely)
+		build my=rankings/id table
+		replace hard coded my-rankings with db call
+		
+		build post method for adding new rankings
+		build front end sorting and allow this to submit to db on submit/save
+		should update page async	
+		build post method for adding new rankings category
+		should update page async
+
 
 Build my-rankings/id model - hand built
 Build my-rankings GET API - any user
@@ -43,6 +72,10 @@ Display rankings in angular and when clicked take you to rankings/id
 Build rankings ID in GET API - any user
 display this in angular when clicked
 2FA
+delete user
+	change pasword - user password change inserts hashed salted password 
+Implement revoke method on refresh token
+	look into common  reasons methods for revoking tokens (i.e. too many API requests)
+validation on user email format
 
-git
-
+git 

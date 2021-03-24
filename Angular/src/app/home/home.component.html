@@ -3,16 +3,16 @@
 
 <button (click)="logout()">Logout</button>
 
-<h1>weather</h1>
-<div>
-  {{arrayObjects | json}}
-</div>
 
-<h2>films</h2>
-<div>
-  {{films | json}}
-</div>
 
+<h2>Categories</h2>
+<ul>
+  <li *ngFor="let item of category; let i = index">
+    array pos: {{i}}. 
+    id:  {{item.id}}. 
+    name:  {{item.name}}. 
+  </li>
+</ul>
 <h2>angular material form</h2>
 <div>
   <app-test-address-form></app-test-address-form>

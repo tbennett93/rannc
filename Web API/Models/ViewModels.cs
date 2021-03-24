@@ -1,0 +1,4 @@
+﻿namespace Rannc.Models.ViewModels
+{
+
+}

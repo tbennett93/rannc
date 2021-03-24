@@ -3,51 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rannc.Models;
 
 namespace Rannc.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20210321181209_CategoriesTableCorrection")]
+    partial class CategoriesTableCorrection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Rannc.Models.CategoryItemsModel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("CategoryModelId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Group")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryModelId");
-
-                    b.ToTable("CategoryItems");
-                });
 
             modelBuilder.Entity("Rannc.Models.CategoryModel", b =>
                 {
@@ -56,10 +28,7 @@ namespace Rannc.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("LoginModelId")
+                    b.Property<long?>("LoginModelId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -106,24 +75,11 @@ namespace Rannc.Migrations
                     b.ToTable("LoginModel");
                 });
 
-            modelBuilder.Entity("Rannc.Models.CategoryItemsModel", b =>
-                {
-                    b.HasOne("Rannc.Models.CategoryModel", "CategoryModel")
-                        .WithMany()
-                        .HasForeignKey("CategoryModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CategoryModel");
-                });
-
             modelBuilder.Entity("Rannc.Models.CategoryModel", b =>
                 {
                     b.HasOne("Rannc.Models.LoginModel", "LoginModel")
                         .WithMany()
-                        .HasForeignKey("LoginModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LoginModelId");
 
                     b.Navigation("LoginModel");
                 });

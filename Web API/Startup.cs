@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -55,6 +56,8 @@ namespace Rannc
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenSecretKey"]))
                     };
                 });
+
+         
             services.AddControllers();
 
             //TODO tighten security on this - consider if the tightening is needed though if using https
@@ -68,8 +71,12 @@ namespace Rannc
                 });
             });
 
+
+            services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IPasswordHasherService, PasswordHasherService>();
+            services.AddTransient<IAuthRepository, AuthRepository>();
+            services.AddTransient<ICategoriesRepository, CategoriesRepository>();
             services.AddTransient<UserSeeder>();
         }
 
@@ -90,6 +97,8 @@ namespace Rannc
                 endpoints.MapControllers();
             });
 
+            if (env.IsDevelopment())
+            {
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
                     //creates an instance with prerequisites if any
@@ -98,6 +107,7 @@ namespace Rannc
                     //cannot make Configure async as it isn't expected to run asynchronously
                     seeder.Seed();
                 }
+            }
         }
     }
 }

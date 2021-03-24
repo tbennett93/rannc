@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rannc.Models;
 
 namespace Rannc.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20210321182356_AddLoginModelIdToModel")]
+    partial class AddLoginModelIdToModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,7 @@ namespace Rannc.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("CategoryModelId")
+                    b.Property<long?>("CategoryModelId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Comment")
@@ -56,10 +58,10 @@ namespace Rannc.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("LoginModelId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("LoginModelId")
+                    b.Property<long?>("LoginModelId1")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -68,7 +70,7 @@ namespace Rannc.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LoginModelId");
+                    b.HasIndex("LoginModelId1");
 
                     b.ToTable("Categories");
                 });
@@ -110,9 +112,7 @@ namespace Rannc.Migrations
                 {
                     b.HasOne("Rannc.Models.CategoryModel", "CategoryModel")
                         .WithMany()
-                        .HasForeignKey("CategoryModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryModelId");
 
                     b.Navigation("CategoryModel");
                 });
@@ -121,9 +121,7 @@ namespace Rannc.Migrations
                 {
                     b.HasOne("Rannc.Models.LoginModel", "LoginModel")
                         .WithMany()
-                        .HasForeignKey("LoginModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LoginModelId1");
 
                     b.Navigation("LoginModel");
                 });

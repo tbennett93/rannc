@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rannc.Models;
 
 namespace Rannc.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20210321183400_FixForeignKeyCategoryModel")]
+    partial class FixForeignKeyCategoryModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,7 @@ namespace Rannc.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("CategoryModelId")
+                    b.Property<long?>("CategoryModelId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Comment")
@@ -55,9 +57,6 @@ namespace Rannc.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
 
                     b.Property<long>("LoginModelId")
                         .HasColumnType("bigint");
@@ -110,9 +109,7 @@ namespace Rannc.Migrations
                 {
                     b.HasOne("Rannc.Models.CategoryModel", "CategoryModel")
                         .WithMany()
-                        .HasForeignKey("CategoryModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryModelId");
 
                     b.Navigation("CategoryModel");
                 });

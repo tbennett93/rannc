@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Rannc.Models;
 using Rannc.Services;
@@ -19,35 +20,48 @@ namespace Rannc.Controllers
     {
         readonly UserContext userContext;
         readonly ITokenService tokenService;
+        private readonly IAuthRepository authRepository;
+
 
         public AuthController(
-            UserContext userContext, 
             ITokenService tokenService,
-            IPasswordHasherService passwordHasherService)
+            IAuthRepository authRepository,
+            UserContext userContext
+            )
         {
-            this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
             this.tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
+            this.authRepository = authRepository ?? throw new ArgumentNullException(nameof(authRepository));
+            this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
+        }
+
+        [HttpPost, Route("register")]
+        public async Task<IActionResult> Register([FromBody] LoginModel loginModel)
+        {
+            loginModel.UserName = loginModel.UserName.ToLower();
+
+            if ( await userContext.LoginModel.AnyAsync(u => u.UserName == loginModel.UserName))
+                return BadRequest("Username Already Exists");
+
+            await authRepository.Register(loginModel.UserName, loginModel.Password);
+                return StatusCode(201);
         }
 
         // GET api/values
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody] LoginModel loginModel)
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
+
             if (loginModel == null)
-            {
                 return BadRequest("Invalid client request");
-            }
 
+            loginModel.UserName = loginModel.UserName.ToLower();
 
-            var user = userContext.LoginModel.FirstOrDefault(u => 
-                u.UserName == loginModel.UserName &&
-                u.Password == loginModel.Password
-                );
+            if (!await userContext.LoginModel.AnyAsync(u => u.UserName == loginModel.UserName))
+                return BadRequest("Username does not exist");
 
+            var user = await authRepository.Login(loginModel.UserName, loginModel.Password);
             if (user == null)
-            {
                 return Unauthorized();
-            }
 
 
             var claims = new List<Claim>
@@ -60,9 +74,9 @@ namespace Rannc.Controllers
             var refreshToken = tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+            user.RefreshTokenExpiryTime = tokenService.RefreshTokenTime;
 
-            userContext.SaveChanges();
+            await userContext.SaveChangesAsync();
 
             return Ok(new
             {
@@ -70,24 +84,7 @@ namespace Rannc.Controllers
                 RefreshToken = refreshToken
             });
 
-            //hard coded user below
-            //if (user.UserName == "johndoe" && user.Password == "def@123")
-            //{
-            //    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenSecretKey"]));
-            //    var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            //    var tokeOptions = new JwtSecurityToken(
-            //        issuer: "http://localhost:44359",
-            //        audience: "http://localhost:4200",
-            //        expires: DateTime.Now.AddMinutes(5),
-            //        signingCredentials: signinCredentials
-            //    );
-            //    var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-            //    return Ok(new { Token = tokenString });
-            //}
-            //else
-            //{
-            //    return Unauthorized();
-            //}
+
         }
     }
 }
