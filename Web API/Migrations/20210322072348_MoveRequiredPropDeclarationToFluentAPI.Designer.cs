@@ -11,7 +11,7 @@ namespace Rannc.Migrations
 {
     [DbContext(typeof(UserContext))]
     [Migration("20210322072348_MoveRequiredPropDeclarationToFluentAPI")]
-    partial class MoveRequiredPropDeclarationToFluentAPI
+    partial class MoveRequiredPropDeclarationToFluentApi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

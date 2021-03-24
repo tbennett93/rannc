@@ -11,33 +11,33 @@ namespace Rannc.Data
 {
     public class UserSeeder
     {
-        private UserContext userContext;
-        private IPasswordHasherService passwordHasher;
-        private ITokenService iTokenService;
+        private UserContext _userContext;
+        private IPasswordHasherService _passwordHasher;
+        private ITokenService _iTokenService;
         public UserSeeder(UserContext userContext, IPasswordHasherService passwordHasher, ITokenService iTokenService)
         { 
-            this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
-            this.passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
-            this.iTokenService = iTokenService ?? throw new ArgumentNullException(nameof(iTokenService));
+            this._userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
+            this._passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
+            this._iTokenService = iTokenService ?? throw new ArgumentNullException(nameof(iTokenService));
         }
 
         public void Seed()
         {
-            var user = userContext.LoginModel.FirstOrDefault(m => m.UserName == "johndoe");
-            var passwordSalt = passwordHasher.GetSalt();
+            var user = _userContext.LoginModel.FirstOrDefault(m => m.UserName == "johndoe");
+            var passwordSalt = _passwordHasher.GetSalt();
             if (user == null) {
                 user = new LoginModel()
                 {
                     UserName = "JohnDoe",
-                    Password = passwordHasher.GetHashedSaltedPassword("JohnDoePassword", passwordSalt),
+                    Password = _passwordHasher.GetHashedSaltedPassword("JohnDoePassword", passwordSalt),
                     PasswordSalt = passwordSalt,
-                    RefreshToken = iTokenService.GenerateRefreshToken(),
-                    RefreshTokenExpiryTime = iTokenService.RefreshTokenTime
+                    RefreshToken = _iTokenService.GenerateRefreshToken(),
+                    RefreshTokenExpiryTime = _iTokenService.RefreshTokenTime
                 };
-                userContext.Add(user);
-                userContext.SaveChanges();
+                _userContext.Add(user);
+                _userContext.SaveChanges();
             }
-            var usercategory = userContext.Categories
+            var usercategory = _userContext.Categories
                 .Include(u=>u.LoginModel)
                 .FirstOrDefault(u=>u.LoginModelId == user.Id);
             if (usercategory == null)
@@ -47,8 +47,8 @@ namespace Rannc.Data
                     Name = "films",
                     LoginModelId = user.Id
                 };
-                userContext.Add(usercategory);
-                userContext.SaveChanges();
+                _userContext.Add(usercategory);
+                _userContext.SaveChanges();
 
                 var filmsId = usercategory.Id;
                 
@@ -57,14 +57,14 @@ namespace Rannc.Data
                     Name = "albums",
                     LoginModelId = user.Id
                 };
-                userContext.Add(usercategory);
-                userContext.SaveChanges();
+                _userContext.Add(usercategory);
+                _userContext.SaveChanges();
 
                 var albumsId = usercategory.Id;
 
 
 
-                var usercategoryitems = userContext.CategoryItems
+                var usercategoryitems = _userContext.CategoryItems
                     .Include(u => u.CategoryModel)
                     .FirstOrDefault(u => u.CategoryModelId == filmsId);
 
@@ -78,7 +78,7 @@ namespace Rannc.Data
                         Comment = "Top film",
                         CategoryModelId = filmsId
                     };
-                    userContext.Add(usercategoryitems);
+                    _userContext.Add(usercategoryitems);
                     //userContext.SaveChanges();
 
                     usercategoryitems = new CategoryItemsModel()
@@ -89,7 +89,7 @@ namespace Rannc.Data
                         Comment = "Favorite Director",
                         CategoryModelId = filmsId
                     };
-                    userContext.Add(usercategoryitems);
+                    _userContext.Add(usercategoryitems);
                     //userContext.SaveChanges();
 
                     usercategoryitems = new CategoryItemsModel()
@@ -100,7 +100,7 @@ namespace Rannc.Data
                         Comment = "Emosh",
                         CategoryModelId = filmsId
                     };
-                    userContext.Add(usercategoryitems);
+                    _userContext.Add(usercategoryitems);
                     //userContext.SaveChanges();
 
                     usercategoryitems = new CategoryItemsModel()
@@ -111,7 +111,7 @@ namespace Rannc.Data
                         Comment = "All time fave",
                         CategoryModelId = filmsId
                     };
-                    userContext.Add(usercategoryitems);
+                    _userContext.Add(usercategoryitems);
 
                     usercategoryitems = new CategoryItemsModel()
                     {
@@ -121,8 +121,8 @@ namespace Rannc.Data
                         Comment = "Classic",
                         CategoryModelId = filmsId
                     };
-                    userContext.Add(usercategoryitems);
-                    userContext.SaveChanges();
+                    _userContext.Add(usercategoryitems);
+                    _userContext.SaveChanges();
 
                     usercategoryitems = new CategoryItemsModel()
                     {
@@ -130,7 +130,7 @@ namespace Rannc.Data
                         Order = 1,
                         CategoryModelId = albumsId
                     };
-                    userContext.Add(usercategoryitems);
+                    _userContext.Add(usercategoryitems);
 
                     usercategoryitems = new CategoryItemsModel()
                     {
@@ -138,8 +138,8 @@ namespace Rannc.Data
                         Order = 2,
                         CategoryModelId = albumsId
                     };
-                    userContext.Add(usercategoryitems);
-                    userContext.SaveChanges();
+                    _userContext.Add(usercategoryitems);
+                    _userContext.SaveChanges();
                 }
             }
            

@@ -8,11 +8,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private jwtHelper: JwtHelperService, private router: Router, private http: HttpClient ) {
-  }
+  constructor(private jwtHelper: JwtHelperService, private router: Router, private http: HttpClient ) {}
   //performs a check on the token. If one exists and hasn't expired, the page is allowed to load, else the login screen is returned
   async canActivate() {
     const token = localStorage.getItem("jwt");
+
     //jwtHelper is part of JwtHelperService
     if (token && !this.jwtHelper.isTokenExpired(token)){
       console.log(this.jwtHelper.decodeToken(token))

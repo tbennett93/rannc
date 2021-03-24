@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -16,22 +17,34 @@ namespace Rannc.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly ICategoriesRepository categoriesRepository;
-        private readonly IMapper mapper;
-        public CategoriesController(ICategoriesRepository categoriesRepository, IMapper mapper)
+        private readonly ICategoriesRepository _categoriesRepository;
+        private readonly IMapper _mapper;
+        private readonly ITokenService _tokenService;
+        private readonly IUserRepository _userRepository;
+        public CategoriesController(ICategoriesRepository categoriesRepository, 
+            IMapper mapper, 
+            ITokenService tokenService,
+            IUserRepository userRepository)
         {
-            this.categoriesRepository = categoriesRepository;
-            this.mapper = mapper;
+            this._categoriesRepository = categoriesRepository;
+            this._mapper = mapper;
+            this._tokenService = tokenService;
+            this._userRepository = userRepository;
         }
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<CategoryViewModel>> GetCategories([FromHeader] long userId)
+        public async Task<ActionResult<CategoryViewModel>> GetCategories()
         {
-            var userCategories = await categoriesRepository.GetCategories(userId);
-            var model = mapper.Map<List<CategoryViewModel>>(userCategories);
+
+            var claimsIdentity = this.User.Identity.Name;
+  
+            var userId = await _userRepository.FindUserIdFromName(claimsIdentity);
+
+            var userCategories = await _categoriesRepository.GetCategories(userId);
+            var model = _mapper.Map<List<CategoryViewModel>>(userCategories);
             return Ok(model);
-        }
-        
+        }        
+ 
     }
 }

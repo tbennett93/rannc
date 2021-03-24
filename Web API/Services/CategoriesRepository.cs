@@ -9,16 +9,16 @@ namespace Rannc.Services
 {
     public class CategoriesRepository : ICategoriesRepository
     {
-        private UserContext userContext;
+        private UserContext _userContext;
 
         public CategoriesRepository(UserContext userContext)
         {
-            this.userContext = userContext;
+            this._userContext = userContext;
         }
 
-        public async Task<List<CategoryModel>> GetCategories(long userId)
+        public async Task<List<CategoryModel>> GetCategories(long id)
         {
-            var userCategories = await userContext.Categories.Where(u => u.LoginModelId == userId).ToListAsync();
+            var userCategories = await _userContext.Categories.Where(u => u.LoginModelId == id).ToListAsync();
             return userCategories;
         }
 

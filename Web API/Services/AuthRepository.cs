@@ -10,13 +10,13 @@ namespace Rannc.Services
 
     public class AuthRepository : IAuthRepository
     {
-        private UserContext userContext;
-        private readonly IPasswordHasherService passwordHasher;
+        private UserContext _userContext;
+        private readonly IPasswordHasherService _passwordHasher;
 
         public AuthRepository(UserContext userContext, IPasswordHasherService passwordHasherService)
         {
-            this.userContext = userContext;
-            this.passwordHasher = passwordHasherService;
+            this._userContext = userContext;
+            this._passwordHasher = passwordHasherService;
 
         }
 
@@ -24,12 +24,12 @@ namespace Rannc.Services
         {
             username = username.ToLower();
 
-            var user = await userContext.LoginModel.FirstOrDefaultAsync(u =>
+            var user = await _userContext.LoginModel.FirstOrDefaultAsync(u =>
                 u.UserName == username
             );
 
 
-            if (passwordHasher.GetHashedSaltedPassword(password, user.PasswordSalt) == user.Password)
+            if (_passwordHasher.GetHashedSaltedPassword(password, user.PasswordSalt) == user.Password)
                 return user;
 
             return null;
@@ -37,17 +37,17 @@ namespace Rannc.Services
 
         public async Task Register(string username, string password)
         {
-            var passwordSalt = passwordHasher.GetSalt();
+            var passwordSalt = _passwordHasher.GetSalt();
 
             LoginModel loginModel = new LoginModel()
             {
                 UserName = username,
-                Password = passwordHasher.GetHashedSaltedPassword(password, passwordSalt),
+                Password = _passwordHasher.GetHashedSaltedPassword(password, passwordSalt),
                 PasswordSalt = passwordSalt
 
             };
-            await userContext.AddAsync(loginModel);
-            await userContext.SaveChangesAsync();
+            await _userContext.AddAsync(loginModel);
+            await _userContext.SaveChangesAsync();
         }
     }
 }

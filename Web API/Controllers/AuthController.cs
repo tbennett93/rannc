@@ -18,9 +18,9 @@ namespace Rannc.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        readonly UserContext userContext;
-        readonly ITokenService tokenService;
-        private readonly IAuthRepository authRepository;
+        private readonly UserContext _userContext;
+        private readonly ITokenService _tokenService;
+        private readonly IAuthRepository _authRepository;
 
 
         public AuthController(
@@ -29,9 +29,9 @@ namespace Rannc.Controllers
             UserContext userContext
             )
         {
-            this.tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
-            this.authRepository = authRepository ?? throw new ArgumentNullException(nameof(authRepository));
-            this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
+            this._tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
+            this._authRepository = authRepository ?? throw new ArgumentNullException(nameof(authRepository));
+            this._userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
         }
 
         [HttpPost, Route("register")]
@@ -39,10 +39,10 @@ namespace Rannc.Controllers
         {
             loginModel.UserName = loginModel.UserName.ToLower();
 
-            if ( await userContext.LoginModel.AnyAsync(u => u.UserName == loginModel.UserName))
+            if ( await _userContext.LoginModel.AnyAsync(u => u.UserName == loginModel.UserName))
                 return BadRequest("Username Already Exists");
 
-            await authRepository.Register(loginModel.UserName, loginModel.Password);
+            await _authRepository.Register(loginModel.UserName, loginModel.Password);
                 return StatusCode(201);
         }
 
@@ -56,10 +56,10 @@ namespace Rannc.Controllers
 
             loginModel.UserName = loginModel.UserName.ToLower();
 
-            if (!await userContext.LoginModel.AnyAsync(u => u.UserName == loginModel.UserName))
+            if (!await _userContext.LoginModel.AnyAsync(u => u.UserName == loginModel.UserName))
                 return BadRequest("Username does not exist");
 
-            var user = await authRepository.Login(loginModel.UserName, loginModel.Password);
+            var user = await _authRepository.Login(loginModel.UserName, loginModel.Password);
             if (user == null)
                 return Unauthorized();
 
@@ -70,13 +70,13 @@ namespace Rannc.Controllers
                 //new Claim(ClaimTypes.Role, "Manager")
             };
 
-            var accessToken = tokenService.GenerateAccessToken(claims);
-            var refreshToken = tokenService.GenerateRefreshToken();
+            var accessToken = _tokenService.GenerateAccessToken(claims);
+            var refreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = tokenService.RefreshTokenTime;
+            user.RefreshTokenExpiryTime = _tokenService.RefreshTokenTime;
 
-            await userContext.SaveChangesAsync();
+            await _userContext.SaveChangesAsync();
 
             return Ok(new
             {

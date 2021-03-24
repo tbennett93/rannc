@@ -6,6 +6,6 @@ namespace Rannc.Services
 {
     public interface ICategoriesRepository
     {
-        Task<List<CategoryModel>> GetCategories(long userId);
+        Task<List<CategoryModel>> GetCategories(long id);
     }
 }

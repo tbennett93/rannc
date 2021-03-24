@@ -77,6 +77,7 @@ namespace Rannc
             services.AddTransient<IPasswordHasherService, PasswordHasherService>();
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<ICategoriesRepository, CategoriesRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<UserSeeder>();
         }
 

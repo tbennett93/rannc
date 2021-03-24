@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Rannc.Migrations
 {
-    public partial class MoveRequiredPropDeclarationToFluentAPI : Migration
+    public partial class MoveRequiredPropDeclarationToFluentApi : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

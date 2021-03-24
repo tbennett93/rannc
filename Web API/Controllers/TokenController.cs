@@ -14,12 +14,12 @@ namespace Rannc.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
-        readonly UserContext userContext;
-        readonly ITokenService tokenService;
+        private readonly UserContext _userContext;
+        private readonly ITokenService _tokenService;
         public TokenController(UserContext userContext, ITokenService tokenService)
         {
-            this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
-            this.tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
+            this._userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
+            this._tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         }
 
 
@@ -34,20 +34,20 @@ namespace Rannc.Controllers
 
             string accessToken = tokenApiModel.AccessToken;
             string refreshToken = tokenApiModel.RefreshToken;
-            var principal = tokenService.GetPrincipalFromExpiredToken(accessToken);
+            var principal = _tokenService.GetPrincipalFromToken(accessToken);
             var username = principal.Identity.Name; //this is mapped to the Name claim by default
-            var user = userContext.LoginModel.SingleOrDefault(u => u.UserName == username);
+            var user = _userContext.LoginModel.SingleOrDefault(u => u.UserName == username);
 
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
                 return BadRequest("Invalid client request");
             }
 
-            var newAccessToken = tokenService.GenerateAccessToken(principal.Claims);
-            var newRefreshToken = tokenService.GenerateRefreshToken();
+            var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
+            var newRefreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshToken = newRefreshToken;
-            user.RefreshTokenExpiryTime = tokenService.RefreshTokenTime;
-            userContext.SaveChanges();
+            user.RefreshTokenExpiryTime = _tokenService.RefreshTokenTime;
+            _userContext.SaveChanges();
 
             return new ObjectResult(new
             {
@@ -60,10 +60,10 @@ namespace Rannc.Controllers
         public IActionResult Revoke()
         {
             var username = User.Identity.Name;
-            var user = userContext.LoginModel.SingleOrDefault(u => u.UserName == username);
+            var user = _userContext.LoginModel.SingleOrDefault(u => u.UserName == username);
             if (user == null) return BadRequest();
             user.RefreshToken = null;
-            userContext.SaveChanges();
+            _userContext.SaveChanges();
             return NoContent();
         }
     }

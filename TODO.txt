@@ -45,10 +45,10 @@ my-rankings
 		ADD LOGGING
 		
 		!!!!!!!
-		in angular make a type of the model and map the resonses to that type
-		HIDE LOGIN MODEL ID and LOGIN MODEL FROM OUTPUT JSON
 		move HTTP GET + imports to service
+		user id sent in header of original access token so then it is sent back
 		replace .topromise in angular as this has been deprecated
+		EAch GenerateAccessToken call to use Claims 
 		!!!!!!!
 
 		
@@ -79,3 +79,8 @@ Implement revoke method on refresh token
 validation on user email format
 
 git 
+
+cd C:\Users\tbenn\source\repos\Rannc
+git add --all
+git commit -m ""
+git push

@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 
 
 export class Category {
-  id : string;
+  id: string;
   name: string;
 }
 
@@ -25,34 +25,36 @@ export class HomeComponent implements OnInit {
 
 
   title = 'Rannc';
-  apiCategories : string = 'https://localhost:44359/api/categories';
-  arrayObjects : any[];
-  films : any[];
-  category : Category[];
-  categories : ICategory[];
-  categoryName : string;
-  categoryId : string;
+  apiCategories: string = 'https://localhost:44359/api/categories';
+  arrayObjects: any[];
+  films: any[];
+  category: Category[];
+  categories: ICategory[];
+  categoryName: string;
+  categoryId: string;
 
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router){};
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router) { };
 
-  getCategories(id: number) {
+  getCategories() {
 
-    var idString = id.toString();
-    const headerDict = {
-      'userid': idString
-    }
-    
-    const requestOptions = {                                                                                                                                                                                 
-      headers: new HttpHeaders(headerDict), 
-    };
-    return this.http.get(this.apiCategories, requestOptions).
-        pipe(
-           map((data: Category[]) => {
-             return data;
-           })
-        )
-    }
+    // var idString = id.toString();
+    // const headerDict = {
+    //   'userid': idString
+    // }
+
+    // const requestOptions = {
+    //   headers: new HttpHeaders(headerDict),
+    // };
+
+    return this.http.get(this.apiCategories)
+      // return this.http.get(this.apiCategories, requestOptions).
+      // pipe(
+      //   map((data: Category[]) => {
+      //     return data;
+      //   })
+      // )
+  }
 
   ngOnInit(): void {
 
@@ -65,29 +67,26 @@ export class HomeComponent implements OnInit {
       error: () => console.log("error in getCategoriesObserver")
     }
 
-    this.getCategories(3).subscribe(getCategoriesObserver);
-    
-      
-
-
+    // this.getCategories(3).subscribe(getCategoriesObserver);
+    this.getCategories().subscribe(getCategoriesObserver);
   };
 
-  isUserAuthenticated(){
+  isUserAuthenticated() {
     const token: string = localStorage.getItem("jwt");
-    if(token){
+    if (token) {
       return true;
     }
     else {
-      return false;      
+      return false;
     }
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem("jwt");
     console.log("logged out");
   }
 
-  
+
 
 
 
