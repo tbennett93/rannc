@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features.Authentication;
+using Rannc.Data;
 using Rannc.Models;
 using Rannc.Services;
+
 
 namespace Rannc.Controllers
 {
@@ -37,11 +39,8 @@ namespace Rannc.Controllers
         public async Task<ActionResult<CategoryViewModel>> GetCategories()
         {
 
-            var claimsIdentity = this.User.Identity.Name;
-  
-            var userId = await _userRepository.FindUserIdFromName(claimsIdentity);
-
-            var userCategories = await _categoriesRepository.GetCategories(userId);
+            var claimsIdentity = this.User.GetUserID();
+            var userCategories = await _categoriesRepository.GetCategories(claimsIdentity);
             var model = _mapper.Map<List<CategoryViewModel>>(userCategories);
             return Ok(model);
         }        

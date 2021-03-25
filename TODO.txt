@@ -1,14 +1,13 @@
-Authentication
-	Build logins - x
-	Build guard to stop unauthenticated user access - x
-	Implement password hashing
-		add password salt to db x
-		user login references salted hased password x
-	register new user x	
-	
-	
+How does identity and claims work with jwt?
+	how does it work in general with principal etc?
+unique id on username	
+ADD LOGGING
+move HTTP GET + imports to service
+replace .topromise in angular as this has been deprecated
+EAch GenerateAccessToken call to use Claims 
 
-my-rankings
+		
+		my-rankings
 	seed a user category and user items
 		Each category can have many category items (many to one)
 		each category item will contain an entry in either 
@@ -28,28 +27,6 @@ my-rankings
 				(this will allow ordering within categories, even 
 			user comment
 			category fk
-			
-		seed x
-			
-			
-		
-		
-	implement logins such that a iser cam pm;y access tjeor own data
-		build GetCategories action
-			consider list of actions
-		build hand coded my-rankings and have it displayed on my-rankings page
-		have user accessing my-rankings submit a GET for their rankings
-		display their rankings (loosely)
-		build my=rankings table x
-		
-		ADD LOGGING
-		
-		!!!!!!!
-		move HTTP GET + imports to service
-		user id sent in header of original access token so then it is sent back
-		replace .topromise in angular as this has been deprecated
-		EAch GenerateAccessToken call to use Claims 
-		!!!!!!!
 
 		
 	my rankings/id
@@ -82,5 +59,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m ""
+git commit -m "API Call for categories now uses access token for authentication"
 git push

@@ -66,7 +66,9 @@ namespace Rannc.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, loginModel.UserName)
+                new Claim(ClaimTypes.Name, loginModel.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+
                 //new Claim(ClaimTypes.Role, "Manager")
             };
 
