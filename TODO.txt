@@ -1,6 +1,3 @@
-How does identity and claims work with jwt?
-	how does it work in general with principal etc?
-unique id on username	
 ADD LOGGING
 move HTTP GET + imports to service
 replace .topromise in angular as this has been deprecated
@@ -59,5 +56,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "API Call for categories now uses access token for authentication"
+git commit -m "Token now issued with additional UserId claim. This is now used by GetCategories API"
 git push

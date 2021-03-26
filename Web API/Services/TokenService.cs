@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Rannc.Services
@@ -16,12 +17,15 @@ namespace Rannc.Services
         public DateTime RefreshTokenTime => DateTime.Now.AddDays(30);
 
         private readonly IConfiguration _configuration;
-        public TokenService(IConfiguration configuration)
+        private readonly ILogger<TokenService> _iLogger;
+        public TokenService(IConfiguration configuration, ILogger<TokenService> iLogger)
         {
             _configuration = configuration;
+            _iLogger = iLogger ?? throw new ArgumentNullException(nameof(iLogger));
         }
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
+            _iLogger.LogInformation("TokenService.GenerateAccessToken called");
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenSecretKey"]));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             var tokenOptions = new JwtSecurityToken(
@@ -36,6 +40,7 @@ namespace Rannc.Services
         }
         public string GenerateRefreshToken()
         {
+            _iLogger.LogInformation("TokenService.GenerateRefreshToken called");
             var randomNumber = new byte[32];
             using (var rng = RandomNumberGenerator.Create())
             {
@@ -46,6 +51,8 @@ namespace Rannc.Services
 
         public ClaimsPrincipal GetPrincipalFromToken(string token)
         {
+            _iLogger.LogInformation("TokenService.GetPrincipalFromToken called");
+
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
@@ -59,7 +66,11 @@ namespace Rannc.Services
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            {
+                _iLogger.LogWarning("Invalid token, could not decode");
                 throw new SecurityTokenException("Invalid token");
+            }
+            _iLogger.LogInformation("Token decoded. Returning claims principal");
             return principal;
         }
 
