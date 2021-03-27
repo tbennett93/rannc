@@ -1,5 +1,11 @@
 which actions should refresh token?
-replace .topromise in angular as this has been deprecated
+	ALL
+modularise module
+How to implement
+	token checker service 
+cope the accesstoken  check and refresh token attempt  from auth guard. Abastract this so it can be used accross multiple places
+	controlling this in the front end reduces the amount of requests to the server
+	INCREASE THE EXPIRY TIME FOR PROD
 
 		
 		my-rankings
@@ -54,5 +60,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Added logging and improved exception handling of Web API"
+git commit -m "Moved Get categories to service"
 git push

@@ -1,10 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { ICategory } from '../models/icategory.model';
 import { DataService } from '../services/data.service';
 import { CategoryModel } from '../models/category.model';
-
-
+import { TokenService } from '../services/token.service';
 
 @Component({
   selector: 'app-home',
@@ -12,25 +9,15 @@ import { CategoryModel } from '../models/category.model';
   styleUrls: ['./home.component.css']
 })
 
-
-
 export class HomeComponent implements OnInit {
 
-
   title = 'Rannc';
-  arrayObjects: any[];
-  films: any[];
   category: CategoryModel[];
-  categories: ICategory[];
-  categoryName: string;
-  categoryId: string;
 
-
-  constructor(private jwtHelper: JwtHelperService, private data : DataService) { };
+  constructor(private data : DataService, private tokenService : TokenService) { };
 
   ngOnInit(): void {
-
-    if (this.isUserAuthenticated){
+    if (this.isUserAuthenticated && this.tokenService.isAccessTokenValid()){
       this.data.getCategories().subscribe({
         next: (data: CategoryModel[]) => {
           this.category = data;
@@ -38,8 +25,6 @@ export class HomeComponent implements OnInit {
         error: () => console.log("error in getCategoriesObserver")
       });
     }
-
-
   };
 
   isUserAuthenticated() {
