@@ -22,18 +22,15 @@ namespace Rannc.Controllers
     {
         private readonly ICategoriesRepository _categoriesRepository;
         private readonly IMapper _mapper;
-        private readonly ITokenService _tokenService;
         private readonly ILogger<CategoriesController> _iLogger;
 
         public CategoriesController(ICategoriesRepository categoriesRepository, 
             IMapper mapper, 
-            ITokenService tokenService,
             ILogger<CategoriesController> iLogger
             )
         {
             this._categoriesRepository = categoriesRepository;
             this._mapper = mapper;
-            this._tokenService = tokenService;
             this._iLogger = iLogger ?? throw new ArgumentNullException(nameof(iLogger));
 
         }

@@ -1,16 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit} from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ICategory } from '../models/icategory.model';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { DataService } from '../services/data.service';
+import { CategoryModel } from '../models/category.model';
 
-
-export class Category {
-  id: string;
-  name: string;
-}
 
 
 @Component({
@@ -25,50 +18,28 @@ export class HomeComponent implements OnInit {
 
 
   title = 'Rannc';
-  apiCategories: string = 'https://localhost:44359/api/categories';
   arrayObjects: any[];
   films: any[];
-  category: Category[];
+  category: CategoryModel[];
   categories: ICategory[];
   categoryName: string;
   categoryId: string;
 
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router) { };
-
-  getCategories() {
-
-    // var idString = id.toString();
-    // const headerDict = {
-    //   'userid': idString
-    // }
-
-    // const requestOptions = {
-    //   headers: new HttpHeaders(headerDict),
-    // };
-
-    return this.http.get(this.apiCategories)
-      // return this.http.get(this.apiCategories, requestOptions).
-      // pipe(
-      //   map((data: Category[]) => {
-      //     return data;
-      //   })
-      // )
-  }
+  constructor(private jwtHelper: JwtHelperService, private data : DataService) { };
 
   ngOnInit(): void {
 
-    const getCategoriesObserver = {
-      next: (data: Category[]) => {
-        this.category = data;
-        // this.categoryId = data[0].name;
-        console.log(data);
-      },
-      error: () => console.log("error in getCategoriesObserver")
+    if (this.isUserAuthenticated){
+      this.data.getCategories().subscribe({
+        next: (data: CategoryModel[]) => {
+          this.category = data;
+        },
+        error: () => console.log("error in getCategoriesObserver")
+      });
     }
 
-    // this.getCategories(3).subscribe(getCategoriesObserver);
-    this.getCategories().subscribe(getCategoriesObserver);
+
   };
 
   isUserAuthenticated() {

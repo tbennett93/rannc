@@ -1,7 +1,5 @@
-ADD LOGGING
-move HTTP GET + imports to service
+which actions should refresh token?
 replace .topromise in angular as this has been deprecated
-EAch GenerateAccessToken call to use Claims 
 
 		
 		my-rankings
@@ -11,7 +9,7 @@ EAch GenerateAccessToken call to use Claims
 	
 		category
 			id
-			name
+			name 
 			create date
 			user fk
 			
@@ -56,5 +54,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Token now issued with additional UserId claim. This is now used by GetCategories API"
+git commit -m "Added logging and improved exception handling of Web API"
 git push

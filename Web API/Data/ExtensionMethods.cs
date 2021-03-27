@@ -13,7 +13,7 @@ namespace Rannc.Data
             if (User == null)
                 return null;
 
-            var claim = User.Claims.First(i =>
+            var claim = User.Claims.FirstOrDefault(i =>
                 i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
 
             if (claim == null) return null;
