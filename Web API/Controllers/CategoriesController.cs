@@ -53,7 +53,27 @@ namespace Rannc.Controllers
 
             _iLogger.LogInformation("Categories for user found");
             return Ok(model);
-        }        
- 
+        }
+
+        [HttpGet, Route("category")]
+        [Authorize]
+        public async Task<ActionResult<CategoryItemsViewModel>> GetCategory([FromHeader] int categoryId)
+        {
+            _iLogger.LogInformation("Category.Get initiated");
+            var userId = this.User.GetUserId();
+
+            if (userId == null)
+            {
+                _iLogger.LogWarning("Claim identity could not be found");
+                return BadRequest("Bad request");
+            }
+
+            var userCategoryItems = await _categoriesRepository.GetCategoryItems((long)userId, categoryId);
+            var model = _mapper.Map<List<CategoryItemsViewModel>>(userCategoryItems);
+
+            _iLogger.LogInformation("Categories for user found");
+            return Ok(model);
+        }
+
     }
 }

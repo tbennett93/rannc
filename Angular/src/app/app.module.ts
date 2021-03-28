@@ -29,10 +29,11 @@ import { SocialComponent } from './social/social.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { JwtModule } from '@auth0/angular-jwt';
-import {AuthGuard} from './auth.guard';
+import { AuthGuard } from './auth.guard';
+import { MyRankingIdComponent } from './my-ranking-id/my-ranking-id/my-ranking-id.component';
 
 export function tokenGetter() {
-  return localStorage.getItem("jwt");
+  return localStorage.getItem("jwt"); 
 };
 
 @NgModule({
@@ -46,7 +47,8 @@ export function tokenGetter() {
     TopCategoriesComponent,
     SocialComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    MyRankingIdComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +70,7 @@ export function tokenGetter() {
       {path: 'home', component: HomeComponent},
       //route blocked by AuthGuard which only lets a page be accessible if a token exists and hasnt expired
       {path: 'my-rankings', component: MyRankingsComponent, canActivate: [AuthGuard]},
+      {path: 'my-ranking/:id', component: MyRankingIdComponent, canActivate: [AuthGuard]},
       {path: 'top-categories', component: TopCategoriesComponent},
       {path: 'social', component: SocialComponent},
       {path: 'login', component: LoginComponent},

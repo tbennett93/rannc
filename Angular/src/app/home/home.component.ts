@@ -29,12 +29,8 @@ export class HomeComponent implements OnInit {
 
   isUserAuthenticated() {
     const token: string = localStorage.getItem("jwt");
-    if (token) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    if (token) {return true;}
+    else {return false;}
   }
 
   logout() {

@@ -1,33 +1,19 @@
-which actions should refresh token?
-	ALL
+rename and refactor my-ranking-id.component etc
+handle memory eak caused by user leaving paage after sending request and befor receiving response
+	https://stackoverflow.com/questions/35042929/is-it-necessary-to-unsubscribe-from-observables-created-by-http-methods
+convert catgory items id to long 
+create route to category ID
+populate that with faux data
+populate with api data from manual id
+populate with api data from category id clicked
+make clickable
+build page to display category items once clicked
+tidy everything up and make look nice
 modularise module
-How to implement
-	token checker service 
-cope the accesstoken  check and refresh token attempt  from auth guard. Abastract this so it can be used accross multiple places
-	controlling this in the front end reduces the amount of requests to the server
-	INCREASE THE EXPIRY TIME FOR PROD
+Build API adding/reordering items
+build front end submitting new orders
 
-		
-		my-rankings
-	seed a user category and user items
-		Each category can have many category items (many to one)
-		each category item will contain an entry in either 
-	
-		category
-			id
-			name 
-			create date
-			user fk
-			
-		category items
-			id 
-			name
-			item type
-				nullable
-			item order
-				(this will allow ordering within categories, even 
-			user comment
-			category fk
+
 
 		
 	my rankings/id
@@ -56,9 +42,12 @@ Implement revoke method on refresh token
 	look into common  reasons methods for revoking tokens (i.e. too many API requests)
 validation on user email format
 
+PROD
+	increase access token time
+
 git 
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Moved Get categories to service"
+git commit -m "TokenService added to client app to check to manage expired/missing access token"
 git push
