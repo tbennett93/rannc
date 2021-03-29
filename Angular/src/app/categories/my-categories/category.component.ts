@@ -2,11 +2,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-my-rankings',
-  templateUrl: './my-rankings.component.html',
-  styleUrls: ['./my-rankings.component.css']
+  selector: 'category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.css']
 })
-export class MyRankingsComponent  {
+export class CategoryComponent  {
 
   // customers: any;
  

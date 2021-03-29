@@ -14,7 +14,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragAndDropTestComponent } from './drag-and-drop-test/drag-and-drop-test.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -23,15 +22,14 @@ import { MatListModule } from '@angular/material/list';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { MyRankingsComponent } from './my-rankings/my-rankings.component';
+
 import { TopCategoriesComponent } from './top-categories/top-categories.component';
 import { SocialComponent } from './social/social.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './auth.guard';
-import { MyRankingIdComponent } from './my-ranking-id/my-ranking-id/my-ranking-id.component';
-
+import { CategoryItemsModule } from 'src/app/categories/my-category-items/category-items.module';
 export function tokenGetter() {
   return localStorage.getItem("jwt"); 
 };
@@ -43,12 +41,10 @@ export function tokenGetter() {
     DragAndDropTestComponent,
     AppNavbarComponent,
     HomeComponent,
-    MyRankingsComponent,
     TopCategoriesComponent,
     SocialComponent,
     LoginComponent,
     PageNotFoundComponent,
-    MyRankingIdComponent
   ],
   imports: [
     BrowserModule,
@@ -62,15 +58,13 @@ export function tokenGetter() {
     MatRadioModule,
     MatCardModule,
     ReactiveFormsModule,
-    DragDropModule,
     LayoutModule,
     MatToolbarModule,
     MatIconModule,
+    CategoryItemsModule,
     RouterModule.forRoot([
       {path: 'home', component: HomeComponent},
       //route blocked by AuthGuard which only lets a page be accessible if a token exists and hasnt expired
-      {path: 'my-rankings', component: MyRankingsComponent, canActivate: [AuthGuard]},
-      {path: 'my-ranking/:id', component: MyRankingIdComponent, canActivate: [AuthGuard]},
       {path: 'top-categories', component: TopCategoriesComponent},
       {path: 'social', component: SocialComponent},
       {path: 'login', component: LoginComponent},

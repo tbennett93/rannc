@@ -1,18 +1,19 @@
+tidy everything up and make look nice
+	consider how this will look with drag and drop. can the items be set and then retrieved later?
+		implement a mock up put first to replace items
+		
+		implement post to add new categories
+		post on save?
 rename and refactor my-ranking-id.component etc
 handle memory eak caused by user leaving paage after sending request and befor receiving response
 	https://stackoverflow.com/questions/35042929/is-it-necessary-to-unsubscribe-from-observables-created-by-http-methods
-convert catgory items id to long 
-create route to category ID
-populate that with faux data
-populate with api data from manual id
-populate with api data from category id clicked
-make clickable
-build page to display category items once clicked
-tidy everything up and make look nice
+convert catgory items id to long?
+Handle no data found on fetch
+
 modularise module
 Build API adding/reordering items
 build front end submitting new orders
-
+add angular progress spinner while loading
 
 
 		
@@ -49,5 +50,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "TokenService added to client app to check to manage expired/missing access token"
+git commit -m "Added user category items api and basic client functionality"
 git push

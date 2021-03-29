@@ -3,15 +3,16 @@ import { DataService } from 'src/app/services/data.service';
 import { CategoryItemsModel } from 'src/app/models/category-items.model';
 import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/services/token.service';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 
 
 @Component({
-  selector: 'app-my-ranking-id',
-  templateUrl: './my-ranking-id.component.html',
-  styleUrls: ['./my-ranking-id.component.css']
+  selector: 'category-items',
+  templateUrl: './category-items.component.html',
+  styleUrls: ['./category-items.component.css']
 })
-export class MyRankingIdComponent implements OnInit {
+export class CategoryItemsComponent implements OnInit {
 
 
   categoryItems: CategoryItemsModel[];
@@ -26,6 +27,32 @@ export class MyRankingIdComponent implements OnInit {
         },
         error: () => console.log("error fetching category items")
       });
+    }
+  }
+
+  todo = [
+    'Get to work',
+    'Pick up groceries',
+    'Go home',
+    'Fall asleep'
+  ];
+
+  done = [
+    'Get up',
+    'Brush teeth',
+    'Take a shower',
+    'Check e-mail',
+    'Walk dog'
+  ];
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex);
     }
   }
 

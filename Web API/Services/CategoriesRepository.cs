@@ -37,16 +37,18 @@ namespace Rannc.Services
         {
             _iLogger.LogInformation("CategoriesRepo.Get called");
 
-            var userExists = await UserExists(userId);
-
-            if (!userExists)
-            {
-                _iLogger.LogWarning("Could not find user {user}", userId);
-                return null;
-            }
-        
-            var userCategoryItems = await _userContext.CategoryItems
+            List<CategoryItemsModel> userCategoryItems = await _userContext.CategoryItems
                 .Where(u => u.CategoryModelId == categoryId)
+                .Include(u=> u.CategoryModel)
+                .Select(u=> new CategoryItemsModel()
+                {
+                    Name = u.Name,
+                    Group = u.Group,
+                    Order = u.Order,
+                    Comment = u.Comment,
+                    CategoryModelId = u.CategoryModelId,
+                    CategoryModel = u.CategoryModel
+                })
                 .ToListAsync();
 
             if (userCategoryItems != null) return userCategoryItems;
