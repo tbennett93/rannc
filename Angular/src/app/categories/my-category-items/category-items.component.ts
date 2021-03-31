@@ -4,6 +4,7 @@ import { CategoryItemsModel } from 'src/app/models/category-items.model';
 import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/services/token.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 
 @Component({
@@ -111,11 +112,15 @@ export class CategoryItemsComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      console.log("moved item in array");
+      console.log(event);
     } else {
       transferArrayItem(event.previousContainer.data,
           event.container.data,
           event.previousIndex,
           event.currentIndex);
+      console.log("moved item betweem arrays");
+      console.log(event);
     }
   }
 

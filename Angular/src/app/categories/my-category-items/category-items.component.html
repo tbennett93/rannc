@@ -37,47 +37,81 @@
   </div>  
 </div> -->
 
-<h1>my lists</h1>
-<div  *ngFor="let list of categoryItemsGroups" >
-  <h2>{{list.key}}</h2>
-  <div  *ngFor="let item of list.values">
-    <span>{{item.name}} </span>
-    <span>{{item.order}} </span>
-    <span>{{item.coment}} </span>
-  </div>  
+
+<!-- <div class="example-container" cdkDropListGroup>
+  <h1>my lists</h1>
+  <div 
+    cdkDropList 
+    class="example-list" 
+    [cdkDropListData]="list" 
+    (cdkDropListDropped)="drop($event)"
+    *ngFor="let list of categoryItemsGroups">
+    <h2>{{list.key}}</h2>
+    <div  class="example-box" *ngFor="let item of list.values" cdkDrag >
+      {{item.name}} 
+    </div>
+  </div>
+</div> -->
+
+<h1>My data</h1>
+<div cdkDropListGroup>
+  <div class="example-container" >
+    <div *ngFor="let list of categoryItemsGroups">
+      <h2>{{list.key}}</h2>
+      <div 
+        cdkDropList 
+        [cdkDropListData]="list.values" 
+        class="example-list" 
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of list.values" cdkDrag>{{item.name}}</div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<h1>Example data from website</h1>
+<div cdkDropListGroup>
+  <div class="example-container">
+    <h2>To do</h2>
+    <div
+      cdkDropList
+      [cdkDropListData]="todo"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+    </div>
+  </div>
+
+  <div class="example-container">
+    <h2>Done</h2>
+
+    <div
+      cdkDropList
+      [cdkDropListData]="done"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+    </div>
+  </div>
+</div>
 
 <!-- 
-<div class="example-container" cdkDropListGroup>
-  <h2>To do</h2>
-
-  <div
-    cdkDropList
-    #todoList="cdkDropList"
-    [cdkDropListData]="todo"
-    [cdkDropListConnectedTo]="[doneList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of categoryItems" cdkDrag>{{item.name}}</div>
+<h1>Mocked up data</h1>
+<div cdkDropListGroup>
+  <div class="example-container">
+    <div *ngFor="let list of testArray">
+      <h2>{{list.type}}</h2>
+      <div cdkDropList [cdkDropListData]="list.type" class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of list.values" cdkDrag>{{item}}</div>
+      </div>
+      <div *ngFor="let item of list.values">
+        <span>{{item.name}}</span>
+      </div>
+    </div>
   </div>
-</div>
-
-<div class="example-container">
-  <h2>Done</h2>
-
-  <div
-    cdkDropList
-    #doneList="cdkDropList"
-    [cdkDropListData]="done"
-    [cdkDropListConnectedTo]="[todoList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of categoryItems" cdkDrag>{{item.name}}</div>
-  </div>
-</div>
+</div> -->
 
 
 <div class="example-box" cdkDrag>
   Drag me around
-</div> -->
+</div>

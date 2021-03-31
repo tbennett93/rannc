@@ -61,5 +61,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Improved modularity of client app. Improved authentication on db lookup for category items."
+git commit -m "Enabled drag and drop functionality for category items"
 git push
