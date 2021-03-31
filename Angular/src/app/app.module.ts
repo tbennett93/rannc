@@ -13,7 +13,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DragAndDropTestComponent } from './drag-and-drop-test/drag-and-drop-test.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -22,6 +21,7 @@ import { MatListModule } from '@angular/material/list';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { CategoryComponent } from 'src/app/categories/my-categories/category.component';
 
 import { TopCategoriesComponent } from './top-categories/top-categories.component';
 import { SocialComponent } from './social/social.component';
@@ -38,13 +38,14 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     TestAddressFormComponent,
-    DragAndDropTestComponent,
     AppNavbarComponent,
     HomeComponent,
     TopCategoriesComponent,
     SocialComponent,
     LoginComponent,
     PageNotFoundComponent,
+    CategoryComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -62,6 +63,7 @@ export function tokenGetter() {
     MatToolbarModule,
     MatIconModule,
     CategoryItemsModule,
+
     RouterModule.forRoot([
       {path: 'home', component: HomeComponent},
       //route blocked by AuthGuard which only lets a page be accessible if a token exists and hasnt expired

@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css']
 })

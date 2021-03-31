@@ -1,6 +1,6 @@
 export class CategoryItemsModel {
   name: string;
   group: string;
-  order: string;
+  order: number;
   comment: string;  
 }

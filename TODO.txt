@@ -1,10 +1,20 @@
+Ideas
+	The array item/property needs to be strongly typed in HTML.
+		HOW DO WE GET THE NAME OF THE INDEX/PROPERTY?
+		There may be a way around this by looping over the parent array to get the property/object name
+		If this doesn't work. Insert all group names into its own array in the class and loop round that
+	
+	If this doesn't work, create 10 lists, as this will be the maximum and then the HTML/drag drop etc can be hard coded. The drag and drop about may not work if the HTML is created dynamically
+		Could we use a directive/component?
+	
+
+
 tidy everything up and make look nice
 	consider how this will look with drag and drop. can the items be set and then retrieved later?
 		implement a mock up put first to replace items
 		
 		implement post to add new categories
 		post on save?
-rename and refactor my-ranking-id.component etc
 handle memory eak caused by user leaving paage after sending request and befor receiving response
 	https://stackoverflow.com/questions/35042929/is-it-necessary-to-unsubscribe-from-observables-created-by-http-methods
 convert catgory items id to long?
@@ -14,6 +24,7 @@ modularise module
 Build API adding/reordering items
 build front end submitting new orders
 add angular progress spinner while loading
+max number of category item groups
 
 
 		
@@ -50,5 +61,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Added user category items api and basic client functionality"
+git commit -m "Improved modularity of client app. Improved authentication on db lookup for category items."
 git push
