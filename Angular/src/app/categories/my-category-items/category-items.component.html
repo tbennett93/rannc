@@ -1,4 +1,4 @@
-<p>my-ranking-id works!</p>
+<!-- <p>my-ranking-id works!</p>
 
 <h2>Category Items</h2>
 <ul>
@@ -8,7 +8,7 @@
       <span class="badge">{{ item.order }}</span>
       <span class="badge">{{ item.comment }}</span>
   </li>
-</ul>
+</ul> -->
 
 <!-- 
 
@@ -55,20 +55,24 @@
 
 <h1>My data</h1>
 <div cdkDropListGroup>
-  <div class="example-container" >
-    <div *ngFor="let list of categoryItemsGroups">
+  <div class="example-container" *ngFor="let list of categoryItemsGroups; ; let i = index">
       <h2>{{list.key}}</h2>
       <div 
         cdkDropList 
         [cdkDropListData]="list.values" 
         class="example-list" 
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of list.values" cdkDrag>{{item.name}}</div>
+        <div class="example-box" *ngFor="let item of list.values" cdkDrag (click)="onClick($event, item.name)">
+          {{item.name}}
+        </div>
       </div>
-    </div>
+      <button (click)="addNew(addNewInput.value, list.key, i)">add new</button>
+      <input #addNewInput>
   </div>
 </div>
 
+
+<!-- 
 <h1>Example data from website</h1>
 <div cdkDropListGroup>
   <div class="example-container">
@@ -93,7 +97,7 @@
       <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- 
 <h1>Mocked up data</h1>
@@ -112,6 +116,6 @@
 </div> -->
 
 
-<div class="example-box" cdkDrag>
+<!-- <div class="example-box" cdkDrag>
   Drag me around
-</div>
+</div> -->

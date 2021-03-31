@@ -1,20 +1,12 @@
-Ideas
-	The array item/property needs to be strongly typed in HTML.
-		HOW DO WE GET THE NAME OF THE INDEX/PROPERTY?
-		There may be a way around this by looping over the parent array to get the property/object name
-		If this doesn't work. Insert all group names into its own array in the class and loop round that
+Drag and drop
+	add new item
+	handle ordering of items properly
+		new items last in list based off list length.
+			moving items in list updates their order (gets final order on 'save')
+			this needs to be kept up to date in the view and in the view model as data can be updated on server at any point
+	save button to send array back to server
 	
-	If this doesn't work, create 10 lists, as this will be the maximum and then the HTML/drag drop etc can be hard coded. The drag and drop about may not work if the HTML is created dynamically
-		Could we use a directive/component?
-	
-
-
-tidy everything up and make look nice
-	consider how this will look with drag and drop. can the items be set and then retrieved later?
-		implement a mock up put first to replace items
-		
-		implement post to add new categories
-		post on save?
+implement post to add new categories
 handle memory eak caused by user leaving paage after sending request and befor receiving response
 	https://stackoverflow.com/questions/35042929/is-it-necessary-to-unsubscribe-from-observables-created-by-http-methods
 convert catgory items id to long?

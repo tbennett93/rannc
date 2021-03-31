@@ -22,7 +22,6 @@ export class CategoryItemsComponent implements OnInit {
 
   categoryItems: CategoryItemsModel[];
   categoryItemsGroups: any;
-  categoryItemsGroupTypes: string[];
   testArray = [
     {type:"test genre 1", values:[{name:"superbad"}, {name:"40YOV"}]},
     {type:"test genre 2", values:[{name:"heredetary"}, {name:"babadook"}]}
@@ -32,7 +31,7 @@ export class CategoryItemsComponent implements OnInit {
   constructor(private data: DataService, private route: ActivatedRoute, private tokenService: TokenService) { }
 
   ngOnInit(): void {
-    console.log(this.testArray);
+    // console.log(this.testArray);
     const categoryId = this.route.snapshot.params['id'];
     if (this.tokenService.isAccessTokenValid){
       this.data.getCategoryItems(categoryId).subscribe({
@@ -42,17 +41,14 @@ export class CategoryItemsComponent implements OnInit {
           // this.categoryItemsGroups = this.groupBy(data, 'group'); 
           this.categoryItemsGroups = this.groupByArray(data, 'group'); 
           // console.log(this.groupBy(data, 'group'));
-          // console.log(this.categoryItemsGroups);
+          console.log(this.categoryItemsGroups);
           // this.categoryItemsGroups.forEach(element => {
           //   this.categoryItemsGroupTypes.push(element.group)
           // });
-          console.log(this.categoryItemsGroups);
         },
         error: () => console.log("error fetching category items")
       });
     }
-
-
     // o.orange; // => [{"type":"orange","title":"First"},{"type":"orange","title":"Second"}]
     // o.banana; // => [{"type":"banana","title":"Third"},{"type":"banana","title":"Fourth"}]
     // console.log(this.arr)
@@ -109,18 +105,37 @@ export class CategoryItemsComponent implements OnInit {
     'Walk dog'
   ];
 
+  onClick(event, item){
+    console.log('clicked ' + item);
+  }
+
+  addNew(text, groupName, categoryIndex){
+    let categoryItem = new CategoryItemsModel;
+    categoryItem.name = text;
+    categoryItem.group = groupName;
+    // categoryItem.order = list['values'].length + 1;
+    categoryItem.order = this.categoryItemsGroups[categoryIndex]['values'].length + 1;
+    categoryItem.comment = "comment not implenmented";
+    // console.log('list');
+    // console.log(list);
+    // console.log('list length');
+    // console.log(list['values'].length);
+    // console.log('array #- ');
+    // console.log(categoryIndex);
+    // console.log(this.categoryItemsGroups[categoryIndex]['values']);
+    console.log(categoryItem);
+    this.categoryItemsGroups[categoryIndex]['values'].push(categoryItem);
+    console.log(this.categoryItemsGroups[categoryIndex]['values']);
+  }
+
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      console.log("moved item in array");
-      console.log(event);
     } else {
       transferArrayItem(event.previousContainer.data,
           event.container.data,
           event.previousIndex,
           event.currentIndex);
-      console.log("moved item betweem arrays");
-      console.log(event);
     }
   }
 
