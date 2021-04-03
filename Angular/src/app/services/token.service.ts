@@ -9,9 +9,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class TokenService {
 
 
-  constructor(private http: HttpClient, private jwt: JwtHelperService ) {
-
-  }
+  constructor(private http: HttpClient, private jwt: JwtHelperService ) {  }
 
   public async isAccessTokenValid(): Promise<boolean>{
 
@@ -25,6 +23,8 @@ export class TokenService {
 
     return isRefreshSuccess;
   }
+
+
 
   private async tryRefreshingTokens(token: string) : Promise<boolean>{
 

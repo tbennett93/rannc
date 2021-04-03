@@ -60,19 +60,57 @@ namespace Rannc.Controllers
         public async Task<ActionResult<CategoryItemsViewModel>> GetCategory([FromHeader] int categoryId)
         {
             _iLogger.LogInformation("Category.Get initiated");
-            var userId = this.User.GetUserId();
+            //var userId = this.User.GetUserId();
 
-            if (userId == null)
-            {
-                _iLogger.LogWarning("Claim identity could not be found");
-                return BadRequest("Bad request");
-            }
+            //if (userId == null)
+            //{
+            //    _iLogger.LogWarning("Claim identity could not be found");
+            //    return BadRequest("Bad request");
+            //}
 
-            var userCategoryItems = await _categoriesRepository.GetCategoryItems((long)userId, categoryId);
+            //var userCategoryItems = await _categoriesRepository.GetCategoryItems((long)userId, categoryId);
+            var userCategoryItems = await _categoriesRepository.GetCategoryItems(categoryId);
             var model = _mapper.Map<List<CategoryItemsViewModel>>(userCategoryItems);
 
             _iLogger.LogInformation("Categories for user found");
             return Ok(model);
+        }
+
+
+        [HttpPost, Route("category")]
+        [Authorize]
+        public async Task<ActionResult> PostCategory([FromBody] CategoryItemsViewModel categoryItemsViewModel)
+        {
+            _iLogger.LogInformation("Called Categories.PostCategory");
+            var userCategoryItem = _mapper.Map<CategoryItemsModel>(categoryItemsViewModel);
+            //var userCategoryItem = new CategoryItemsModel()
+            //{
+            //    //CategoryModelId = categoryItemsViewModel.CategoryModelId,
+            //    Name = categoryItemsViewModel.Name,
+            //    Group = categoryItemsViewModel.Group,
+            //    Order = categoryItemsViewModel.Order,
+            //    Comment = categoryItemsViewModel.Comment
+            //};
+
+            if (userCategoryItem == null)
+            {
+                _iLogger.LogWarning("Unable to create CategoryItemsModel from {0]", categoryItemsViewModel);
+                return BadRequest("Unable to parse data");
+            }
+
+
+            var postResponse = await _categoriesRepository.PostCategoryItem(userCategoryItem);
+
+            if (postResponse == null)
+            {
+                _iLogger.LogWarning("Error when posting");
+                return BadRequest("Unable to add item");
+            }
+
+            _iLogger.LogInformation("Post successful");
+
+            return Ok(_mapper.Map<CategoryItemsViewModel>(postResponse));
+
         }
 
     }

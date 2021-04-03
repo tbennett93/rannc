@@ -32,7 +32,8 @@ namespace Rannc.Services
                 issuer: "http://localhost:44359",
                 audience: "http://localhost:4200",
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(1),
+                //expires: DateTime.Now.AddMinutes(1),
+                expires: DateTime.Now.AddDays(90),
                 signingCredentials: signinCredentials
             );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);

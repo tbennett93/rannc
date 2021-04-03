@@ -33,14 +33,38 @@ namespace Rannc.Services
             return userCategories;
         }
 
-        public async Task<List<CategoryItemsModel>> GetCategoryItems(long userId, int categoryId)
+        //public async Task<List<CategoryItemsModel>> GetCategoryItems(long userId, int categoryId)
+        //{
+        //    _iLogger.LogInformation("CategoriesRepo.Get called");
+
+        //    List<CategoryItemsModel> userCategoryItems = await _userContext.CategoryItems
+        //        .Where(u => u.CategoryModelId == categoryId)
+        //        .Include(u => u.CategoryModel)
+        //        .Select(u => new CategoryItemsModel()
+        //        {
+        //            Name = u.Name,
+        //            Group = u.Group,
+        //            Order = u.Order,
+        //            Comment = u.Comment,
+        //            CategoryModelId = u.CategoryModelId,
+        //            CategoryModel = u.CategoryModel
+        //        })
+        //        .ToListAsync();
+
+        //    if (userCategoryItems != null) return userCategoryItems;
+
+        //    _iLogger.LogWarning("Unable to retrieve user category items for category ID {id}", categoryId);
+        //    return null;
+
+        //}
+        public async Task<List<CategoryItemsModel>> GetCategoryItems(int categoryId)
         {
             _iLogger.LogInformation("CategoriesRepo.Get called");
 
             List<CategoryItemsModel> userCategoryItems = await _userContext.CategoryItems
                 .Where(u => u.CategoryModelId == categoryId)
-                .Include(u=> u.CategoryModel)
-                .Select(u=> new CategoryItemsModel()
+                .Include(u => u.CategoryModel)
+                .Select(u => new CategoryItemsModel()
                 {
                     Name = u.Name,
                     Group = u.Group,
@@ -53,9 +77,19 @@ namespace Rannc.Services
 
             if (userCategoryItems != null) return userCategoryItems;
 
-            _iLogger.LogWarning("Unable to retrieve user category items for category ID {id}",categoryId);
+            _iLogger.LogWarning("Unable to retrieve user category items for category ID {id}", categoryId);
             return null;
 
+        }
+
+        public async Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryItemsModel)
+        {
+            var postedItem = await _userContext.CategoryItems.AddAsync(categoryItemsModel);
+
+            if (await _userContext.SaveChangesAsync() == 0)
+                return null;
+            
+            return categoryItemsModel;
         }
 
         public async Task<bool> UserExists(long userId)

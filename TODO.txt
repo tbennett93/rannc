@@ -1,11 +1,28 @@
 Drag and drop
 	add new item
+		on save button - x
+		on new item async- TODO
+			entering value wipes input box clean
+	reordering
+		updates db realtime
+	delete existing item
 	handle ordering of items properly
 		new items last in list based off list length.
 			moving items in list updates their order (gets final order on 'save')
 			this needs to be kept up to date in the view and in the view model as data can be updated on server at any point
+			model and server validation on ordering
+	
+	Really think about server side validation on client requests as the access token can be used to make custom post requests. HOw can this be prevented? 
+		What if the user changes the categories URL ID?
+		Can additional claims be added?
+		validation on order of items - must follow on. max must be length 
 	save button to send array back to server
 	
+force refresh ex[iry under cerrtin conditions
+on guard and client services, what happens on failed refresh token? always redirect?
+
+What is stopping a user from modifying the post request nad changing the data to add whatever they want?
+	can post requests be signed?
 implement post to add new categories
 handle memory eak caused by user leaving paage after sending request and befor receiving response
 	https://stackoverflow.com/questions/35042929/is-it-necessary-to-unsubscribe-from-observables-created-by-http-methods
@@ -53,5 +70,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Enabled drag and drop functionality for category items"
+git commit -m "Users can add new items to a list (db update not implemented)"
 git push
