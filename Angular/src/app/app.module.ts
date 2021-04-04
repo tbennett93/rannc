@@ -30,6 +30,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './auth.guard';
 import { CategoryItemsModule } from 'src/app/categories/my-category-items/category-items.module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 export function tokenGetter() {
   return localStorage.getItem("jwt"); 
 };
@@ -63,7 +65,7 @@ export function tokenGetter() {
     MatToolbarModule,
     MatIconModule,
     CategoryItemsModule,
-
+    HttpClientTestingModule,
     RouterModule.forRoot([
       {path: 'home', component: HomeComponent},
       //route blocked by AuthGuard which only lets a page be accessible if a token exists and hasnt expired

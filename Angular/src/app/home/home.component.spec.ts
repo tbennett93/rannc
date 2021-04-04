@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HomeComponent } from './home.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -8,6 +10,16 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        JwtModule.forRoot({
+          config: {
+            tokenGetter: () => {
+              return ''}
+          }
+        })
+      ], 
+      providers: [ JwtHelperService],
       declarations: [ HomeComponent ]
     })
     .compileComponents();
