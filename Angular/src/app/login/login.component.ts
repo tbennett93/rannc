@@ -20,6 +20,7 @@ export class LoginComponent {
   //It can also be made mandatory when submitting API requests
   //  the server will know what web token was issued where and thus can reject false or expired or null web tokens
   login(form: NgForm) {
+    console.log('login button clicked');
     const credentials = form.value;
     this.http.post("https://localhost:44359/api/auth/login", credentials, {
       headers: new HttpHeaders({
@@ -38,6 +39,7 @@ export class LoginComponent {
       this.router.navigate(["/"]);
     }, err => {
       this.invalidLogin = true;
+      console.log(err);
     });
   }
 

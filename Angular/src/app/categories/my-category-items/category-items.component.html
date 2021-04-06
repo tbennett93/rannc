@@ -55,19 +55,34 @@
 
 <h1>My data</h1>
 <div cdkDropListGroup>
-  <div class="example-container" *ngFor="let list of categoryItemsGroups; ; let i = index">
+  <div class="example-container" *ngFor="let list of categoryItemsGroups; let i = index">
       <h2>{{list.key}}</h2>
       <div 
         cdkDropList 
         [cdkDropListData]="list.values" 
         class="example-list" 
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of list.values" cdkDrag (click)="onClick($event, item.name)">
-          {{item.name}}
+        <div 
+          class="example-box" 
+          *ngFor="let item of list.values; let j = index" 
+          cdkDrag 
+          (click)="onClick($event, item.name)">
+
+          <div>
+            {{item.name}}
+          </div>
+          <div class="close-icon">
+            <button (click)="deleteItem(i, j)">
+              <span class="material-icons ">close</span>
+            </button>
+          </div>
         </div>
       </div>
-      <button (click)="addNew(addNewInput.value, list.key, i)">add new</button>
-      <input #addNewInput>
+      <div class="input-container">
+        <input class="input-box" (keyup.enter)="addNew(addNewInput, list.key, i)" #addNewInput>
+        <button class="input-button mat-button" (click)="addNew(addNewInput, list.key, i)">Add</button>
+      </div>
+      
   </div>
 </div>
 

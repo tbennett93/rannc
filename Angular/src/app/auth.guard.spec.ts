@@ -10,9 +10,9 @@ describe('AuthGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
+    imports: [
+      RouterTestingModule,
+      HttpClientTestingModule,
         JwtModule.forRoot({
           config: {
             tokenGetter: () => {

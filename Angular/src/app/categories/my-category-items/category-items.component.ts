@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/services/token.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CategoryItem } from 'src/app/models/category-item';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 
 @Component({
@@ -140,16 +141,29 @@ export class CategoryItemsComponent implements OnInit {
   saveState(){
   }
 
-  addNew(text, groupName, categoryIndex){
+  deleteItem(categoryIndex, itemIndex){
+    console.log('delete Item. Deleted:');
+    console.log(this.categoryItemsGroups[categoryIndex]['values'][itemIndex]);
+    this.categoryItemsGroups[categoryIndex]['values'].splice(itemIndex,1);
+  }
+  mouseEnterItem(item){
+    console.log(item)  ;
+  }
+
+  addNew(inputBox, groupName, categoryIndex){
+    if(inputBox.value == ''){
+      
+      return null;
+    }
     if (this.tokenService.isAccessTokenValid){
       let categoryItem = new CategoryItemsModel;
-      categoryItem.name = text;
+      categoryItem.name = inputBox.value;
       categoryItem.group = groupName;
       // categoryItem.order = list['values'].length + 1;
       categoryItem.order = (this.categoryItemsGroups[categoryIndex]['values'].length + 1).toString();
       categoryItem.comment = "comment not implenmented";
       categoryItem.categoryModelId = this.categoryId;
-
+      inputBox.value = '';
       // console.log('list');
       // console.log(list);
       // console.log('list length');

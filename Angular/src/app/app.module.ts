@@ -65,7 +65,6 @@ export function tokenGetter() {
     MatToolbarModule,
     MatIconModule,
     CategoryItemsModule,
-    HttpClientTestingModule,
     RouterModule.forRoot([
       {path: 'home', component: HomeComponent},
       //route blocked by AuthGuard which only lets a page be accessible if a token exists and hasnt expired
