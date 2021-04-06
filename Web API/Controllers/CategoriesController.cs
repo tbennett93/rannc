@@ -113,5 +113,21 @@ namespace Rannc.Controllers
 
         }
 
+        [HttpDelete, Route("category")]
+        [Authorize]
+        public async Task<ActionResult> DeleteCategoryItem([FromBody] CategoryItemsViewModel categoryItemsViewModel)
+        {
+            _iLogger.LogInformation("Categories.DeleteCategoryItem called");
+            var categoryItem = _mapper.Map<CategoryItemsModel>(categoryItemsViewModel);
+            if (!await _categoriesRepository.DeleteCategoryItemAsync(categoryItem))
+            {
+                _iLogger.LogWarning("Unable to delete item with id {0} ", categoryItemsViewModel.Id);
+                return BadRequest("Unable to delete item");
+            }
+
+            _iLogger.LogWarning("Item successfully deleted. Id: {0} ", categoryItemsViewModel.Id);
+            return Ok();
+        }
+
     }
 }

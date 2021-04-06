@@ -66,6 +66,7 @@ namespace Rannc.Services
                 .Include(u => u.CategoryModel)
                 .Select(u => new CategoryItemsModel()
                 {
+                    Id = u.Id,
                     Name = u.Name,
                     Group = u.Group,
                     Order = u.Order,
@@ -100,6 +101,18 @@ namespace Rannc.Services
                 .AnyAsync();
         }
 
+        public async Task<bool> DeleteCategoryItemAsync(CategoryItemsModel categoryItem)
+        {
+            var categoryItemDb = await _userContext.CategoryItems.FindAsync(categoryItem.Id);
 
+            if (categoryItemDb == null)
+            {
+                return false;
+            }
+
+            _userContext.CategoryItems.Remove(categoryItemDb);
+
+            return await _userContext.SaveChangesAsync() != 0;
+        }
     }
 }

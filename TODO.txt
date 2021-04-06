@@ -9,6 +9,8 @@ Drag and drop
 	delete existing item
 		on hover, display an 'x'
 		on click, delete the item
+		
+	**20210406 - add check on each db action that the user calling the request owns the data
 	
 	reordering
 		updates db realtime
@@ -100,5 +102,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Added delete button for list items in client, removing the item from the array"
+git commit -m "Added delete button for list items in client, removing the item from the array. Add new list item stylised."
 git push

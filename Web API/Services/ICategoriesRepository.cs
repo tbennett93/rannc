@@ -11,5 +11,7 @@ namespace Rannc.Services
         Task<List<CategoryItemsModel>> GetCategoryItems(int categoryId);
 
         Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryItemsModel);
+
+        Task<bool> DeleteCategoryItemAsync(CategoryItemsModel categoryItemsModel);
     }
 }
