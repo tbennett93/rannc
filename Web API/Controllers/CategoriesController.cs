@@ -60,6 +60,13 @@ namespace Rannc.Controllers
         public async Task<ActionResult<CategoryItemsViewModel>> GetCategory([FromHeader] int categoryId)
         {
             _iLogger.LogInformation("Category.Get initiated");
+            var userId = this.User.GetUserId();
+
+            if (userId == null)
+            {
+                _iLogger.LogWarning("Claim identity could not be found");
+                return BadRequest("Bad request");
+            }
             //var userId = this.User.GetUserId();
 
             //if (userId == null)
@@ -69,7 +76,7 @@ namespace Rannc.Controllers
             //}
 
             //var userCategoryItems = await _categoriesRepository.GetCategoryItems((long)userId, categoryId);
-            var userCategoryItems = await _categoriesRepository.GetCategoryItems(categoryId);
+            var userCategoryItems = await _categoriesRepository.GetCategoryItems(categoryId, (long)userId);
             var model = _mapper.Map<List<CategoryItemsViewModel>>(userCategoryItems);
 
             _iLogger.LogInformation("Categories for user found");
@@ -82,6 +89,18 @@ namespace Rannc.Controllers
         public async Task<ActionResult> PostCategory([FromBody] CategoryItemsViewModel categoryItemsViewModel)
         {
             _iLogger.LogInformation("Called Categories.PostCategory");
+
+            var userId = this.User.GetUserId();
+
+            if (userId == null)
+            {
+                _iLogger.LogWarning("Claim identity could not be found");
+                return BadRequest("Bad request");
+            }
+
+            
+
+
             var userCategoryItem = _mapper.Map<CategoryItemsModel>(categoryItemsViewModel);
             //var userCategoryItem = new CategoryItemsModel()
             //{
@@ -99,7 +118,7 @@ namespace Rannc.Controllers
             }
 
 
-            var postResponse = await _categoriesRepository.PostCategoryItem(userCategoryItem);
+            var postResponse = await _categoriesRepository.PostCategoryItem(userCategoryItem, (long)userId);
 
             if (postResponse == null)
             {
@@ -117,7 +136,6 @@ namespace Rannc.Controllers
         [Authorize]
         public async Task<ActionResult> DeleteCategoryItem([FromHeader] string id, [FromHeader] string type)
         {
-            var reqiest = Request.Headers;
             _iLogger.LogInformation("Categories.DeleteCategoryItem called");
             if (string.IsNullOrEmpty(type) ||
                 string.IsNullOrEmpty(id))

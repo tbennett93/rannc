@@ -8,9 +8,9 @@ namespace Rannc.Services
     {
         Task<List<CategoryModel>> GetCategories(long userId);
         //Task<List<CategoryItemsModel>> GetCategoryItems(long userId, int categoryId);
-        Task<List<CategoryItemsModel>> GetCategoryItems(int categoryId);
+        Task<List<CategoryItemsModel>> GetCategoryItems(int categoryId, long userId);
 
-        Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryItemsModel);
+        Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryItemsModel, long userId);
 
         Task<bool> DeleteCategoryItemAsync(long id);
     }

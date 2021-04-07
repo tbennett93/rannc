@@ -8,18 +8,18 @@ Drag and drop
 	
 	delete existing item
 		on hover, display an 'x'
-		on click, delete the item
+		on click, delete the item x
 		
-	UI action to exist in the 'subscribe' method after the db call for each GET, POST, DELETE
-		
-	revise JSON architecture based on JSONAPI spec?
-		jsonapi.org
 	
 	add check on each db action that the user calling the request owns the data
 		can something be added to UserContext?
+	
+	Create a new user and test that each user can only accses their own data
+		
 	add try catch around data service in angular
 	
 	reordering
+		
 		updates db realtime
 		considerations
 			if moving item then deleting it quickly. before server catches up, another FE update might have gone through.
@@ -109,5 +109,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Delete Category Item Web API functionality built"
+git commit -m "Deleting an item via the client deletes the db record"
 git push

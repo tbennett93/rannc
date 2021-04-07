@@ -57,13 +57,33 @@ namespace Rannc.Services
         //    return null;
 
         //}
-        public async Task<List<CategoryItemsModel>> GetCategoryItems(int categoryId)
+        public async Task<List<CategoryItemsModel>> GetCategoryItems(int categoryId, long userId)
         {
             _iLogger.LogInformation("CategoriesRepo.Get called");
+
+            //List<CategoryItemsModel> userCategoryItems = await _userContext.CategoryItems
+            //    .Where(u => u.CategoryModelId == categoryId)
+            //    .Include(u => u.CategoryModel)
+            //    .ThenInclude(u=> u.LoginModel)
+            //    .Where(u=> u.)
+            //    .Select(u => new CategoryItemsModel()
+            //    {
+            //        Id = u.Id,
+            //        Name = u.Name,
+            //        Group = u.Group,
+            //        Order = u.Order,
+            //        Comment = u.Comment,
+            //        CategoryModelId = u.CategoryModelId,
+            //        CategoryModel = u.CategoryModel
+            //    })
+            //    .ToListAsync();
+
 
             List<CategoryItemsModel> userCategoryItems = await _userContext.CategoryItems
                 .Where(u => u.CategoryModelId == categoryId)
                 .Include(u => u.CategoryModel)
+                .ThenInclude(u => u.LoginModel)
+                .Where(u => u.CategoryModel.LoginModelId == userId)
                 .Select(u => new CategoryItemsModel()
                 {
                     Id = u.Id,
@@ -83,9 +103,16 @@ namespace Rannc.Services
 
         }
 
-        public async Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryItemsModel)
+        public async Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryItemsModel, long userId)
         {
-            var postedItem = await _userContext.CategoryItems.AddAsync(categoryItemsModel);
+
+            var userHasCategory = await _userContext.Categories.AnyAsync(u =>
+                u.Id == categoryItemsModel.CategoryModelId && u.LoginModelId == userId);
+
+            if (!userHasCategory)
+                return null;
+
+            await _userContext.CategoryItems.AddAsync(categoryItemsModel);
 
             if (await _userContext.SaveChangesAsync() == 0)
                 return null;
