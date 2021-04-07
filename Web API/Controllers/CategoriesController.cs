@@ -115,17 +115,32 @@ namespace Rannc.Controllers
 
         [HttpDelete, Route("category")]
         [Authorize]
-        public async Task<ActionResult> DeleteCategoryItem([FromBody] CategoryItemsViewModel categoryItemsViewModel)
+        public async Task<ActionResult> DeleteCategoryItem([FromHeader] string id, [FromHeader] string type)
         {
+            var reqiest = Request.Headers;
             _iLogger.LogInformation("Categories.DeleteCategoryItem called");
-            var categoryItem = _mapper.Map<CategoryItemsModel>(categoryItemsViewModel);
-            if (!await _categoriesRepository.DeleteCategoryItemAsync(categoryItem))
+            if (string.IsNullOrEmpty(type) ||
+                string.IsNullOrEmpty(id))
             {
-                _iLogger.LogWarning("Unable to delete item with id {0} ", categoryItemsViewModel.Id);
+                _iLogger.LogWarning("Invalid Type specified on JSON - {0} or {1}", id, type);
+                return BadRequest("Incomplete request");
+            }
+
+            if (!type.Equals("CategoryItem") )
+            {
+                _iLogger.LogWarning("Invalid Type specified on JSON - {0}", type); 
+                return BadRequest("Invalid request");
+            }
+
+
+
+            if (!await _categoriesRepository.DeleteCategoryItemAsync(Convert.ToInt64(id)))
+            {
+                _iLogger.LogWarning("Unable to delete item with id {0} ", id);
                 return BadRequest("Unable to delete item");
             }
 
-            _iLogger.LogWarning("Item successfully deleted. Id: {0} ", categoryItemsViewModel.Id);
+            _iLogger.LogWarning("Item successfully deleted. Id: {0} ", id);
             return Ok();
         }
 

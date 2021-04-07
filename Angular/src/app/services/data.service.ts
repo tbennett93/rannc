@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CategoryItem } from '../models/category-item';
+import { ResIdObj } from '../models/res-id-obj.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,32 @@ export class DataService {
     let jsonObject = JSON.stringify(categoryItem);
     console.log('converted:');
     console.log(jsonObject);
-    return this.http.post('https://localhost:44359/api/categories/category', jsonObject,{headers: new HttpHeaders({
+    let headers = {headers: new HttpHeaders({
       "Content-Type": "application/json"
     }),
     
-  });
+  }
+    return this.http.post('https://localhost:44359/api/categories/category', jsonObject, headers);
+  }
+
+  deleteCategoryItem(categoryItemId: string){
+    console.log('attempting to delete:');
+    console.log(categoryItemId);
+
+    let dto : ResIdObj = new ResIdObj();
+    dto.type = "CategoryItem";
+    dto.id = categoryItemId;
+  
+    let jsonObject = JSON.stringify(dto);
+    var headers = {headers: new HttpHeaders({
+      "Content-Type":"application/json",
+      "Id":categoryItemId,
+      "Type": "CategoryItem"
+    })};
+    console.log('converted:');
+    console.log(jsonObject);
+    return this.http.delete('https://localhost:44359/api/categories/category', headers);
+    
   }
 
 }

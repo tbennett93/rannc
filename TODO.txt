@@ -10,7 +10,14 @@ Drag and drop
 		on hover, display an 'x'
 		on click, delete the item
 		
-	**20210406 - add check on each db action that the user calling the request owns the data
+	UI action to exist in the 'subscribe' method after the db call for each GET, POST, DELETE
+		
+	revise JSON architecture based on JSONAPI spec?
+		jsonapi.org
+	
+	add check on each db action that the user calling the request owns the data
+		can something be added to UserContext?
+	add try catch around data service in angular
 	
 	reordering
 		updates db realtime
@@ -102,5 +109,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Added delete button for list items in client, removing the item from the array. Add new list item stylised."
+git commit -m "Delete Category Item Web API functionality built"
 git push

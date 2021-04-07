@@ -12,6 +12,6 @@ namespace Rannc.Services
 
         Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryItemsModel);
 
-        Task<bool> DeleteCategoryItemAsync(CategoryItemsModel categoryItemsModel);
+        Task<bool> DeleteCategoryItemAsync(long id);
     }
 }

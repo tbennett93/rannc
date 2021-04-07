@@ -142,9 +142,18 @@ export class CategoryItemsComponent implements OnInit {
   }
 
   deleteItem(categoryIndex, itemIndex){
-    console.log('delete Item. Deleted:');
-    console.log(this.categoryItemsGroups[categoryIndex]['values'][itemIndex]);
-    this.categoryItemsGroups[categoryIndex]['values'].splice(itemIndex,1);
+    let categoryItem =  this.categoryItemsGroups[categoryIndex]['values'][itemIndex];
+    
+    this.data.deleteCategoryItem(categoryItem.id).subscribe({
+      next: data => {
+        this.categoryItemsGroups[categoryIndex]['values'].splice(itemIndex,1)
+        console.log('delete Item. Deleted:');
+        // console.log(this.categoryItemsGroups[categoryIndex]['values'][itemIndex]);      
+      },
+      error: err => console.log(err)
+    });
+
+    
   }
   mouseEnterItem(item){
     console.log(item)  ;
