@@ -12,6 +12,11 @@ namespace Rannc
                 .ForMember(dest => dest.Name, o=> o.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id));
 
+            CreateMap<CategoryViewModel, CategoryModel>()
+                .ForMember(dest => dest.Name, o => o.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id));
+
+
             CreateMap<CategoryItemsModel, CategoryItemsViewModel>()
                 .ForMember(dest => dest.Name, o => o.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))

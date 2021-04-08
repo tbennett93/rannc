@@ -33,50 +33,26 @@ namespace Rannc.Services
             return userCategories;
         }
 
-        //public async Task<List<CategoryItemsModel>> GetCategoryItems(long userId, int categoryId)
-        //{
-        //    _iLogger.LogInformation("CategoriesRepo.Get called");
 
-        //    List<CategoryItemsModel> userCategoryItems = await _userContext.CategoryItems
-        //        .Where(u => u.CategoryModelId == categoryId)
-        //        .Include(u => u.CategoryModel)
-        //        .Select(u => new CategoryItemsModel()
-        //        {
-        //            Name = u.Name,
-        //            Group = u.Group,
-        //            Order = u.Order,
-        //            Comment = u.Comment,
-        //            CategoryModelId = u.CategoryModelId,
-        //            CategoryModel = u.CategoryModel
-        //        })
-        //        .ToListAsync();
+        public async Task<CategoryModel> PostCategory(CategoryModel categoryModel, long userId)
+        {
 
-        //    if (userCategoryItems != null) return userCategoryItems;
+            var userExists = await UserExists(userId);
 
-        //    _iLogger.LogWarning("Unable to retrieve user category items for category ID {id}", categoryId);
-        //    return null;
+            if (!userExists)
+                return null;
 
-        //}
+            await _userContext.Categories.AddAsync(categoryModel);
+
+            if (await _userContext.SaveChangesAsync() == 0)
+                return null;
+
+            return categoryModel;
+        }
+
         public async Task<List<CategoryItemsModel>> GetCategoryItems(int categoryId, long userId)
         {
             _iLogger.LogInformation("CategoriesRepo.Get called");
-
-            //List<CategoryItemsModel> userCategoryItems = await _userContext.CategoryItems
-            //    .Where(u => u.CategoryModelId == categoryId)
-            //    .Include(u => u.CategoryModel)
-            //    .ThenInclude(u=> u.LoginModel)
-            //    .Where(u=> u.)
-            //    .Select(u => new CategoryItemsModel()
-            //    {
-            //        Id = u.Id,
-            //        Name = u.Name,
-            //        Group = u.Group,
-            //        Order = u.Order,
-            //        Comment = u.Comment,
-            //        CategoryModelId = u.CategoryModelId,
-            //        CategoryModel = u.CategoryModel
-            //    })
-            //    .ToListAsync();
 
 
             List<CategoryItemsModel> userCategoryItems = await _userContext.CategoryItems

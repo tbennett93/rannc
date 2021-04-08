@@ -55,6 +55,48 @@ namespace Rannc.Controllers
             return Ok(model);
         }
 
+        [HttpPost, Route("category")]
+        [Authorize]
+        public async Task<ActionResult> PostCategory(CategoryViewModel categoryViewModel)
+        {
+            _iLogger.LogInformation("Categories.PostCategory initiated");
+
+            var userId = this.User.GetUserId();
+
+            if (userId== null)
+            {
+                _iLogger.LogWarning("Claim identity could not be found");
+                return BadRequest("Bad request");
+            }
+
+            var userCategory = _mapper.Map<CategoryModel>(categoryViewModel);
+
+            userCategory.LoginModelId = (long)userId;
+
+            if (userCategory == null)
+            {
+                _iLogger.LogWarning("Unable to create CategoryViewModel from {0]", categoryViewModel);
+                return BadRequest("Unable to parse data");
+            }
+
+
+            var postResponse = await _categoriesRepository.PostCategory(userCategory, (long)userId);
+
+            if (postResponse == null)
+            {
+                _iLogger.LogWarning("Error when posting");
+                return BadRequest("Unable to add item");
+            }
+
+            _iLogger.LogInformation("Post successful");
+
+            return Ok(_mapper.Map<CategoryViewModel>(postResponse));
+
+
+
+
+        }
+
         [HttpGet, Route("categoryitems")]
         [Authorize]
         public async Task<ActionResult<CategoryItemsViewModel>> GetCategoryItems([FromHeader] int categoryId)
@@ -67,15 +109,7 @@ namespace Rannc.Controllers
                 _iLogger.LogWarning("Claim identity could not be found");
                 return BadRequest("Bad request");
             }
-            //var userId = this.User.GetUserId();
-
-            //if (userId == null)
-            //{
-            //    _iLogger.LogWarning("Claim identity could not be found");
-            //    return BadRequest("Bad request");
-            //}
-
-            //var userCategoryItems = await _categoriesRepository.GetCategoryItems((long)userId, categoryId);
+         
             var userCategoryItems = await _categoriesRepository.GetCategoryItems(categoryId, (long)userId);
             var model = _mapper.Map<List<CategoryItemsViewModel>>(userCategoryItems);
 
@@ -102,15 +136,7 @@ namespace Rannc.Controllers
 
 
             var userCategoryItem = _mapper.Map<CategoryItemsModel>(categoryItemsViewModel);
-            //var userCategoryItem = new CategoryItemsModel()
-            //{
-            //    //CategoryModelId = categoryItemsViewModel.CategoryModelId,
-            //    Name = categoryItemsViewModel.Name,
-            //    Group = categoryItemsViewModel.Group,
-            //    Order = categoryItemsViewModel.Order,
-            //    Comment = categoryItemsViewModel.Comment
-            //};
-
+ 
             if (userCategoryItem == null)
             {
                 _iLogger.LogWarning("Unable to create CategoryItemsModel from {0]", categoryItemsViewModel);
