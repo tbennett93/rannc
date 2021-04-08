@@ -31,6 +31,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './auth.guard';
 import { CategoryItemsModule } from 'src/app/categories/my-category-items/category-items.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt"); 
@@ -47,6 +48,7 @@ export function tokenGetter() {
     LoginComponent,
     PageNotFoundComponent,
     CategoryComponent,
+    SignUpComponent,
 
   ],
   imports: [
@@ -71,6 +73,7 @@ export function tokenGetter() {
       {path: 'top-categories', component: TopCategoriesComponent},
       {path: 'social', component: SocialComponent},
       {path: 'login', component: LoginComponent},
+      {path: 'sign-up', component: SignUpComponent},
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: '**', component: PageNotFoundComponent}
 

@@ -1,19 +1,6 @@
 Drag and drop
 	add new item
-		on save button - x
-		on new item async- TODO
-			entering value wipes input box clean - x
-		Can't enter blank - x
-		'Enter' also works - x
-	
-	delete existing item
-		on hover, display an 'x'
-		on click, delete the item x
-		
-	
-	add check on each db action that the user calling the request owns the data
-		can something be added to UserContext?
-	
+
 	Create a new user and test that each user can only accses their own data
 		
 	add try catch around data service in angular
@@ -109,5 +96,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Deleting an item via the client deletes the db record"
+git commit -m "Added checks that user owns data for DELETE Category Items before executing request"
 git push

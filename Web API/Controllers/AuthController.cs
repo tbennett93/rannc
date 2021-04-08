@@ -46,7 +46,7 @@ namespace Rannc.Controllers
 
             if (await _userContext.LoginModel.AnyAsync(u => u.UserName == loginModel.UserName))
             {
-                _iLogger.LogWarning("POST AuthController.Register called {Username}", loginModel.UserName);
+                _iLogger.LogWarning("POST AuthController.Register {Username} already exists", loginModel.UserName);
                 return BadRequest("Username Already Exists");
             }
 

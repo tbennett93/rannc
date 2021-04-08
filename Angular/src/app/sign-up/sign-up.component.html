@@ -1,0 +1,28 @@
+<form class="form-signup" #signUpForm="ngForm" (ngSubmit)="signUp(signUpForm)">
+    <div class="container-fluid">
+
+        <h2 class="form-signup-heading">Sign Up</h2>
+
+        <div *ngIf="username.invalid && (username.dirty || username.touched) && notFocussed" class="alert alert-danger">
+            <div *ngIf="username.errors.required">Username is required</div>
+        </div>
+
+        <div *ngIf="username.invalid && username.dirty && username.touched" class="alert alert-danger">
+            <div *ngIf="username.errors.email">Enter a valid Email address</div>
+        </div>    
+        <div *ngIf="invalidSignup && username.touched && notFocussed" >{{invalidSignupReason}}</div>
+
+        <br>
+
+        <label for="username" class="sr-only">Email address</label>
+        <input type="email" id="username" name="username" ngModel email class="form-control" placeholder="Email address"
+            required autofocus #username="ngModel" (focus)="notFocussed=false" (focusout)="notFocussed=true; invalidSignupReason=''">
+        <br>
+
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" name="password" ngModel class="form-control"
+            placeholder="Password" required>
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="this.signUpForm.invalid">Submit</button>
+    </div>
+</form>
