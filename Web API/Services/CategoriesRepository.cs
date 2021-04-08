@@ -128,8 +128,17 @@ namespace Rannc.Services
                 .AnyAsync();
         }
 
-        public async Task<bool> DeleteCategoryItemAsync(long id)
+        public async Task<bool> DeleteCategoryItemAsync(long id, long userId)
         {
+
+            var userHasCategory = await _userContext.CategoryItems
+                .Include(u=>u.CategoryModel)
+                .AnyAsync(u =>
+                u.Id == id && u.CategoryModel.LoginModelId == userId);
+
+            if (!userHasCategory)
+                return false;
+
             var categoryItemDb = await _userContext.CategoryItems.FindAsync(id);
 
             if (categoryItemDb == null)

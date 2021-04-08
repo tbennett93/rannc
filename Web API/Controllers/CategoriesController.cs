@@ -137,6 +137,15 @@ namespace Rannc.Controllers
         public async Task<ActionResult> DeleteCategoryItem([FromHeader] string id, [FromHeader] string type)
         {
             _iLogger.LogInformation("Categories.DeleteCategoryItem called");
+
+            var userId = this.User.GetUserId();
+
+            if (userId == null)
+            {
+                _iLogger.LogWarning("Claim identity could not be found");
+                return BadRequest("Bad request");
+            }
+
             if (string.IsNullOrEmpty(type) ||
                 string.IsNullOrEmpty(id))
             {
@@ -152,7 +161,7 @@ namespace Rannc.Controllers
 
 
 
-            if (!await _categoriesRepository.DeleteCategoryItemAsync(Convert.ToInt64(id)))
+            if (!await _categoriesRepository.DeleteCategoryItemAsync(Convert.ToInt64(id), (long)userId))
             {
                 _iLogger.LogWarning("Unable to delete item with id {0} ", id);
                 return BadRequest("Unable to delete item");
