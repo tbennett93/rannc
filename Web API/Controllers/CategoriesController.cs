@@ -55,9 +55,9 @@ namespace Rannc.Controllers
             return Ok(model);
         }
 
-        [HttpGet, Route("category")]
+        [HttpGet, Route("categoryitems")]
         [Authorize]
-        public async Task<ActionResult<CategoryItemsViewModel>> GetCategory([FromHeader] int categoryId)
+        public async Task<ActionResult<CategoryItemsViewModel>> GetCategoryItems([FromHeader] int categoryId)
         {
             _iLogger.LogInformation("Category.Get initiated");
             var userId = this.User.GetUserId();
@@ -84,9 +84,9 @@ namespace Rannc.Controllers
         }
 
 
-        [HttpPost, Route("category")]
+        [HttpPost, Route("categoryitem")]
         [Authorize]
-        public async Task<ActionResult> PostCategory([FromBody] CategoryItemsViewModel categoryItemsViewModel)
+        public async Task<ActionResult> PostCategoryItem([FromBody] CategoryItemsViewModel categoryItemsViewModel)
         {
             _iLogger.LogInformation("Called Categories.PostCategory");
 
@@ -132,7 +132,7 @@ namespace Rannc.Controllers
 
         }
 
-        [HttpDelete, Route("category")]
+        [HttpDelete, Route("categoryitem")]
         [Authorize]
         public async Task<ActionResult> DeleteCategoryItem([FromHeader] string id, [FromHeader] string type)
         {

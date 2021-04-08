@@ -2,6 +2,9 @@ Drag and drop
 	add new item
 
 	Create a new user and test that each user can only accses their own data
+		User sign up
+		user category creation
+		Use angular material form from home screen to tidy up login
 		
 	add try catch around data service in angular
 	
@@ -96,5 +99,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Added checks that user owns data for DELETE Category Items before executing request"
+git commit -m "Added sign up to client with simple validation"
 git push

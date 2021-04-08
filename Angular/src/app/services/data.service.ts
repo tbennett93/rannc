@@ -18,7 +18,7 @@ export class DataService {
 
   getCategoryItems(categoryId) {
     const header = new HttpHeaders().set('categoryId', categoryId);
-    return this.http.get('https://localhost:44359/api/categories/category', { 'headers': header })
+    return this.http.get('https://localhost:44359/api/categories/categoryitems', { 'headers': header })
   }
 
   postCategoryItems(categoryItem: CategoryItem) {
@@ -32,7 +32,7 @@ export class DataService {
     }),
     
   }
-    return this.http.post('https://localhost:44359/api/categories/category', jsonObject, headers);
+    return this.http.post('https://localhost:44359/api/categories/categoryitem', jsonObject, headers);
   }
 
   deleteCategoryItem(categoryItemId: string){
@@ -51,7 +51,7 @@ export class DataService {
     })};
     console.log('converted:');
     console.log(jsonObject);
-    return this.http.delete('https://localhost:44359/api/categories/category', headers);
+    return this.http.delete('https://localhost:44359/api/categories/categoryitem', headers);
     
   }
 
