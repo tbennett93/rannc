@@ -6,6 +6,7 @@ import { TokenService } from 'src/app/services/token.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CategoryItem } from 'src/app/models/category-item';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { CategoryItemsGroups } from 'src/app/models/category-items-groups';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class CategoryItemsComponent implements OnInit {
   // ];
 
   // categoryItems: CategoryItemsModel[];
-  categoryItemsGroups: any;
+  categoryItemsGroups: CategoryItemsGroups[];
   // categoryGroups: CategoryGroup[];
   // testArray = [
   //   {type:"test genre 1", values:[{name:"superbad"}, {name:"40YOV"}]},
@@ -159,6 +160,18 @@ export class CategoryItemsComponent implements OnInit {
     console.log(item)  ;
   }
 
+  addNewGroup(value){
+    console.log(value);
+    console.log(this.categoryItemsGroups);
+    let categoryItemsGroup = new CategoryItemsGroups;
+    categoryItemsGroup.key = value;
+    if(!value){
+      return;
+    }
+    this.categoryItemsGroups.push(categoryItemsGroup);
+
+  }
+
   addNew(inputBox, groupName, categoryIndex){
     if(!inputBox.value){
       
@@ -180,7 +193,7 @@ export class CategoryItemsComponent implements OnInit {
       // console.log('array #- ');
       // console.log(categoryIndex);
       // console.log(this.categoryItemsGroups[categoryIndex]['values']);
-      console.log(categoryItem);
+      // console.log(categoryItem);
       // this.categoryItemsGroups[categoryIndex]['values'].push(categoryItem);
       
       //MAke post request and update UI after successful post

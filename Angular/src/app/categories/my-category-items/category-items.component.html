@@ -54,37 +54,55 @@
 </div> -->
 
 <h1>My data</h1>
-<div cdkDropListGroup>
-  <div class="example-container" *ngFor="let list of categoryItemsGroups; let i = index">
-      <h2>{{list.key}}</h2>
-      <div 
-        cdkDropList 
-        [cdkDropListData]="list.values" 
-        class="example-list" 
-        (cdkDropListDropped)="drop($event)">
-        <div 
-          class="example-box" 
-          *ngFor="let item of list.values; let j = index" 
-          cdkDrag 
-          (click)="onClick($event, item.name)">
 
-          <div>
-            {{item.name}}
-          </div>
-          <div class="close-icon">
-            <button (click)="deleteItem(i, j)">
-              <span class="material-icons ">close</span>
-            </button>
+<div class="container"> 
+  <div cdkDropListGroup>
+    <div class="example-container" *ngFor="let list of categoryItemsGroups; let i = index">
+        <h1>{{list.key}}</h1>
+        <div 
+          cdkDropList 
+          [cdkDropListData]="list.values" 
+          class="example-list" 
+          (cdkDropListDropped)="drop($event)">
+          <div 
+            class="example-box" 
+            *ngFor="let item of list.values; let j = index" 
+            cdkDrag 
+            (click)="onClick($event, item.name)">
+  
+            <div>
+              {{item.name}}
+            </div>
+            <div class="close-icon">
+              <button (click)="deleteItem(i, j)">
+                <span class="material-icons ">close</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="input-container">
-        <input class="input-box" (keyup.enter)="addNew(addNewInput, list.key, i)" #addNewInput>
-        <button class="input-button mat-button" (click)="addNew(addNewInput, list.key, i)">Add</button>
-      </div>
-      
+        <div class="input-container">
+          <input class="input-box" (keyup.enter)="addNew(addNewInput, list.key, i)" #addNewInput placeholder="New Item">
+          <button class="input-button mat-button" (click)="addNew(addNewInput, list.key, i)">Add</button>
+        </div>
+        
+    </div>
+
   </div>
+
+
 </div>
+
+
+<div class="new-group-container">
+  <h1 >Add New Group</h1>
+  <div class="new-group-input-container">
+    <input  class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput.value)">
+    <button class="input-button  mat-button" (click)="addNewGroup(newGroupInput.value)">Add</button>
+  </div>
+  
+</div>
+
+
 
 
 <!-- <button (click)="saveState()">save</button> -->
