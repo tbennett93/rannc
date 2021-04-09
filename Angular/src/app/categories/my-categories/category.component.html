@@ -12,7 +12,7 @@
   </li>
 </ul>
 
-<div>
-  <input placeholder="New Category">
-  <button>Add</button>
+<div class="input-container">
+    <input class="input-box" (keyup.enter)="addNew(addNewInput)" #addNewInput placeholder="New Category">
+    <button class="input-button mat-button" (click)="addNew(addNewInput)">Add</button>
 </div>

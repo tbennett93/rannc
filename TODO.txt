@@ -6,7 +6,9 @@ Drag and drop
 		user category creation
 			new
 				post back end - x
-				post front end
+				post front end				
+					post ocategory items when categories is empty
+						button to add new group
 			delete
 				delete back end
 				delete front end
@@ -16,7 +18,9 @@ Drag and drop
 	add try catch around data service in angular
 	
 	reordering
-		
+	
+	
+		Reorder categories
 		updates db realtime
 		considerations
 			if moving item then deleting it quickly. before server catches up, another FE update might have gone through.
@@ -106,5 +110,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Abstracted Categories into a component. Improved endpoint name conventions."
+git commit -m "Back end support for POSTing a new category"
 git push

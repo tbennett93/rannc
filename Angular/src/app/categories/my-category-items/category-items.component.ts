@@ -160,7 +160,7 @@ export class CategoryItemsComponent implements OnInit {
   }
 
   addNew(inputBox, groupName, categoryIndex){
-    if(inputBox.value == ''){
+    if(!inputBox.value){
       
       return null;
     }
@@ -180,7 +180,7 @@ export class CategoryItemsComponent implements OnInit {
       // console.log('array #- ');
       // console.log(categoryIndex);
       // console.log(this.categoryItemsGroups[categoryIndex]['values']);
-      // console.log(categoryItem);
+      console.log(categoryItem);
       // this.categoryItemsGroups[categoryIndex]['values'].push(categoryItem);
       
       //MAke post request and update UI after successful post

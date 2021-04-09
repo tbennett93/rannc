@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { CategoryModel } from 'src/app/models/category.model';
 import { DataService } from 'src/app/services/data.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -33,6 +33,19 @@ export class CategoryComponent implements OnInit{
   }
 
 
+  addNew(inputField){
+    // console.log(inputField.value);
+    let categoryModel = new CategoryModel;
+    let name = inputField.value;
+    if (!name ){
+      return null;
+    }
+    categoryModel.name = name;
+    this.data.postCategory(categoryModel).subscribe({
+      next: (resp: CategoryModel) => {this.category.push(resp)},
+      error: err => console.log(err)
+    });
+  }
 
 
 

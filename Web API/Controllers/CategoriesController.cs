@@ -57,7 +57,7 @@ namespace Rannc.Controllers
 
         [HttpPost, Route("category")]
         [Authorize]
-        public async Task<ActionResult> PostCategory(CategoryViewModel categoryViewModel)
+        public async Task<ActionResult> PostCategory([FromBody] CategoryViewModel categoryViewModel)
         {
             _iLogger.LogInformation("Categories.PostCategory initiated");
 
