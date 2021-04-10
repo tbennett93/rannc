@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CategoryItem } from '../models/category-item';
 import { ResIdObj } from '../models/res-id-obj.model';
 import { CategoryModel } from '../models/category.model';
+import { CategoryGroups } from '../models/category-groups';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,21 @@ export class DataService {
       "Content-Type": "application/json"
     })};
     return this.http.post('https://localhost:44359/api/categories/category', jsonObject, headers );
+
+};
+
+
+postCategoryGroup(categoryGroup : CategoryGroups){
+
+  console.log('attempting to post category:');
+  console.log(categoryGroup);
+  let jsonObject = JSON.stringify(categoryGroup);
+  console.log('converted:');
+  console.log(jsonObject);
+  let headers = {headers: new HttpHeaders({
+    "Content-Type": "application/json"
+  })};
+  return this.http.post('https://localhost:44359/api/categories/categorygroup', jsonObject, headers );
 
 };
 

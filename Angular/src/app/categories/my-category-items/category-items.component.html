@@ -57,16 +57,27 @@
 
 <div class="container"> 
   <div cdkDropListGroup>
-    <div class="example-container" *ngFor="let list of categoryItemsGroups; let i = index" (click)="onCategoryClick($event, list.key, list)">
-        <h1>{{list.key}}</h1>
+    <div class="example-container" *ngFor="let list of categoryGroups; let i = index" (click)="onCategoryClick($event, list.key, list)">
+        
+      <div class="title-container">
+        <h1>{{list.name}}</h1>
+
+        <div class="close-icon inline-close-button">
+          <button (click)="deleteGroup(list.id)">
+            <span class="material-icons ">close</span>
+          </button>
+        </div>
+
+      </div>
+        
         <div 
           cdkDropList 
-          [cdkDropListData]="list.values" 
+          [cdkDropListData]="list.items" 
           class="example-list" 
           (cdkDropListDropped)="drop($event)">
           <div 
             class="example-box" 
-            *ngFor="let item of list.values; let j = index" 
+            *ngFor="let item of list.items; let j = index" 
             cdkDrag 
             (click)="onClick($event, item.name)">
   
@@ -74,15 +85,15 @@
               {{item.name}}
             </div>
             <div class="close-icon">
-              <button (click)="deleteItem(i, j)">
+              <button (click)="deleteItem(i, j, item.id)">
                 <span class="material-icons ">close</span>
               </button>
             </div>
           </div>
         </div>
         <div class="input-container">
-          <input class="input-box" (keyup.enter)="addNew(addNewInput, list.key, i)" #addNewInput placeholder="New Item">
-          <button class="input-button mat-button" (click)="addNew(addNewInput, list.key, i)">Add</button>
+          <input class="input-box" (keyup.enter)="addNew(addNewInput, list.id, i)" #addNewInput placeholder="New Item">
+          <button class="input-button mat-button" (click)="addNew(addNewInput, list.id, i)">Add</button>
         </div>
         
     </div>

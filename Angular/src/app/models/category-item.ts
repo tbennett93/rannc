@@ -1,7 +1,7 @@
 export interface CategoryItem {
     id: string;
     name: string;
-    group: string;
+    groupId: string;
     order: string;
     comment: string;  
     categoryModelId: string;

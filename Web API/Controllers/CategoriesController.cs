@@ -55,7 +55,7 @@ namespace Rannc.Controllers
             return Ok(model);
         }
 
-        [HttpPost, Route("category")]
+        [HttpPost]
         [Authorize]
         public async Task<ActionResult> PostCategory([FromBody] CategoryViewModel categoryViewModel)
         {
@@ -99,7 +99,7 @@ namespace Rannc.Controllers
 
         [HttpGet, Route("categoryitems")]
         [Authorize]
-        public async Task<ActionResult<CategoryItemsViewModel>> GetCategoryItems([FromHeader] int categoryId)
+        public async Task<ActionResult<CategoryGroupsViewModel>> GetCategoryItems([FromHeader] int categoryId)
         {
             _iLogger.LogInformation("Category.Get initiated");
             var userId = this.User.GetUserId();
@@ -111,16 +111,64 @@ namespace Rannc.Controllers
             }
          
             var userCategoryItems = await _categoriesRepository.GetCategoryItems(categoryId, (long)userId);
-            var model = _mapper.Map<List<CategoryItemsViewModel>>(userCategoryItems);
+            
+            //var model = _mapper.Map<List<CategoryItemsViewModel>>(userCategoryItems);
+            var userCategoryItemsView = _mapper.Map<List<CategoryGroupsViewModel>>(userCategoryItems);
 
             _iLogger.LogInformation("Categories for user found");
-            return Ok(model);
+            return Ok(userCategoryItemsView);
+        }
+
+
+
+        [HttpPost, Route("categorygroup")]
+        [Authorize]
+        public async Task<ActionResult> PostCategoryGroup([FromBody] CategoryGroupPostedModel postedItem)
+        {
+            _iLogger.LogInformation("Called Categories.PostCategoryGroup");
+
+            var userId = this.User.GetUserId();
+
+            if (userId == null)
+            {
+                _iLogger.LogWarning("Claim identity could not be found");
+                return BadRequest("Bad request");
+            }
+
+            CategoryGroupsModel categoryGroupsModel = new CategoryGroupsModel()
+            {
+                Name = postedItem.Name,
+                Order = Convert.ToInt64(postedItem.Order),
+                CategoryModelId = Convert.ToInt64(postedItem.CategoryId)
+            };
+
+
+
+            if (categoryGroupsModel == null)
+            {
+                _iLogger.LogWarning("Unable to create CategoryItemsModel from {0]", postedItem);
+                return BadRequest("Unable to parse data");
+            }
+
+
+            var postResponse = await _categoriesRepository.PostCategoryGroup(categoryGroupsModel, (long)userId, Convert.ToInt64(postedItem.CategoryId));
+
+            if (postResponse == null)
+            {
+                _iLogger.LogWarning("Error when posting");
+                return BadRequest("Unable to add item");
+            }
+
+            _iLogger.LogInformation("Post successful");
+
+            return Ok(postResponse);
+
         }
 
 
         [HttpPost, Route("categoryitem")]
         [Authorize]
-        public async Task<ActionResult> PostCategoryItem([FromBody] CategoryItemsViewModel categoryItemsViewModel)
+        public async Task<ActionResult> PostCategoryItem([FromBody] CategoryItemPostedModel postedItem)
         {
             _iLogger.LogInformation("Called Categories.PostCategory");
 
@@ -135,16 +183,16 @@ namespace Rannc.Controllers
             
 
 
-            var userCategoryItem = _mapper.Map<CategoryItemsModel>(categoryItemsViewModel);
+            var userCategoryItem = _mapper.Map<CategoryItemsModel>(postedItem);
  
             if (userCategoryItem == null)
             {
-                _iLogger.LogWarning("Unable to create CategoryItemsModel from {0]", categoryItemsViewModel);
+                _iLogger.LogWarning("Unable to create CategoryItemsModel from {0]", postedItem);
                 return BadRequest("Unable to parse data");
             }
 
 
-            var postResponse = await _categoriesRepository.PostCategoryItem(userCategoryItem, (long)userId);
+            var postResponse = await _categoriesRepository.PostCategoryItem(userCategoryItem, (long)userId, Convert.ToInt64(postedItem.CategoryModelId));
 
             if (postResponse == null)
             {
@@ -160,7 +208,7 @@ namespace Rannc.Controllers
 
         [HttpDelete, Route("categoryitem")]
         [Authorize]
-        public async Task<ActionResult> DeleteCategoryItem([FromHeader] string id, [FromHeader] string type)
+        public async Task<ActionResult> DeleteCategoryItem([FromHeader] string id)
         {
             _iLogger.LogInformation("Categories.DeleteCategoryItem called");
 
@@ -172,20 +220,12 @@ namespace Rannc.Controllers
                 return BadRequest("Bad request");
             }
 
-            if (string.IsNullOrEmpty(type) ||
-                string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(id))
             {
-                _iLogger.LogWarning("Invalid Type specified on JSON - {0} or {1}", id, type);
+                _iLogger.LogWarning("Invalid Type specified on JSON - {0}", id);
                 return BadRequest("Incomplete request");
             }
-
-            if (!type.Equals("CategoryItem") )
-            {
-                _iLogger.LogWarning("Invalid Type specified on JSON - {0}", type); 
-                return BadRequest("Invalid request");
-            }
-
-
+            
 
             if (!await _categoriesRepository.DeleteCategoryItemAsync(Convert.ToInt64(id), (long)userId))
             {

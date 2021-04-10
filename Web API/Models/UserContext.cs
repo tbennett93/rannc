@@ -16,6 +16,7 @@ namespace Rannc.Models
 
         public DbSet<LoginModel> LoginModel { get; set; }
         public DbSet<CategoryModel> Categories { get; set; }
+        public DbSet<CategoryGroupsModel> CategoryGroups { get; set; }
         public DbSet<CategoryItemsModel> CategoryItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,7 +32,7 @@ namespace Rannc.Models
             modelBuilder.Entity<CategoryModel>().Property(p => p.LoginModelId).IsRequired();
 
             modelBuilder.Entity<CategoryItemsModel>().Property(p => p.Order).IsRequired();
-            modelBuilder.Entity<CategoryItemsModel>().Property(p => p.CategoryModelId).IsRequired();
+            modelBuilder.Entity<CategoryItemsModel>().Property(p => p.CategoryGroupsId).IsRequired();
 
 
 

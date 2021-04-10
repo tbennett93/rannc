@@ -7,6 +7,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { CategoryItem } from 'src/app/models/category-item';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { CategoryItemsGroups } from 'src/app/models/category-items-groups';
+import { CategoryGroups, Item } from 'src/app/models/category-groups';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class CategoryItemsComponent implements OnInit {
 
   // categoryItems: CategoryItemsModel[];
   categoryItemsGroups: CategoryItemsGroups[];
+  categoryGroups: CategoryGroups[];
   // categoryGroups: CategoryGroup[];
   // testArray = [
   //   {type:"test genre 1", values:[{name:"superbad"}, {name:"40YOV"}]},
@@ -41,64 +43,19 @@ export class CategoryItemsComponent implements OnInit {
     this.categoryId = this.route.snapshot.params['id'];
     if (this.tokenService.isAccessTokenValid){
       this.data.getCategoryItems(this.categoryId).subscribe({
-        next: (data: CategoryItem[]) => {
+        next: (data: CategoryGroups[]) => {
           console.log(data);
+          this.categoryGroups = data;
+          console.log('category groups:');
+          console.log(this.categoryGroups);
 
-          // this.categoryGroups = this.getCategoryGroups(data);
-
-          // console.log('Category groups');
-          // console.log(this.categoryGroups);
-          
-          data.sort((a,b) => a.group > b.group ? 1 : a.group < b.group ? -1 : 0 ||  a.order > b.order ? 1 : a.order < b.order ? -1 : 0);
-          // this.categoryItemsGroups = this.groupBy(data, 'group'); 
-          this.categoryItemsGroups = this.groupByArray(data, 'group'); 
-          // console.log(this.groupBy(data, 'group'));
-          // console.log(this.categoryItemsGroups);
-          // this.categoryItemsGroups.forEach(element => {
-          //   this.categoryItemsGroupTypes.push(element.group)
-          // });
         },
         error: () => console.log("error fetching category items")
       });
     }
-    // o.orange; // => [{"type":"orange","title":"First"},{"type":"orange","title":"Second"}]
-    // o.banana; // => [{"type":"banana","title":"Third"},{"type":"banana","title":"Fourth"}]
-    // console.log(this.arr)
-    // console.log(o)
-    // console.log(o.orange)
 
-    // let o = this.groupBy(this.categoryItems, 'group'); // => {orange:[...], banana:[...]}
-    // o.orange; // => [{"type":"orange","title":"First"},{"type":"orange","title":"Second"}]
-    // o.banana; // => [{"type":"banana","title":"Third"},{"type":"banana","title":"Fourth"}]
-    // console.log(this.arr)
-    // console.log(o)
-    // console.log(o.orange)
-    // console.log(o.orange)    
   }
-  // getCategoryGroups(data: CategoryItem[]): CategoryGroup[] {
-  //   var categoryGroups: CategoryGroup[] = new Array<CategoryGroup>();
-  //   // console.log(data);
-  //   data.forEach(element => {
-  //     let currElement: CategoryGroup = new CategoryGroup();
-  //     currElement.name = element.group;
-  //     currElement.categoryModelId = element.categoryModelId;
-  //     if (!categoryGroups.some(item => item.name === currElement.name && item.categoryModelId === currElement.categoryModelId)) {
-  //       categoryGroups.push(currElement);
-
-  //     }
-  //   });
-  //   // console.log('getCategoryGroups:');
-  //   // console.log(categoryGroups);
-  //   return categoryGroups;
-  // };
-
-  //groups an array by 'property' and creates a new object for each group
-  //reduce takes a callback with two properties
-    //memo=accumulator (the accumulates callback return values)
-    //x = current value of the array
-  //this checks whether an array of type property has been created
-    //if not, it creates one
-    //if so, it pushes the current value to it
+ 
 
   groupByArray(xs, key) {
     return xs.reduce(function (rv, x) {
@@ -119,35 +76,25 @@ export class CategoryItemsComponent implements OnInit {
 
 
 
-  // todo = [
-  //   'Get to work',
-  //   'Pick up groceries',
-  //   'Go home',
-  //   'Fall asleep'
-  // ];
-
-  // done = [
-  //   'Get up',
-  //   'Brush teeth',
-  //   'Take a shower',
-  //   'Check e-mail',
-  //   'Walk dog'
-  // ];
-
   onClick(event, item){
-    console.log('clicked ' + item);
+    // console.log('clicked ' + item);
   }
 
 
   saveState(){
   }
 
-  deleteItem(categoryIndex, itemIndex){
-    let categoryItem =  this.categoryItemsGroups[categoryIndex]['values'][itemIndex];
-    
-    this.data.deleteCategoryItem(categoryItem.id).subscribe({
+  deleteItem(groupIndex, itemIndex, itemId){
+    console.log('delete item called:');
+    console.log('groupId' + groupIndex);
+    console.log('itemId' + itemId);
+    console.log(this.categoryGroups[groupIndex]['items']['id']);
+
+    this.data.deleteCategoryItem(itemId).subscribe({
       next: data => {
-        this.categoryItemsGroups[categoryIndex]['values'].splice(itemIndex,1)
+        console.log(this.categoryGroups[groupIndex]['items']);
+        this.categoryGroups[groupIndex]['items'].splice(itemIndex,1)
+
         console.log('delete Item. Deleted:');
         // console.log(this.categoryItemsGroups[categoryIndex]['values'][itemIndex]);      
       },
@@ -157,39 +104,51 @@ export class CategoryItemsComponent implements OnInit {
     
   }
 
+  deleteGroup(index){
+    console.log('Deleted group index:');
+    console.log(index);
+
+    let categoryGroup =  this.categoryItemsGroups[index];
+    console.log('Deleted group:');
+    console.log(categoryGroup);
+
+  }
+
   onCategoryClick(event, key, list){
-    console.log('event');
-    console.log(event);
-    console.log('key');
-    console.log(key);
-    console.log('list');
-    console.log(list);
+   
   }
   mouseEnterItem(item){
     console.log(item)  ;
   }
 
   addNewGroup(input){
-    console.log(input);
-    console.log(this.categoryItemsGroups);
-    let categoryItemsGroup = new CategoryItemsGroups;
-    categoryItemsGroup.key = input.value;
-    let categoryItemsModel = new Array<CategoryItemsModel>();
-    categoryItemsGroup.values = categoryItemsModel;
-    // categoryItemsGroup.values[name] = null;
-    // categoryItemsGroup.values[order] = null;
-    // categoryItemsGroup.values[comment] = null;
-    // categoryItemsGroup.values[categoryModelId] = null;
-
     if(!input.value){
       return;
     }
-    this.categoryItemsGroups.push(categoryItemsGroup);
+    
+    console.log(input);
+    console.log(this.categoryItemsGroups);
+    let categoryGroup = new CategoryGroups;
+    categoryGroup.name = input.value;
+    categoryGroup.categoryId = this.categoryGroups[0].categoryId;
+    categoryGroup.order = (this.categoryGroups.length + 1).toString();
+    let categoryItemsModel = new Array<Item>();
+    categoryGroup.items = categoryItemsModel;
+    
+    this.data.postCategoryGroup(categoryGroup).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        categoryGroup.id = data.id;
+        this.categoryGroups.push(categoryGroup)}
+        ,
+      error: err=> console.log(err)
+    });
+    
     input.value= '';
 
   }
 
-  addNew(inputBox, groupName, categoryIndex){
+  addNew(inputBox, groupId, categoryIndex){
     if(!inputBox.value){
       
       return null;
@@ -197,42 +156,33 @@ export class CategoryItemsComponent implements OnInit {
     if (this.tokenService.isAccessTokenValid){
       let categoryItem = new CategoryItemsModel;
       categoryItem.name = inputBox.value;
-      categoryItem.group = groupName;
+      categoryItem.groupId = groupId.toString();
       // categoryItem.order = list['values'].length + 1;
-      if(!this.categoryItemsGroups[categoryIndex]['values']){
+      if(!this.categoryGroups[categoryIndex]['items']){
         categoryItem.order = '1';
       }
       else{
-        categoryItem.order = (this.categoryItemsGroups[categoryIndex]['values'].length + 1).toString();
+        categoryItem.order = (this.categoryGroups[categoryIndex]['items'].length + 1).toString();
       }
       categoryItem.comment = "comment not implenmented";
       categoryItem.categoryModelId = this.categoryId;
       inputBox.value = '';
-      // console.log('list');
-      // console.log(list);
-      // console.log('list length');
-      // console.log(list['values'].length);
-      // console.log('array #- ');
-      // console.log(categoryIndex);
-      // console.log(this.categoryItemsGroups[categoryIndex]['values']);
-      // console.log(categoryItem);
-      // this.categoryItemsGroups[categoryIndex]['values'].push(categoryItem);
+     
       
       //MAke post request and update UI after successful post
+      console.log('categoryItem to post:');
+      console.log(categoryItem);
       this.data.postCategoryItems(categoryItem).subscribe(
         
         (data: any) =>  {
-          // console.log('pushing data:');
-          // console.log(data); 
-          // console.log('to:');
-          // console.log(this.categoryItemsGroups[categoryIndex]['values']);
-          this.categoryItemsGroups[categoryIndex]['values'].push(data);
+         
+          this.categoryGroups[categoryIndex]['items'].push(data);
 
         },
         // (data: any) => console.log(data),
         (error: any) => console.log(error)
       );
-      console.log(this.categoryItemsGroups[categoryIndex]['values']);
+      console.log(this.categoryGroups[categoryIndex]['items']);
     }
   }
 
@@ -248,7 +198,3 @@ export class CategoryItemsComponent implements OnInit {
   }
 
 }
-// export class CategoryGroup {
-//   name: string;
-//   categoryModelId: number;
-// };

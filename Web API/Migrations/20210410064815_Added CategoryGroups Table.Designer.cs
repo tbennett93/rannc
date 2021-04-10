@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rannc.Models;
 
 namespace Rannc.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20210410064815_Added CategoryGroups Table")]
+    partial class AddedCategoryGroupsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,10 +52,13 @@ namespace Rannc.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("CategoryGroupsId")
+                    b.Property<long>("CategoryModelId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Group")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -65,7 +70,7 @@ namespace Rannc.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryGroupsId");
+                    b.HasIndex("CategoryModelId");
 
                     b.ToTable("CategoryItems");
                 });
@@ -140,13 +145,13 @@ namespace Rannc.Migrations
 
             modelBuilder.Entity("Rannc.Models.CategoryItemsModel", b =>
                 {
-                    b.HasOne("Rannc.Models.CategoryGroupsModel", "CategoryGroupsModel")
-                        .WithMany("CategoryItemsModels")
-                        .HasForeignKey("CategoryGroupsId")
+                    b.HasOne("Rannc.Models.CategoryModel", "CategoryModel")
+                        .WithMany()
+                        .HasForeignKey("CategoryModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CategoryGroupsModel");
+                    b.Navigation("CategoryModel");
                 });
 
             modelBuilder.Entity("Rannc.Models.CategoryModel", b =>
@@ -158,11 +163,6 @@ namespace Rannc.Migrations
                         .IsRequired();
 
                     b.Navigation("LoginModel");
-                });
-
-            modelBuilder.Entity("Rannc.Models.CategoryGroupsModel", b =>
-                {
-                    b.Navigation("CategoryItemsModels");
                 });
 #pragma warning restore 612, 618
         }

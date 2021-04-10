@@ -17,18 +17,16 @@ namespace Rannc.Models
         [Required]
         public string Name { get; set; }
 
-        public string Group { get; set; }
-
         public int Order { get; set; }
 
         public string Comment { get; set; }
 
-        [ForeignKey("CategoryModel")]
+        [ForeignKey("CategoryGroupsModel")]
         [JsonIgnore]
-        public long CategoryModelId{ get; set; }
+        public long CategoryGroupsId{ get; set; }
 
         //Link to CategoriesModel - many category items per category
         [JsonIgnore]
-        public CategoryModel CategoryModel { get; set; }
+        public CategoryGroupsModel CategoryGroupsModel { get; set; }
     }
 }

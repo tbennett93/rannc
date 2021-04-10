@@ -102,6 +102,17 @@
   visibility: visible;
 }
 
+
+.title-container{
+  display:flex;
+  justify-content: space-between;
+}
+.title-container:hover > .close-icon {
+  visibility: visible;
+}
+
+
+
 .new-group-container{
   border:red;
   height:auto;

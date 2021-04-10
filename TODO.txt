@@ -1,19 +1,32 @@
-Drag and drop
-	add new item
-
-	Create a new user and test that each user can only accses their own data
-		User sign up - x
-		user category creation
-			new
-				post back end - x
-				post front end				
-					post ocategory items when categories is empty
-						button to add new group
+			!!!Splitting out category model into groups and each group has its items
+				each group to have an 'order'
+				client to display objects in that order
+				new objects get ordered last
+					moved objects handled later 
+				add new group in client adds a new group to db
+				add new item adds item to group
+					the API should reference each necessary table (apart from delete where only id required?)
+				categoryitemsgroups might be able to get reworked as the data will now be in the right format
+			
 			delete
+				DELETE ITEM TO USE ID?
 				delete group 
+					by name?
+						reject duplicate names
+					by index?
+						index needs to be stored in db and updated with each new group and moving of groups
+							see considerations below in 'allow moveable groups'
+					Are you sure?
 				delete category
+					Are you sure?
 				delete back end
 				delete front end
+		
+		Allow moveable groups
+			need to consider adding group order to the back end, otherwise the order won't be structured each time its received
+				will this need to be a case of separating groups into a sub table with items a  subset of groups?
+					This change could probably be isolated to the back end. As long as the APIs are returning the same data?
+						There may need to be slight tweaks to the client as item arrays may be nested inside groups
 			
 		Use angular material form from home screen to tidy up login
 		

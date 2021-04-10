@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Rannc.Models;
@@ -33,7 +35,6 @@ namespace Rannc.Services
             return userCategories;
         }
 
-
         public async Task<CategoryModel> PostCategory(CategoryModel categoryModel, long userId)
         {
 
@@ -50,28 +51,57 @@ namespace Rannc.Services
             return categoryModel;
         }
 
-        public async Task<List<CategoryItemsModel>> GetCategoryItems(int categoryId, long userId)
+        public async Task<List<CategoryGroupsModel>> GetCategoryItems(int categoryId, long userId)
         {
             _iLogger.LogInformation("CategoriesRepo.Get called");
 
 
-            List<CategoryItemsModel> userCategoryItems = await _userContext.CategoryItems
+            //List<CategoryGroupsModel> userCategoryItems = await _userContext.CategoryItems
+            //    .Include(u=>u.CategoryGroupsModel)
+            //    .Where(u => u.CategoryGroupsModel.CategoryModelId == categoryId)
+            //    .Include(u => u.CategoryGroupsModel.CategoryModel)
+            //    .ThenInclude(u => u.LoginModel)
+            //    .Where(u => u.CategoryGroupsModel.CategoryModel.LoginModelId == userId)
+            //    .Select(u=>new CategoryGroupsModel()
+            //    {
+            //        Name = u.CategoryGroupsModel.Name,
+            //        Id = u.CategoryGroupsModel.Id,
+            //        Order = u.CategoryGroupsModel.Order,
+            //        CategoryItemsModels = u.CategoryGroupsModel.CategoryItemsModels
+            //    })
+            //    //.Select(u => new CategoryItemsModel()
+            //    //{
+            //    //    Id = u.Id,
+            //    //    Name = u.Name,
+            //    //    Order = u.Order,
+            //    //    Comment = u.Comment,
+            //    //    CategoryGroupsModel = u.CategoryGroupsModel
+            //    //})
+            //    .ToListAsync();
+
+            List<CategoryGroupsModel> userCategoryItems = await _userContext.CategoryGroups
+                .Include(u => u.CategoryItemsModels)
                 .Where(u => u.CategoryModelId == categoryId)
                 .Include(u => u.CategoryModel)
                 .ThenInclude(u => u.LoginModel)
                 .Where(u => u.CategoryModel.LoginModelId == userId)
-                .Select(u => new CategoryItemsModel()
+                .Select(u => new CategoryGroupsModel()
                 {
-                    Id = u.Id,
                     Name = u.Name,
-                    Group = u.Group,
+                    Id = u.Id,
                     Order = u.Order,
-                    Comment = u.Comment,
-                    CategoryModelId = u.CategoryModelId,
-                    CategoryModel = u.CategoryModel
+                    CategoryModelId = categoryId,
+                    CategoryItemsModels = u.CategoryItemsModels
                 })
+                //.Select(u => new CategoryItemsModel()
+                //{
+                //    Id = u.Id,
+                //    Name = u.Name,
+                //    Order = u.Order,
+                //    Comment = u.Comment,
+                //    CategoryGroupsModel = u.CategoryGroupsModel
+                //})
                 .ToListAsync();
-
             if (userCategoryItems != null) return userCategoryItems;
 
             _iLogger.LogWarning("Unable to retrieve user category items for category ID {id}", categoryId);
@@ -79,11 +109,11 @@ namespace Rannc.Services
 
         }
 
-        public async Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryItemsModel, long userId)
+        public async Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryItemsModel, long userId, long categoryModelId)
         {
 
             var userHasCategory = await _userContext.Categories.AnyAsync(u =>
-                u.Id == categoryItemsModel.CategoryModelId && u.LoginModelId == userId);
+                u.Id == categoryModelId && u.LoginModelId == userId);
 
             if (!userHasCategory)
                 return null;
@@ -94,6 +124,23 @@ namespace Rannc.Services
                 return null;
             
             return categoryItemsModel;
+        }
+
+        public async Task<CategoryGroupsModel> PostCategoryGroup(CategoryGroupsModel categoryGroupsModel, long userId, long categoryModelId)
+        {
+
+            var userHasCategory = await _userContext.Categories.AnyAsync(u =>
+                u.Id == categoryModelId && u.LoginModelId == userId);
+
+            if (!userHasCategory)
+                return null;
+
+            await _userContext.CategoryGroups.AddAsync(categoryGroupsModel);
+
+            if (await _userContext.SaveChangesAsync() == 0)
+                return null;
+
+            return categoryGroupsModel;
         }
 
         public async Task<bool> UserExists(long userId)
@@ -108,9 +155,9 @@ namespace Rannc.Services
         {
 
             var userHasCategory = await _userContext.CategoryItems
-                .Include(u=>u.CategoryModel)
+                .Include(u=>u.CategoryGroupsModel.CategoryModel)
                 .AnyAsync(u =>
-                u.Id == id && u.CategoryModel.LoginModelId == userId);
+                u.Id == id && u.CategoryGroupsModel.CategoryModel.LoginModelId == userId);
 
             if (!userHasCategory)
                 return false;

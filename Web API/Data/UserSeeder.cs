@@ -37,9 +37,11 @@ namespace Rannc.Data
                 _userContext.Add(user);
                 _userContext.SaveChanges();
             }
+
             var usercategory = _userContext.Categories
                 .Include(u=>u.LoginModel)
                 .FirstOrDefault(u=>u.LoginModelId == user.Id);
+
             if (usercategory == null)
             {
                 usercategory = new CategoryModel()
@@ -52,94 +54,58 @@ namespace Rannc.Data
 
                 var filmsId = usercategory.Id;
                 
-                usercategory = new CategoryModel()
-                {
-                    Name = "albums",
-                    LoginModelId = user.Id
-                };
-                _userContext.Add(usercategory);
-                _userContext.SaveChanges();
 
-                var albumsId = usercategory.Id;
-
-
-
-                var usercategoryitems = _userContext.CategoryItems
+                var userCategoryGroups = _userContext.CategoryGroups
                     .Include(u => u.CategoryModel)
                     .FirstOrDefault(u => u.CategoryModelId == filmsId);
+
+                long userCategoryGroupsId;
+
+                if (userCategoryGroups == null)
+                {
+                    userCategoryGroups = new CategoryGroupsModel()
+                    {
+                        CategoryModel = usercategory,
+                        CategoryModelId = usercategory.Id,
+                        Name = "Horror",
+                        Order = 1
+                    };
+                    
+                    _userContext.Add(userCategoryGroups);
+                    _userContext.SaveChanges();
+                }
+
+                userCategoryGroupsId = userCategoryGroups.Id;
+
+                var usercategoryitems = _userContext.CategoryItems
+                    .Include(u => u.CategoryGroupsModel)
+                    .ThenInclude(u=>u.CategoryModel)
+                    .FirstOrDefault(u => u.CategoryGroupsModel.CategoryModel.Id == filmsId);
 
                 if (usercategoryitems == null)
                 {
                     usercategoryitems = new CategoryItemsModel()
                     {
-                        Name = "Gone Girl",
-                        Group = "Thriller",
+                        Name = "IT",
                         Order = 1,
-                        Comment = "Top film",
-                        CategoryModelId = filmsId
+                        Comment = "Jump scares!",
+                        CategoryGroupsId = userCategoryGroupsId,
+                        CategoryGroupsModel = userCategoryGroups
                     };
                     _userContext.Add(usercategoryitems);
                     //userContext.SaveChanges();
 
                     usercategoryitems = new CategoryItemsModel()
                     {
-                        Name = "The departed",
-                        Group = "Thriller",
+                        Name = "Hereditary",
                         Order = 2,
-                        Comment = "Favorite Director",
-                        CategoryModelId = filmsId
-                    };
-                    _userContext.Add(usercategoryitems);
-                    //userContext.SaveChanges();
-
-                    usercategoryitems = new CategoryItemsModel()
-                    {
-                        Name = "Dunkirk",
-                        Group = "Thriller",
-                        Order = 3,
-                        Comment = "Emosh",
-                        CategoryModelId = filmsId
-                    };
-                    _userContext.Add(usercategoryitems);
-                    //userContext.SaveChanges();
-
-                    usercategoryitems = new CategoryItemsModel()
-                    {
-                        Name = "Superbad",
-                        Group = "Comedy",
-                        Order = 1,
-                        Comment = "All time fave",
-                        CategoryModelId = filmsId
-                    };
-                    _userContext.Add(usercategoryitems);
-
-                    usercategoryitems = new CategoryItemsModel()
-                    {
-                        Name = "40 year old virgin",
-                        Group = "Comedy",
-                        Order = 2,
-                        Comment = "Classic",
-                        CategoryModelId = filmsId
+                        Comment = "Psychological",
+                        CategoryGroupsId = userCategoryGroupsId
                     };
                     _userContext.Add(usercategoryitems);
                     _userContext.SaveChanges();
 
-                    usercategoryitems = new CategoryItemsModel()
-                    {
-                        Name = "To Pimp a butterfly",
-                        Order = 1,
-                        CategoryModelId = albumsId
-                    };
-                    _userContext.Add(usercategoryitems);
-
-                    usercategoryitems = new CategoryItemsModel()
-                    {
-                        Name = "Good kid maad city",
-                        Order = 2,
-                        CategoryModelId = albumsId
-                    };
-                    _userContext.Add(usercategoryitems);
-                    _userContext.SaveChanges();
+                
                 }
             }
            
