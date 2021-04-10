@@ -1,14 +1,8 @@
-export interface Value {
-    id: string;
-    name: string;
-    group: string;
-    order: string;
-    comment: string;
-    categoryModelId: string;
-}
+import { CategoryItemsModel } from "./category-items.model";
+
 
 export interface ICategoryItemsGroups {
     key: string;
-    values: Value[];
+    values: CategoryItemsModel[];
 }
 

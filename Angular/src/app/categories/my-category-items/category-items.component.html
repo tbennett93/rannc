@@ -57,7 +57,7 @@
 
 <div class="container"> 
   <div cdkDropListGroup>
-    <div class="example-container" *ngFor="let list of categoryItemsGroups; let i = index">
+    <div class="example-container" *ngFor="let list of categoryItemsGroups; let i = index" (click)="onCategoryClick($event, list.key, list)">
         <h1>{{list.key}}</h1>
         <div 
           cdkDropList 
@@ -96,8 +96,8 @@
 <div class="new-group-container">
   <h1 >Add New Group</h1>
   <div class="new-group-input-container">
-    <input  class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput.value)">
-    <button class="input-button  mat-button" (click)="addNewGroup(newGroupInput.value)">Add</button>
+    <input  class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput)">
+    <button class="input-button  mat-button" (click)="addNewGroup(newGroupInput)">Add</button>
   </div>
   
 </div>

@@ -156,19 +156,36 @@ export class CategoryItemsComponent implements OnInit {
 
     
   }
+
+  onCategoryClick(event, key, list){
+    console.log('event');
+    console.log(event);
+    console.log('key');
+    console.log(key);
+    console.log('list');
+    console.log(list);
+  }
   mouseEnterItem(item){
     console.log(item)  ;
   }
 
-  addNewGroup(value){
-    console.log(value);
+  addNewGroup(input){
+    console.log(input);
     console.log(this.categoryItemsGroups);
     let categoryItemsGroup = new CategoryItemsGroups;
-    categoryItemsGroup.key = value;
-    if(!value){
+    categoryItemsGroup.key = input.value;
+    let categoryItemsModel = new Array<CategoryItemsModel>();
+    categoryItemsGroup.values = categoryItemsModel;
+    // categoryItemsGroup.values[name] = null;
+    // categoryItemsGroup.values[order] = null;
+    // categoryItemsGroup.values[comment] = null;
+    // categoryItemsGroup.values[categoryModelId] = null;
+
+    if(!input.value){
       return;
     }
     this.categoryItemsGroups.push(categoryItemsGroup);
+    input.value= '';
 
   }
 
@@ -182,7 +199,12 @@ export class CategoryItemsComponent implements OnInit {
       categoryItem.name = inputBox.value;
       categoryItem.group = groupName;
       // categoryItem.order = list['values'].length + 1;
-      categoryItem.order = (this.categoryItemsGroups[categoryIndex]['values'].length + 1).toString();
+      if(!this.categoryItemsGroups[categoryIndex]['values']){
+        categoryItem.order = '1';
+      }
+      else{
+        categoryItem.order = (this.categoryItemsGroups[categoryIndex]['values'].length + 1).toString();
+      }
       categoryItem.comment = "comment not implenmented";
       categoryItem.categoryModelId = this.categoryId;
       inputBox.value = '';
