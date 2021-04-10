@@ -44,6 +44,7 @@ export class CategoryItemsComponent implements OnInit {
     if (this.tokenService.isAccessTokenValid){
       this.data.getCategoryItems(this.categoryId).subscribe({
         next: (data: CategoryGroups[]) => {
+          data.sort(((a,b):any => parseInt(a.order) - parseInt(b.order)));
           console.log(data);
           this.categoryGroups = data;
           console.log('category groups:');

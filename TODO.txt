@@ -1,15 +1,4 @@
-			!!!Splitting out category model into groups and each group has its items
-				each group to have an 'order'
-				client to display objects in that order
-				new objects get ordered last
-					moved objects handled later 
-				add new group in client adds a new group to db
-				add new item adds item to group
-					the API should reference each necessary table (apart from delete where only id required?)
-				categoryitemsgroups might be able to get reworked as the data will now be in the right format
-			
 			delete
-				DELETE ITEM TO USE ID?
 				delete group 
 					by name?
 						reject duplicate names
@@ -23,6 +12,8 @@
 				delete front end
 		
 		Allow moveable groups
+			DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
+			DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
 			need to consider adding group order to the back end, otherwise the order won't be structured each time its received
 				will this need to be a case of separating groups into a sub table with items a  subset of groups?
 					This change could probably be isolated to the back end. As long as the APIs are returning the same data?
@@ -125,5 +116,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "New Group logic now pushes data to backend"
+git commit -m "Reworked db model so items are a child of groups. Adding a new group now adds to the groups table"
 git push
