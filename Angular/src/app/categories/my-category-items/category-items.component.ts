@@ -4,9 +4,6 @@ import { CategoryItemsModel } from 'src/app/models/category-items.model';
 import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/services/token.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { CategoryItem } from 'src/app/models/category-item';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-import { CategoryItemsGroups } from 'src/app/models/category-items-groups';
 import { CategoryGroups, Item } from 'src/app/models/category-groups';
 
 
@@ -19,17 +16,17 @@ import { CategoryGroups, Item } from 'src/app/models/category-groups';
 export class CategoryItemsComponent implements OnInit {
 
   categoryGroups: CategoryGroups[];
- 
+
   constructor(private data: DataService, private route: ActivatedRoute, private tokenService: TokenService) { }
 
   categoryId;
   ngOnInit(): void {
     // console.log(this.testArray);
     this.categoryId = this.route.snapshot.params['id'];
-    if (this.tokenService.isAccessTokenValid){
+    if (this.tokenService.isAccessTokenValid) {
       this.data.getCategoryItems(this.categoryId).subscribe({
         next: (data: CategoryGroups[]) => {
-          data.sort(((a,b):any => parseInt(a.order) - parseInt(b.order)));
+          data.sort(((a, b): any => parseInt(a.order) - parseInt(b.order)));
           // console.log(data);
           this.categoryGroups = data;
           // console.log('category groups:');
@@ -39,129 +36,98 @@ export class CategoryItemsComponent implements OnInit {
         error: () => console.log("error fetching category items")
       });
     }
-
-  }
- 
-
-  groupByArray(xs, key) {
-    return xs.reduce(function (rv, x) {
-      let v = key instanceof Function ? key(x) : x[key];
-      let el = rv.find((r) => r && r.key === v);
-      if (el) { el.values.push(x); }
-      else { rv.push({ key: v, values: [x] }); } return rv;
-    }, []);
   }
 
-  groupBy(arr, property) {
-    return arr.reduce(function(memo, x) {
-      if (!memo[x[property]]) { memo[x[property]] = []; }
-      memo[x[property]].push(x);
-      return memo;
-    }, {});
-  }
-
-  onClick(event, item){
+  onClick(event, item) {
     // console.log('clicked ' + item);
   }
 
-  deleteItem(groupIndex, itemIndex, itemId){
-    // console.log('delete item called:');
-    // console.log('groupId' + groupIndex);
-    // console.log('itemId' + itemId);
-    // console.log(this.categoryGroups[groupIndex]['items']['id']);
-
-    this.data.deleteCategoryItem(itemId).subscribe({
-      next: data => {
-        // console.log(this.categoryGroups[groupIndex]['items']);
-        this.categoryGroups[groupIndex]['items'].splice(itemIndex,1)
-
-        // console.log('delete Item. Deleted:');
-        // console.log(this.categoryItemsGroups[categoryIndex]['values'][itemIndex]);      
-      },
-      error: err => console.log(err)
-    });
-
+  deleteItem(groupIndex, itemIndex, itemId) {
+    if (this.tokenService.isAccessTokenValid) {
+      this.data.deleteCategoryItem(itemId).subscribe({
+        next: data => {
+          this.categoryGroups[groupIndex]['items'].splice(itemIndex, 1)
+        },
+        error: err => console.log(err)
+      });
+    }
   }
 
-  deleteGroup(groupId, groupIndex){
-    
-    console.log('groupId');
-    console.log(groupId);
+  deleteGroup(groupId, groupIndex) {
+    let categoryGroup = this.categoryGroups[groupIndex];
+    if (this.tokenService.isAccessTokenValid) {
 
-    console.log('Deleted group index:');
-    console.log(groupIndex);
-
-
-    let categoryGroup =  this.categoryGroups[groupIndex];
-    console.log(categoryGroup);
-    // this.data.deleteCategoryGroup()
-    this.data.deleteCategoryGroup(categoryGroup).subscribe({
-      next: resp => this.categoryGroups.splice(groupIndex,1),
-      error: err => console.log(err)
-    })
-    // let categoryGroup =  this.categoryGroups.splice(groupIndex,1);
-    console.log('Deleted group:');
-    console.log(categoryGroup);
+      if (confirm("Are you sure you want to delete this group and all contents?")) {
+        this.data.deleteCategoryGroup(categoryGroup).subscribe({
+          next: resp => this.categoryGroups.splice(groupIndex, 1),
+          error: err => console.log(err)
+        })
+      }
+    }
   }
 
-  onCategoryClick(event, key, list){
+  onCategoryClick(event, key, list) {
   }
 
-  
-
-  addNewGroup(input){
-    if(!input.value){
+  addNewGroup(input) {
+    if (!input.value) {
       return;
     }
-    
-    let categoryGroup = new CategoryGroups;
-    categoryGroup.name = input.value;
-    categoryGroup.categoryId = this.categoryGroups[0].categoryId;
-    categoryGroup.order = (this.categoryGroups.length + 1).toString();
-    let categoryItemsModel = new Array<Item>();
-    categoryGroup.items = categoryItemsModel;
-    
-    this.data.postCategoryGroup(categoryGroup).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        categoryGroup.id = data.id;
-        this.categoryGroups.push(categoryGroup)}
-        ,
-      error: err=> console.log(err)
-    });
-    
-    input.value= '';
 
+    if (this.tokenService.isAccessTokenValid) {
+
+      let categoryGroup = new CategoryGroups;
+      categoryGroup.name = input.value;
+      categoryGroup.categoryId = this.categoryGroups[0].categoryId;
+      categoryGroup.order = (this.categoryGroups.length + 1).toString();
+      let categoryItemsModel = new Array<Item>();
+      categoryGroup.items = categoryItemsModel;
+
+      this.data.postCategoryGroup(categoryGroup).subscribe({
+        next: (data: any) => {
+          console.log(data);
+          categoryGroup.id = data.id;
+          this.categoryGroups.push(categoryGroup)
+        }
+        ,
+        error: err => console.log(err)
+      });
+
+      input.value = '';
+
+    }
   }
 
-  addNew(inputBox, groupId, categoryIndex){
-    if(!inputBox.value){
-      
+  addNew(inputBox, groupId, categoryIndex) {
+    if (!inputBox.value) {
+
       return null;
     }
-    if (this.tokenService.isAccessTokenValid){
+
+
+    if (this.tokenService.isAccessTokenValid) {
       let categoryItem = new CategoryItemsModel;
       categoryItem.name = inputBox.value;
       categoryItem.groupId = groupId.toString();
       // categoryItem.order = list['values'].length + 1;
-      if(!this.categoryGroups[categoryIndex]['items']){
+      if (!this.categoryGroups[categoryIndex]['items']) {
         categoryItem.order = '1';
       }
-      else{
+      else {
         categoryItem.order = (this.categoryGroups[categoryIndex]['items'].length + 1).toString();
       }
       categoryItem.comment = "comment not implenmented";
       categoryItem.categoryModelId = this.categoryId;
       inputBox.value = '';
-     
-      
+
+
       //MAke post request and update UI after successful post
       console.log('categoryItem to post:');
       console.log(categoryItem);
       this.data.postCategoryItems(categoryItem).subscribe(
-        
-        (data: any) =>  {
-         
+
+        (data: any) => {
+
           this.categoryGroups[categoryIndex]['items'].push(data);
 
         },
@@ -177,9 +143,9 @@ export class CategoryItemsComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
     }
   }
 

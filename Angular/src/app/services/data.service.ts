@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CategoryItem } from '../models/category-item';
 import { ResIdObj } from '../models/res-id-obj.model';
 import { CategoryModel } from '../models/category.model';
 import { CategoryGroups } from '../models/category-groups';
+import { CategoryItem } from '../models/category-item';
 
 @Injectable({
   providedIn: 'root'

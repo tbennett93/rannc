@@ -1,16 +1,13 @@
-			delete
-				delete group 
-					by name?
-						reject duplicate names
-					by index?
-						index needs to be stored in db and updated with each new group and moving of groups
-							see considerations below in 'allow moveable groups'
-					Are you sure?
-				delete category
-					Are you sure?
-				delete back end
-				delete front end
-		
+		delete
+			delete group 
+				Are you sure?
+			delete category
+				implement
+				Are you sure?
+			
+		update
+			update category item
+	
 		Allow moveable groups
 			DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
 			DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
@@ -116,5 +113,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Reworked db model so items are a child of groups. Adding a new group now adds to the groups table"
+git commit -m "Category groups can be deleted"
 git push

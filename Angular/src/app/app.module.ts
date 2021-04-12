@@ -15,9 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -28,9 +26,7 @@ import { SocialComponent } from './social/social.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { JwtModule } from '@auth0/angular-jwt';
-import { AuthGuard } from './auth.guard';
 import { CategoryItemsModule } from 'src/app/categories/my-category-items/category-items.module';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
 export function tokenGetter() {
