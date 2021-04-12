@@ -18,23 +18,8 @@ import { CategoryGroups, Item } from 'src/app/models/category-groups';
 
 export class CategoryItemsComponent implements OnInit {
 
-  // arr = [
-  //   {type:"orange", title:"First"},
-  //   {type:"orange", title:"Second"},
-  //   {type:"banana", title:"Third"},
-  //   {type:"banana", title:"Fourth"}
-  // ];
-
-  // categoryItems: CategoryItemsModel[];
-  categoryItemsGroups: CategoryItemsGroups[];
   categoryGroups: CategoryGroups[];
-  // categoryGroups: CategoryGroup[];
-  // testArray = [
-  //   {type:"test genre 1", values:[{name:"superbad"}, {name:"40YOV"}]},
-  //   {type:"test genre 2", values:[{name:"heredetary"}, {name:"babadook"}]}
-  //   ];
-
-
+ 
   constructor(private data: DataService, private route: ActivatedRoute, private tokenService: TokenService) { }
 
   categoryId;
@@ -45,10 +30,10 @@ export class CategoryItemsComponent implements OnInit {
       this.data.getCategoryItems(this.categoryId).subscribe({
         next: (data: CategoryGroups[]) => {
           data.sort(((a,b):any => parseInt(a.order) - parseInt(b.order)));
-          console.log(data);
+          // console.log(data);
           this.categoryGroups = data;
-          console.log('category groups:');
-          console.log(this.categoryGroups);
+          // console.log('category groups:');
+          // console.log(this.categoryGroups);
 
         },
         error: () => console.log("error fetching category items")
@@ -75,60 +60,60 @@ export class CategoryItemsComponent implements OnInit {
     }, {});
   }
 
-
-
   onClick(event, item){
     // console.log('clicked ' + item);
   }
 
-
-  saveState(){
-  }
-
   deleteItem(groupIndex, itemIndex, itemId){
-    console.log('delete item called:');
-    console.log('groupId' + groupIndex);
-    console.log('itemId' + itemId);
-    console.log(this.categoryGroups[groupIndex]['items']['id']);
+    // console.log('delete item called:');
+    // console.log('groupId' + groupIndex);
+    // console.log('itemId' + itemId);
+    // console.log(this.categoryGroups[groupIndex]['items']['id']);
 
     this.data.deleteCategoryItem(itemId).subscribe({
       next: data => {
-        console.log(this.categoryGroups[groupIndex]['items']);
+        // console.log(this.categoryGroups[groupIndex]['items']);
         this.categoryGroups[groupIndex]['items'].splice(itemIndex,1)
 
-        console.log('delete Item. Deleted:');
+        // console.log('delete Item. Deleted:');
         // console.log(this.categoryItemsGroups[categoryIndex]['values'][itemIndex]);      
       },
       error: err => console.log(err)
     });
 
-    
   }
 
-  deleteGroup(index){
-    console.log('Deleted group index:');
-    console.log(index);
+  deleteGroup(groupId, groupIndex){
+    
+    console.log('groupId');
+    console.log(groupId);
 
-    let categoryGroup =  this.categoryItemsGroups[index];
+    console.log('Deleted group index:');
+    console.log(groupIndex);
+
+
+    let categoryGroup =  this.categoryGroups[groupIndex];
+    console.log(categoryGroup);
+    // this.data.deleteCategoryGroup()
+    this.data.deleteCategoryGroup(categoryGroup).subscribe({
+      next: resp => this.categoryGroups.splice(groupIndex,1),
+      error: err => console.log(err)
+    })
+    // let categoryGroup =  this.categoryGroups.splice(groupIndex,1);
     console.log('Deleted group:');
     console.log(categoryGroup);
-
   }
 
   onCategoryClick(event, key, list){
-   
   }
-  mouseEnterItem(item){
-    console.log(item)  ;
-  }
+
+  
 
   addNewGroup(input){
     if(!input.value){
       return;
     }
     
-    console.log(input);
-    console.log(this.categoryItemsGroups);
     let categoryGroup = new CategoryGroups;
     categoryGroup.name = input.value;
     categoryGroup.categoryId = this.categoryGroups[0].categoryId;

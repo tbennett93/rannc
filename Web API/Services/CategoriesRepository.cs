@@ -56,29 +56,6 @@ namespace Rannc.Services
             _iLogger.LogInformation("CategoriesRepo.Get called");
 
 
-            //List<CategoryGroupsModel> userCategoryItems = await _userContext.CategoryItems
-            //    .Include(u=>u.CategoryGroupsModel)
-            //    .Where(u => u.CategoryGroupsModel.CategoryModelId == categoryId)
-            //    .Include(u => u.CategoryGroupsModel.CategoryModel)
-            //    .ThenInclude(u => u.LoginModel)
-            //    .Where(u => u.CategoryGroupsModel.CategoryModel.LoginModelId == userId)
-            //    .Select(u=>new CategoryGroupsModel()
-            //    {
-            //        Name = u.CategoryGroupsModel.Name,
-            //        Id = u.CategoryGroupsModel.Id,
-            //        Order = u.CategoryGroupsModel.Order,
-            //        CategoryItemsModels = u.CategoryGroupsModel.CategoryItemsModels
-            //    })
-            //    //.Select(u => new CategoryItemsModel()
-            //    //{
-            //    //    Id = u.Id,
-            //    //    Name = u.Name,
-            //    //    Order = u.Order,
-            //    //    Comment = u.Comment,
-            //    //    CategoryGroupsModel = u.CategoryGroupsModel
-            //    //})
-            //    .ToListAsync();
-
             List<CategoryGroupsModel> userCategoryItems = await _userContext.CategoryGroups
                 .Include(u => u.CategoryItemsModels)
                 .Where(u => u.CategoryModelId == categoryId)
@@ -92,15 +69,8 @@ namespace Rannc.Services
                     Order = u.Order,
                     CategoryModelId = categoryId,
                     CategoryItemsModels = u.CategoryItemsModels
+
                 })
-                //.Select(u => new CategoryItemsModel()
-                //{
-                //    Id = u.Id,
-                //    Name = u.Name,
-                //    Order = u.Order,
-                //    Comment = u.Comment,
-                //    CategoryGroupsModel = u.CategoryGroupsModel
-                //})
                 .ToListAsync();
             if (userCategoryItems != null) return userCategoryItems;
 
@@ -141,6 +111,24 @@ namespace Rannc.Services
                 return null;
 
             return categoryGroupsModel;
+        }
+
+        public async Task<bool> DeleteCategoryGroupAsync(long categoryGroupId, long userId, long categoryModelId)
+        {
+
+            var categoryGroup = await _userContext.CategoryGroups
+                .Include(u => u.CategoryModel)
+                .FirstOrDefaultAsync(u => u.Id == categoryGroupId
+                                          && u.CategoryModel.Id == categoryModelId
+                                          && u.CategoryModel.LoginModelId == userId);
+
+            if (categoryGroup == null)
+                return false;
+
+            _userContext.CategoryGroups.Remove(categoryGroup);
+            return await _userContext.SaveChangesAsync() > 0;
+
+
         }
 
         public async Task<bool> UserExists(long userId)

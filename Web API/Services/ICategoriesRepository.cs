@@ -14,6 +14,7 @@ namespace Rannc.Services
 
         Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryModel, long userId, long categoryModelId);
         Task<CategoryGroupsModel> PostCategoryGroup(CategoryGroupsModel categoryModel, long userId, long categoryModelId);
+        Task<bool> DeleteCategoryGroupAsync(long categoryGroupId, long userId, long categoryModelId);
 
         Task<bool> DeleteCategoryItemAsync(long id, long userId);
     }

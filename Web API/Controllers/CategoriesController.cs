@@ -165,6 +165,45 @@ namespace Rannc.Controllers
 
         }
 
+        [HttpDelete, Route("categorygroup")]
+        [Authorize]
+        public async Task<ActionResult> DeleteCategoryGroup([FromHeader] string categoryGroupId, [FromHeader] string categoryModelId)
+        {
+            _iLogger.LogInformation("Categories.DeleteCategoryGroup called");
+
+            var userId = this.User.GetUserId();
+
+            if (userId == null)
+            {
+                _iLogger.LogWarning("Claim identity could not be found");
+                return BadRequest("Bad request");
+            }
+
+            if (string.IsNullOrEmpty(categoryGroupId))
+            {
+                _iLogger.LogWarning("Invalid Group Id specified on JSON - {0}", categoryGroupId);
+                return BadRequest("Incomplete request");
+            }            
+
+            if (string.IsNullOrEmpty(categoryModelId))
+            {
+                _iLogger.LogWarning("Invalid Category Id specified on JSON - {0}", categoryModelId);
+                return BadRequest("Incomplete request");
+            }
+
+
+            if (!await _categoriesRepository.DeleteCategoryGroupAsync(Convert.ToInt64(categoryGroupId), (long)userId, Convert.ToInt64(categoryModelId)))
+            {
+                _iLogger.LogWarning("Unable to delete item with group id {0} and category id {1}", categoryGroupId, categoryModelId);
+                return BadRequest("Unable to delete item");
+            }
+
+            _iLogger.LogInformation("Item successfully deleted with group id {0} and category id {1}", categoryGroupId, categoryModelId);
+
+            return Ok();
+        }
+
+
 
         [HttpPost, Route("categoryitem")]
         [Authorize]
@@ -222,7 +261,7 @@ namespace Rannc.Controllers
 
             if (string.IsNullOrEmpty(id))
             {
-                _iLogger.LogWarning("Invalid Type specified on JSON - {0}", id);
+                _iLogger.LogWarning("Invalid id specified on JSON - {0}", id);
                 return BadRequest("Incomplete request");
             }
             
@@ -233,7 +272,7 @@ namespace Rannc.Controllers
                 return BadRequest("Unable to delete item");
             }
 
-            _iLogger.LogWarning("Item successfully deleted. Id: {0} ", id);
+            _iLogger.LogInformation("Item successfully deleted. Id: {0} ", id);
             return Ok();
         }
 
