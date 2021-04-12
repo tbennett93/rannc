@@ -6,9 +6,7 @@
     <a [routerLink]="['/my-ranking', item.id]">
       <span class="badge">{{ item.name }}</span>
     </a>
-    array pos: {{i}}. 
-    id:  {{item.id}}. 
-    name:  {{item.name}}. 
+    <button class="input-button " (click)="deleteCategory(item.id, i)">Delete</button>
   </li>
 </ul>
 

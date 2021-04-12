@@ -8,15 +8,15 @@ import { TokenService } from 'src/app/services/token.service';
   selector: 'categories',
   styleUrls: ['./category.component.css']
 })
-export class CategoryComponent implements OnInit{
+export class CategoryComponent implements OnInit {
 
   title = 'Rannc';
   category: CategoryModel[];
 
-  constructor(private data : DataService, private tokenService : TokenService) { };
+  constructor(private data: DataService, private tokenService: TokenService) { };
 
   ngOnInit(): void {
-    if (this.isUserAuthenticated && this.tokenService.isAccessTokenValid()){
+    if (this.isUserAuthenticated && this.tokenService.isAccessTokenValid()) {
       this.data.getCategories().subscribe({
         next: (data: CategoryModel[]) => {
           this.category = data;
@@ -28,24 +28,45 @@ export class CategoryComponent implements OnInit{
 
   isUserAuthenticated() {
     const token: string = localStorage.getItem("jwt");
-    if (token) {return true;}
-    else {return false;}
+    if (token) { return true; }
+    else { return false; }
   }
 
 
-  addNew(inputField){
+  addNew(inputField) {
     // console.log(inputField.value);
     let categoryModel = new CategoryModel;
     let name = inputField.value;
-    if (!name ){
+
+    if (!name) {
       return null;
     }
-    categoryModel.name = name;
-    this.data.postCategory(categoryModel).subscribe({
-      next: (resp: CategoryModel) => {this.category.push(resp)},
-      error: err => console.log(err)
-    });
+
+    if (this.tokenService.isAccessTokenValid()) {
+      categoryModel.name = name;
+      this.data.postCategory(categoryModel).subscribe({
+        next: (resp: CategoryModel) => { 
+          this.category.push(resp);
+          inputField.value='';
+        
+        },
+        error: err => console.log(err)
+      });
+    }
+
   }
+
+  deleteCategory(id: string, index) {
+    if (this.tokenService.isAccessTokenValid()) {
+
+      console.log('deleting - ' + id);
+      this.data.deleteCategory(id).subscribe({
+        next: resp => this.category.splice(index, 1),
+        error: err => console.log(err)
+      })
+    }
+  }
+
 
 
 

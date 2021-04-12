@@ -276,5 +276,36 @@ namespace Rannc.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        [Authorize]
+        public async Task<ActionResult> DeleteCategory([FromHeader] string categoryId)
+        {
+            _iLogger.LogInformation("Categories.DeleteCategory called");
+
+            var userId = this.User.GetUserId();
+
+            if (userId == null)
+            {
+                _iLogger.LogWarning("Claim identity could not be found");
+                return BadRequest("Bad request");
+            }
+
+            if (string.IsNullOrEmpty(categoryId))
+            {
+                _iLogger.LogWarning("Invalid id specified on JSON - {0}", categoryId);
+                return BadRequest("Incomplete request");
+            }
+
+
+            if (!await _categoriesRepository.DeleteCategoryAsync(Convert.ToInt64(categoryId), (long)userId))
+            {
+                _iLogger.LogWarning("Unable to delete item with id {0} ", categoryId);
+                return BadRequest("Unable to delete item");
+            }
+
+            _iLogger.LogInformation("Item successfully deleted. Id: {0} ", categoryId);
+            return Ok();
+        }
+
     }
 }

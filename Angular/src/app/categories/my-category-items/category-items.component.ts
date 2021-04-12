@@ -78,7 +78,7 @@ export class CategoryItemsComponent implements OnInit {
 
       let categoryGroup = new CategoryGroups;
       categoryGroup.name = input.value;
-      categoryGroup.categoryId = this.categoryGroups[0].categoryId;
+      categoryGroup.categoryId = this.route.snapshot.params['id'];
       categoryGroup.order = (this.categoryGroups.length + 1).toString();
       let categoryItemsModel = new Array<Item>();
       categoryGroup.items = categoryItemsModel;
@@ -92,18 +92,14 @@ export class CategoryItemsComponent implements OnInit {
         ,
         error: err => console.log(err)
       });
-
       input.value = '';
-
     }
   }
 
   addNew(inputBox, groupId, categoryIndex) {
     if (!inputBox.value) {
-
       return null;
     }
-
 
     if (this.tokenService.isAccessTokenValid) {
       let categoryItem = new CategoryItemsModel;

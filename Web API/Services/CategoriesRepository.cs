@@ -161,5 +161,18 @@ namespace Rannc.Services
 
             return await _userContext.SaveChangesAsync() != 0;
         }
+
+        public async Task<bool> DeleteCategoryAsync(long id, long userId)
+        {
+            var categoryGroup = await _userContext.Categories
+                .FirstOrDefaultAsync(u => u.Id == id
+                                          && u.LoginModelId == userId);
+
+            if (categoryGroup == null)
+                return false;
+
+            _userContext.Categories.Remove(categoryGroup);
+            return await _userContext.SaveChangesAsync() > 0;
+        }
     }
 }

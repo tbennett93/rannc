@@ -30,9 +30,21 @@ export class DataService {
         "Content-Type": "application/json"
       })
     };
-    return this.http.post('https://localhost:44359/api/categories/category', jsonObject, headers);
+    return this.http.post('https://localhost:44359/api/categories/', jsonObject, headers);
   };
 
+  deleteCategory(id: string) {
+
+    console.log('attempting to delete category:');
+    console.log(id);
+    let headers = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "categoryId":id
+      })
+    };
+    return this.http.delete('https://localhost:44359/api/categories/', headers);
+  };
 
   getCategoryItems(categoryId) {
     const header = new HttpHeaders().set('categoryId', categoryId);
