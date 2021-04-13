@@ -42,28 +42,33 @@ export class CategoryComponent implements OnInit {
       return null;
     }
 
+
     if (this.tokenService.isAccessTokenValid()) {
       categoryModel.name = name;
       this.data.postCategory(categoryModel).subscribe({
-        next: (resp: CategoryModel) => { 
+        next: (resp: CategoryModel) => {
           this.category.push(resp);
-          inputField.value='';
-        
+          inputField.value = '';
+
         },
         error: err => console.log(err)
       });
     }
 
+
   }
 
   deleteCategory(id: string, index) {
-    if (this.tokenService.isAccessTokenValid()) {
+    if (confirm("Are you sure you want to delete this category and all contents?")) {
 
-      console.log('deleting - ' + id);
-      this.data.deleteCategory(id).subscribe({
-        next: resp => this.category.splice(index, 1),
-        error: err => console.log(err)
-      })
+      if (this.tokenService.isAccessTokenValid()) {
+
+        console.log('deleting - ' + id);
+        this.data.deleteCategory(id).subscribe({
+          next: resp => this.category.splice(index, 1),
+          error: err => console.log(err)
+        })
+      }
     }
   }
 

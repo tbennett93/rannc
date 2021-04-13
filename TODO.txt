@@ -1,10 +1,4 @@
-		delete
-			delete group 
-				Are you sure?
-			delete category
-				implement
-				Are you sure?
-			
+		
 		update
 			update category item
 	
@@ -113,5 +107,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Category groups can be deleted"
+git commit -m "Can delete categories via front end."
 git push

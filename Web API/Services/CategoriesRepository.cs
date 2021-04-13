@@ -134,8 +134,8 @@ namespace Rannc.Services
         public async Task<bool> UserExists(long userId)
         {
 
-            return await _userContext.Categories
-                .Where(u => u.LoginModelId == userId)
+            return await _userContext.LoginModel
+                .Where(u => u.Id == userId)
                 .AnyAsync();
         }
 

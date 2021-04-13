@@ -93,7 +93,7 @@
         </div>
         <div class="input-container">
           <input class="input-box" (keyup.enter)="addNew(addNewInput, list.id, i)" #addNewInput placeholder="New Item">
-          <button class="input-button mat-button" (click)="addNew(addNewInput, list.id, i)">Add</button>
+          <button class="input-button "mat-raised-button color="accent" (click)="addNew(addNewInput, list.id, i)">Add</button>
         </div>
         
     </div>
@@ -108,7 +108,7 @@
   <h1 >Add New Group</h1>
   <div class="new-group-input-container">
     <input  class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput)">
-    <button class="input-button  mat-button" (click)="addNewGroup(newGroupInput)">Add</button>
+    <button class="input-button " mat-raised-button color="accent" (click)="addNewGroup(newGroupInput)">Add</button>
   </div>
   
 </div>

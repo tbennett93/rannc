@@ -6,11 +6,13 @@
     <a [routerLink]="['/my-ranking', item.id]">
       <span class="badge">{{ item.name }}</span>
     </a>
-    <button class="input-button " (click)="deleteCategory(item.id, i)">Delete</button>
+    <button class="input-button " mat-raised-button color="warn" (click)="deleteCategory(item.id, i)">Delete</button>
   </li>
 </ul>
 
 <div class="input-container">
     <input class="input-box" (keyup.enter)="addNew(addNewInput)" #addNewInput placeholder="New Category">
-    <button class="input-button mat-button" (click)="addNew(addNewInput)">Add</button>
+    <button class="input-button" mat-raised-button color="accent" (click)="addNew(addNewInput)">Add</button>
 </div>
+
+
