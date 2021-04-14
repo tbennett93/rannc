@@ -1,54 +1,53 @@
-		
-		update
-			update category item
+Allow moveable groups
+	restrict movement to x plane
+	stretch screen so cards don't wrap
+	moving updates order db
+	DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
+	DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
+	need to consider adding group order to the back end, otherwise the order won't be structured each time its received
+		will this need to be a case of separating groups into a sub table with items a  subset of groups?
+			This change could probably be isolated to the back end. As long as the APIs are returning the same data?
+				There may need to be slight tweaks to the client as item arrays may be nested inside groups
 	
-		Allow moveable groups
-			DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
-			DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
-			need to consider adding group order to the back end, otherwise the order won't be structured each time its received
-				will this need to be a case of separating groups into a sub table with items a  subset of groups?
-					This change could probably be isolated to the back end. As long as the APIs are returning the same data?
-						There may need to be slight tweaks to the client as item arrays may be nested inside groups
+Use angular material form from home screen to tidy up login
+	
+add try catch around data service in angular
+
+reordering
+
+
+	Reorder categories
+	updates db realtime
+	considerations
+		if moving item then deleting it quickly. before server catches up, another FE update might have gone through.
+		Solution:
+			every time an action is performed on a list. SEnd the whole list back to the db?
+			if an action is performed between arrays, update both arrays in db
+			or
+				keep it the same and on error or timeout, show error and refresh the data with db data so client knows what the db holds and is fresh data set
 			
-		Use angular material form from home screen to tidy up login
-		
-	add try catch around data service in angular
-	
-	reordering
-	
-	
-		Reorder categories
-		updates db realtime
-		considerations
-			if moving item then deleting it quickly. before server catches up, another FE update might have gone through.
-			Solution:
-				every time an action is performed on a list. SEnd the whole list back to the db?
-				if an action is performed between arrays, update both arrays in db
-				or
-					keep it the same and on error or timeout, show error and refresh the data with db data so client knows what the db holds and is fresh data set
-				
-			adding new
-				adds order as current order +1
-			moving
-				updates db with new position
-			deleting
-				cascades order of all other items
-				
-	
-	handle ordering of items properly
-		new items last in list based off list length.
-			moving items in list updates their order (gets final order on 'save')
-			this needs to be kept up to date in the view and in the view model as data can be updated on server at any point
-			model and server validation on ordering
-	
-	
-	Build Categories PAge a bit nicer
-	
-	Really think about server side validation on client requests as the access token can be used to make custom post requests. HOw can this be prevented? 
-		What if the user changes the categories URL ID?
-		Can additional claims be added?
-		validation on order of items - must follow on. max must be length 
-	save button to send array back to server
+		adding new
+			adds order as current order +1
+		moving
+			updates db with new position
+		deleting
+			cascades order of all other items
+			
+
+handle ordering of items properly
+	new items last in list based off list length.
+		moving items in list updates their order (gets final order on 'save')
+		this needs to be kept up to date in the view and in the view model as data can be updated on server at any point
+		model and server validation on ordering
+
+
+Build Categories PAge a bit nicer
+
+Really think about server side validation on client requests as the access token can be used to make custom post requests. HOw can this be prevented? 
+	What if the user changes the categories URL ID?
+	Can additional claims be added?
+	validation on order of items - must follow on. max must be length 
+save button to send array back to server
 
 testing
 	Create useful tests against everything
@@ -107,5 +106,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Can delete categories via front end."
+git commit -m "Confirmation box on category delete. Fixed bug adding new category for first time"
 git push

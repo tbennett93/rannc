@@ -15,6 +15,9 @@
   box-shadow: 2px 2px 3px #888888;
   margin:10px 20px;
   padding: 30px 20px;
+  background: white;
+  z-index: -1;
+  
 
 }
 
@@ -124,12 +127,26 @@
   text-align: center;
   margin: 0 auto;
   border-radius: 5px;
-  box-shadow: 2px 2px 3px #888888;
+  box-shadow: 4px 4px 6px #888888;
+  z-index: 1;
+  position: relative;
+  background: white;
 }
 
 .new-group-input-container{
   display: flex;
   height:auto;
 
+
 }
 
+.example-handle {
+  cursor: move;
+  width: 24px;
+  height: 24px;
+  color: #4e4e4ec7;
+}
+
+.inline-container{
+  display:inline-block
+}

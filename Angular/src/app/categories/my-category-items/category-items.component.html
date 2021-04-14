@@ -1,86 +1,26 @@
-<!-- <p>my-ranking-id works!</p>
-
-<h2>Category Items</h2>
-<ul>
-  <li *ngFor="let item of categoryItems;">
-      <span class="badge">{{ item.name }}</span>
-      <span class="badge">{{ item.group }}</span>
-      <span class="badge">{{ item.order }}</span>
-      <span class="badge">{{ item.comment }}</span>
-  </li>
-</ul> -->
-
-<!-- 
-
-<div class="example-container" cdkDropListGroup>
-  <h2>Thriller</h2>
-  <div
-    cdkDropList
-    #todoList="cdkDropList"
-    [cdkDropListData]="todo"
-    [cdkDropListConnectedTo]="[doneList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of categoryItemsGroups['Thriller']" cdkDrag>
-      {{item.name}}
-    </div>
-  </div>
-</div> -->
-
-<!-- <h1>Test</h1>
-
-<div  *ngFor="let list of testArray" >
-  <span>{{list.type}}</span>
-  
-  <div  *ngFor="let item of list.values">
-    <span>{{item.name}}</span>
-  </div>  
-</div> -->
-
-
-<!-- <div class="example-container" cdkDropListGroup>
-  <h1>my lists</h1>
-  <div 
-    cdkDropList 
-    class="example-list" 
-    [cdkDropListData]="list" 
-    (cdkDropListDropped)="drop($event)"
-    *ngFor="let list of categoryItemsGroups">
-    <h2>{{list.key}}</h2>
-    <div  class="example-box" *ngFor="let item of list.values" cdkDrag >
-      {{item.name}} 
-    </div>
-  </div>
-</div> -->
-
 <h1>My data</h1>
 
-<div class="container"> 
-  <div cdkDropListGroup>
-    <div class="example-container" *ngFor="let list of categoryGroups; let i = index">
-        
-      <div class="title-container">
-        <h1>{{list.name}}</h1>
-
-        <div class="close-icon inline-close-button">
-          <button (click)="deleteGroup(list.id, i)">
-            <span class="material-icons ">close</span>
-          </button>
-        </div>
-
-      </div>
-        
-        <div 
-          cdkDropList 
-          [cdkDropListData]="list.items" 
-          class="example-list" 
-          (cdkDropListDropped)="drop($event)">
-          <div 
-            class="example-box" 
-            *ngFor="let item of list.items; let j = index" 
-            cdkDrag 
-            (click)="onClick($event, item.name)">
+<div class="inline-container">
+  <div cdkDropList>
   
+    <div cdkDropList [cdkDropListData]="categoryGroups" (cdkDropListDropped)="dropGroup($event)"
+      cdkDropListOrientation="horizontal" #dropListHolder >
+      <div cdkDropListGroup class="example-container" cdkDragLockAxis="x" *ngFor="let list of categoryGroups;  let i = index " cdkDrag
+        [cdkDragData]="list">
+        <div class="title-container">
+  
+          <h2>{{list.name}}</h2>
+  
+          <div class="close-icon inline-close-button">
+            <button (click)="deleteGroup(list.id, i)">
+              <span class="material-icons ">close</span>
+            </button>
+          </div>
+        </div>
+        <!-- <h2>{{group.title}}</h2> -->
+        <div cdkDropList class="example-list" id={{list.id}} [cdkDropListData]="list.items"
+          (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="getConnectedList()">
+          <div class="example-box" *ngFor="let item of list.items" cdkDrag [cdkDragData]="item">
             <div>
               {{item.name}}
             </div>
@@ -90,27 +30,35 @@
               </button>
             </div>
           </div>
+  
+  
+  
+  
         </div>
         <div class="input-container">
           <input class="input-box" (keyup.enter)="addNew(addNewInput, list.id, i)" #addNewInput placeholder="New Item">
-          <button class="input-button "mat-raised-button color="accent" (click)="addNew(addNewInput, list.id, i)">Add</button>
+          <button class="input-button " mat-raised-button color="accent"
+            (click)="addNew(addNewInput, list.id, i)">Add</button>
         </div>
-        
-    </div>
-
-  </div>
-
-
-</div>
-
-
-<div class="new-group-container">
-  <h1 >Add New Group</h1>
-  <div class="new-group-input-container">
-    <input  class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput)">
-    <button class="input-button " mat-raised-button color="accent" (click)="addNewGroup(newGroupInput)">Add</button>
-  </div>
   
+        <div class="example-handle" cdkDragHandle>
+          <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+            </path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  
+    <div class="new-group-container">
+      <h1>Add New Group</h1>
+      <div class="new-group-input-container">
+        <input class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput)">
+        <button class="input-button " mat-raised-button color="accent" (click)="addNewGroup(newGroupInput)">Add</button>
+      </div>
+    </div>
+  </div>
+
 </div>
-
-

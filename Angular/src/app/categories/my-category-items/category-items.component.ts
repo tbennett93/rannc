@@ -3,7 +3,7 @@ import { DataService } from 'src/app/services/data.service';
 import { CategoryItemsModel } from 'src/app/models/category-items.model';
 import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/services/token.service';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { CategoryGroups, Item } from 'src/app/models/category-groups';
 
 
@@ -17,6 +17,26 @@ export class CategoryItemsComponent implements OnInit {
 
   categoryGroups: CategoryGroups[];
 
+  todo = [
+    [
+      'Get up',
+      'Brush teeth',
+      'Take a shower',
+      'Check e-mail',
+      'Walk dog'
+    ],
+    [
+      'do a',
+      'do b',
+      'do c'
+    ],
+    'Fall asleep'
+  ];
+
+  isArray(item:any):boolean{
+    return Array.isArray(item);
+  }
+
   constructor(private data: DataService, private route: ActivatedRoute, private tokenService: TokenService) { }
 
   categoryId;
@@ -29,8 +49,8 @@ export class CategoryItemsComponent implements OnInit {
           data.sort(((a, b): any => parseInt(a.order) - parseInt(b.order)));
           // console.log(data);
           this.categoryGroups = data;
-          // console.log('category groups:');
-          // console.log(this.categoryGroups);
+          console.log('category groups:');
+          console.log(this.categoryGroups);
 
         },
         error: () => console.log("error fetching category items")
@@ -66,8 +86,6 @@ export class CategoryItemsComponent implements OnInit {
     }
   }
 
-  onCategoryClick(event, key, list) {
-  }
 
   addNewGroup(input) {
     if (!input.value) {
@@ -135,6 +153,7 @@ export class CategoryItemsComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
+    console.log(event);
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -145,4 +164,100 @@ export class CategoryItemsComponent implements OnInit {
     }
   }
 
+  dropList(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+                        event.container.data,
+                        event.previousIndex,
+                        event.currentIndex);
+    }
+  }
+
+
+  
+  groups = [{
+    id: 1,
+    title: 'Group 1',
+    items: [{
+      name: 'Item 1 - Group 1'
+    },
+    {
+      name: 'Item 2 - Group 1'
+    },
+    {
+      name: 'Item 3 - Group 1'
+    },
+    {
+      name: 'Item 4 - Group 1'
+    }]
+  },
+  {
+    id: 2,
+    title: 'Group 2',
+    items: [{
+      name: 'Item 1 - Group 2'
+    },
+    {
+      name: 'Item 2 - Group 2'
+    },
+    {
+      name: 'Item 3 - Group 2'
+    },
+    {
+      name: 'Item 4 - Group 2'
+    }]
+  },
+  {
+    id: 3,
+    title: 'Group 3',
+    items: [{
+      name: 'Item 1 - Group 3'
+    },
+    {
+      name: 'Item 2 - Group 3'
+    },
+    {
+      name: 'Item 3 - Group 3'
+    },
+    {
+      name: 'Item 4 - Group 3'
+    }]
+  }];
+
+  // getConnectedList(): any[] {
+  //   return this.categoryGroups.map(x => `${x.id}`);
+  // }
+
+  // dropGroup(event: CdkDragDrop<string[]>) {
+  //   moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
+  // }
+
+  
+  dropItem(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
+  }
+
+  
+  //Each array list is assigned an id of that group's id via the HTML
+  //[cdkDropListConnectedTo] allows you to specify which other lists belong to the same list group
+  //setting that attribute to return the list of IDs in the overall group allows movement of items between groups
+  getConnectedList(): any[] {
+    let val = this.categoryGroups.map(x => x.id);
+    return val;
+  }
+
+  //this is taken from the dropItem() function above and allows the movement of groups
+  dropGroup(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.categoryGroups, event.previousIndex, event.currentIndex);
+  }
 }
+
