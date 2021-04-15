@@ -6,5 +6,11 @@
 flex: 1 1 auto;
 }
 .toolbar{
-  margin-bottom: 20px;
+  position: fixed;
+  width: 100%;
+}
+
+.toolbar-spacer{
+  margin-bottom: 40px;
+
 }

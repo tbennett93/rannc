@@ -1,6 +1,9 @@
-Allow moveable groups
-	restrict movement to x plane
-	stretch screen so cards don't wrap
+Allow moveable groups	
+	stretch screen so cards don't wrap - x
+	responsive page
+		navbar 
+		home
+	clicking a card beings its z axis up and drops the others back
 	moving updates order db
 	DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
 	DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
@@ -106,5 +109,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Confirmation box on category delete. Fixed bug adding new category for first time"
+git commit -m "Fixed bug preventing new groups being deleted"
 git push

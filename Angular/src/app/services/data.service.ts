@@ -20,11 +20,11 @@ export class DataService {
 
   postCategory(categoryModel: CategoryModel) {
 
-    console.log('attempting to post category:');
-    console.log(categoryModel);
+    // console.log('attempting to post category:');
+    // console.log(categoryModel);
     let jsonObject = JSON.stringify(categoryModel);
-    console.log('converted:');
-    console.log(jsonObject);
+    // console.log('converted:');
+    // console.log(jsonObject);
     let headers = {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
@@ -35,8 +35,8 @@ export class DataService {
 
   deleteCategory(id: string) {
 
-    console.log('attempting to delete category:');
-    console.log(id);
+    // console.log('attempting to delete category:');
+    // console.log(id);
     let headers = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",

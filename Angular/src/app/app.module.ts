@@ -29,6 +29,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { CategoryItemsModule } from 'src/app/categories/my-category-items/category-items.module';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 export function tokenGetter() {
   return localStorage.getItem("jwt"); 
 };
@@ -72,7 +74,6 @@ export function tokenGetter() {
       {path: 'sign-up', component: SignUpComponent},
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: '**', component: PageNotFoundComponent}
-
     ]),
     JwtModule.forRoot({
       config: {
@@ -81,7 +82,8 @@ export function tokenGetter() {
         blacklistedRoutes: []
       }
     }),
-    FormsModule
+    FormsModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,16 +1,16 @@
 <h1>My data</h1>
 
-<div class="inline-container">
+<div class="list-container">
   <div cdkDropList>
-  
+
     <div cdkDropList [cdkDropListData]="categoryGroups" (cdkDropListDropped)="dropGroup($event)"
-      cdkDropListOrientation="horizontal" #dropListHolder >
-      <div cdkDropListGroup class="example-container" cdkDragLockAxis="x" *ngFor="let list of categoryGroups;  let i = index " cdkDrag
-        [cdkDragData]="list">
+      cdkDropListOrientation="horizontal" #dropListHolder>
+      <div cdkDropListGroup class="example-container" cdkDragLockAxis="x"
+        *ngFor="let list of categoryGroups;  let i = index " cdkDrag [cdkDragData]="list">
         <div class="title-container">
-  
+
           <h2>{{list.name}}</h2>
-  
+
           <div class="close-icon inline-close-button">
             <button (click)="deleteGroup(list.id, i)">
               <span class="material-icons ">close</span>
@@ -30,17 +30,17 @@
               </button>
             </div>
           </div>
-  
-  
-  
-  
+
+
+
+
         </div>
         <div class="input-container">
           <input class="input-box" (keyup.enter)="addNew(addNewInput, list.id, i)" #addNewInput placeholder="New Item">
           <button class="input-button " mat-raised-button color="accent"
             (click)="addNew(addNewInput, list.id, i)">Add</button>
         </div>
-  
+
         <div class="example-handle" cdkDragHandle>
           <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
             <path
@@ -51,14 +51,19 @@
         </div>
       </div>
     </div>
-  
-    <div class="new-group-container">
-      <h1>Add New Group</h1>
-      <div class="new-group-input-container">
-        <input class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput)">
-        <button class="input-button " mat-raised-button color="accent" (click)="addNewGroup(newGroupInput)">Add</button>
-      </div>
-    </div>
+
+
+
   </div>
 
+
 </div>
+
+<div class="new-group-container">
+  <h1>Add New Group</h1>
+  <div class="new-group-input-container" fxLayoutAlign="center">
+    <input class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput)">
+    <button class="input-button " mat-raised-button color="accent" (click)="addNewGroup(newGroupInput)">Add</button>
+  </div>
+</div>
+
