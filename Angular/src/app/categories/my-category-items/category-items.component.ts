@@ -17,25 +17,7 @@ export class CategoryItemsComponent implements OnInit {
 
   categoryGroups: CategoryGroups[];
 
-  todo = [
-    [
-      'Get up',
-      'Brush teeth',
-      'Take a shower',
-      'Check e-mail',
-      'Walk dog'
-    ],
-    [
-      'do a',
-      'do b',
-      'do c'
-    ],
-    'Fall asleep'
-  ];
 
-  isArray(item:any):boolean{
-    return Array.isArray(item);
-  }
 
   constructor(private data: DataService, private route: ActivatedRoute, private tokenService: TokenService) { }
 
@@ -76,7 +58,8 @@ export class CategoryItemsComponent implements OnInit {
   deleteGroup(groupId, groupIndex) {
     let categoryGroup = this.categoryGroups[groupIndex];
     if (this.tokenService.isAccessTokenValid) {
-
+      console.log('DEleting:');
+      console.log(categoryGroup);
       if (confirm("Are you sure you want to delete this group and all contents?")) {
         this.data.deleteCategoryGroup(categoryGroup).subscribe({
           next: resp => this.categoryGroups.splice(groupIndex, 1),
@@ -176,75 +159,6 @@ export class CategoryItemsComponent implements OnInit {
   }
 
 
-  
-  groups = [{
-    id: 1,
-    title: 'Group 1',
-    items: [{
-      name: 'Item 1 - Group 1'
-    },
-    {
-      name: 'Item 2 - Group 1'
-    },
-    {
-      name: 'Item 3 - Group 1'
-    },
-    {
-      name: 'Item 4 - Group 1'
-    }]
-  },
-  {
-    id: 2,
-    title: 'Group 2',
-    items: [{
-      name: 'Item 1 - Group 2'
-    },
-    {
-      name: 'Item 2 - Group 2'
-    },
-    {
-      name: 'Item 3 - Group 2'
-    },
-    {
-      name: 'Item 4 - Group 2'
-    }]
-  },
-  {
-    id: 3,
-    title: 'Group 3',
-    items: [{
-      name: 'Item 1 - Group 3'
-    },
-    {
-      name: 'Item 2 - Group 3'
-    },
-    {
-      name: 'Item 3 - Group 3'
-    },
-    {
-      name: 'Item 4 - Group 3'
-    }]
-  }];
-
-  // getConnectedList(): any[] {
-  //   return this.categoryGroups.map(x => `${x.id}`);
-  // }
-
-  // dropGroup(event: CdkDragDrop<string[]>) {
-  //   moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
-  // }
-
-  
-  dropItem(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-    }
-  }
 
   
   //Each array list is assigned an id of that group's id via the HTML

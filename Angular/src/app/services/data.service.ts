@@ -106,7 +106,7 @@ export class DataService {
     let headers = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
-        "categoryGroupId": categoryGroups.id,
+        "categoryGroupId": categoryGroups.id.toString(),
         "categoryModelId": categoryGroups.categoryId
       })
     }
