@@ -160,18 +160,17 @@ export class CategoryItemsComponent implements OnInit {
   //this is taken from the dropItem() function above and allows the movement of groups
   dropGroup(event: CdkDragDrop<string[]>) {
 
-    console.log('categoryGroups');
-    console.log(this.categoryGroups);
-    let categoryGroupDtoSave: CategoryGroupDto[] = JSON.parse(JSON.stringify(this.categoryGroups.map(({items,...rest})=> rest)));
+    // console.log('categoryGroups');
+    // console.log(this.categoryGroups);
     let categoryGroupSave: CategoryGroups[] = JSON.parse(JSON.stringify(this.categoryGroups));
-    console.log('categoryGroupSave');
-    console.log(categoryGroupSave);
+    // console.log('categoryGroupSave');
+    // console.log(categoryGroupSave);
     moveItemInArray(this.categoryGroups, event.previousIndex, event.currentIndex);
     this.updateGroupOrder();
 
     let categoryGroupDto = this.categoryGroups.map(({items,...rest})=> rest);
-    console.log('categoryGroupDto');
-    console.log(categoryGroupDto);
+    // console.log('categoryGroupDto');
+    // console.log(categoryGroupDto);
 
     this.data.moveGroup(categoryGroupDto).subscribe({
       next: data => {

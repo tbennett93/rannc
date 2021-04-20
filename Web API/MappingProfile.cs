@@ -39,6 +39,14 @@ namespace Rannc
                 .ForMember(dest => dest.Items, o => o.MapFrom(src => src.CategoryItemsModels))
                 ;
 
+            CreateMap<CategoryGroupsViewModel, CategoryGroupsModel>()
+                .ForMember(dest => dest.Name, o => o.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Order, o => o.MapFrom(src => src.Order))
+                .ForMember(dest => dest.CategoryModelId, o => o.MapFrom(src => src.CategoryId))
+                .ForMember(dest => dest.CategoryItemsModels, o => o.MapFrom(src => src.Items))
+                ;
+
             CreateMap<CategoryItemPostedModel, CategoryItemsModel>()
                 .ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, o => o.MapFrom(src => src.Name))

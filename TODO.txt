@@ -3,7 +3,15 @@ Allow moveable groups
 		PUT categorygroups/categoryid
 			update id, name and order for the given category id at categorymodelid identifier
 		put full change after new array defined. if an error on the HTTP request roll it back -> say there has been an error and restore a stored version of th array
-		if the item doesn't already exist, add it (need PUT for this)
+		
+		PUT category items
+			only update the previous and current arrays. order via the front end and send that full snapshot to the backend after each move.
+				reorder before sending
+				if moved in same card, only send that card info
+				end point to do an update against all data received, if that is 1 or 2 groups, it shouldn't matter
+				send on categoryGroups class
+				
+			
 	dragging to side of screen causes screen to drag
 	DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
 	DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
@@ -109,5 +117,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "UI - New groups add horizontally. Navbar and New Group input stay fixed relative to viewport."
+git commit -m "Group order updates are stored in the db"
 git push

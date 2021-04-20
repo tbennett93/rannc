@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -139,12 +141,10 @@ namespace Rannc.Services
                     .Where(c => c.CategoryModelId == a.CategoryId && c.Id == a.Id && c.Name == a.Name)
                     .ForEachAsync(c => c.Order = a.Order).Wait());
 
-            if (await _userContext.SaveChangesAsync() > 0)
-                return true;
-            
-            return false;
+            return await _userContext.SaveChangesAsync() > 0;
 
-    }
+
+        }
 
         public async Task<bool> UserExists(long userId)
         {
@@ -189,5 +189,47 @@ namespace Rannc.Services
             _userContext.Categories.Remove(categoryGroup);
             return await _userContext.SaveChangesAsync() > 0;
         }
+
+        public async Task<bool> UpdateCategoryItemsOrderAsync(List<CategoryGroupsModel> categoryGroups)
+        {
+            categoryGroups.ForEach( categoryModel =>
+            {
+                var groupsDb = _userContext.CategoryItems
+                        .Include(u=> u.CategoryGroupsModel)
+                        .Where(categoryGroupDb =>
+                            categoryGroupDb.CategoryGroupsModel.CategoryModelId == categoryModel.CategoryModelId &&
+                            categoryGroupDb.CategoryGroupsModel.Id == categoryModel.Id &&
+                            categoryGroupDb.CategoryGroupsModel.Name == categoryModel.Name)
+                        ;
+
+      
+                if (groupsDb != null)
+                {
+                    //_userContext.CategoryItems.Remove(test);
+                    _userContext.CategoryItems.RemoveRange(groupsDb);
+
+                    var categoryItems = new List<CategoryItemsModel>();
+
+                    foreach (var item in categoryModel.CategoryItemsModels)
+                    {
+                        var categoryItem = new CategoryItemsModel()
+                        {
+                            Name = item.Name,
+                            Comment = item.Comment,
+                            CategoryGroupsId = categoryModel.Id,
+                            Order = item.Order
+                        };
+                        categoryItems.Add(categoryItem);
+                    }
+  
+                    _userContext.CategoryItems.AddRangeAsync(categoryItems);
+
+                }
+
+            });
+                
+            return await _userContext.SaveChangesAsync() > 0;
+        }
+
     }
 }
