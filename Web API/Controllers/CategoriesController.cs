@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.Extensions.Logging;
 using Rannc.Data;
 using Rannc.Models;
@@ -24,7 +20,8 @@ namespace Rannc.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<CategoriesController> _iLogger;
 
-        public CategoriesController(ICategoriesRepository categoriesRepository, 
+        public CategoriesController(
+            ICategoriesRepository categoriesRepository, 
             IMapper mapper, 
             ILogger<CategoriesController> iLogger
             )
@@ -304,6 +301,23 @@ namespace Rannc.Controllers
             }
 
             _iLogger.LogInformation("Item successfully deleted. Id: {0} ", categoryId);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Authorize]
+        public async Task<ActionResult> PutCategory([FromBody] List<CategoryGroupPutModel> groupModel)
+        {
+
+            var mappedModel = _mapper.Map<List<CategoryGroupPutModelMapped>>(groupModel);
+
+            if (! await _categoriesRepository.UpdateCategoryGroupOrderAsync(mappedModel))
+            {
+                _iLogger.LogError("Unable to update resources");
+                return BadRequest("Unable to update db");
+            }
+
+            _iLogger.LogInformation("Order update success");
             return Ok();
         }
 

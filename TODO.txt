@@ -1,10 +1,10 @@
 Allow moveable groups	
-	stretch screen so cards don't wrap - x
-	responsive page
-		navbar 
-		home
-	clicking a card beings its z axis up and drops the others back
 	moving updates order db
+		PUT categorygroups/categoryid
+			update id, name and order for the given category id at categorymodelid identifier
+		put full change after new array defined. if an error on the HTTP request roll it back -> say there has been an error and restore a stored version of th array
+		if the item doesn't already exist, add it (need PUT for this)
+	dragging to side of screen causes screen to drag
 	DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
 	DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
 	need to consider adding group order to the back end, otherwise the order won't be structured each time its received
@@ -109,5 +109,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Fixed bug preventing new groups being deleted"
+git commit -m "UI - New groups add horizontally. Navbar and New Group input stay fixed relative to viewport."
 git push

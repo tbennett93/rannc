@@ -4,6 +4,7 @@ export class CategoryGroups {
     order: string;
     categoryId:string;
     items: Item[];
+
 }
 
 
@@ -14,5 +15,12 @@ export class Item {
     comment: string;
 }
 
+export class CategoryGroupDto {
+    id: string;
+    name: string;
+    order: string;
+    categoryId:string;
+}
 
 
+ 

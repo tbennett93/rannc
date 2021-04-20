@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ResIdObj } from '../models/res-id-obj.model';
 import { CategoryModel } from '../models/category.model';
-import { CategoryGroups } from '../models/category-groups';
+import { CategoryGroupDto, CategoryGroups } from '../models/category-groups';
 import { CategoryItem } from '../models/category-item';
 
 @Injectable({
@@ -102,15 +102,28 @@ export class DataService {
 
   };
 
-  deleteCategoryGroup(categoryGroups: CategoryGroups){
+  deleteCategoryGroup(categoryGroupItems: CategoryGroups){
     let headers = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
-        "categoryGroupId": categoryGroups.id.toString(),
-        "categoryModelId": categoryGroups.categoryId
+        "categoryGroupId": categoryGroupItems.id.toString(),
+        "categoryModelId": categoryGroupItems.categoryId
       })
     }
   return this.http.delete("https://localhost:44359/api/categories/categorygroup", headers);
+  }
+
+  moveGroup(groupDto: Array<CategoryGroupDto>){
+    
+    let headers = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+      })
+    }
+
+    let body =  JSON.stringify(groupDto);
+
+    return this.http.put("https://localhost:44359/api/categories/", body, headers)
   }
 
 }

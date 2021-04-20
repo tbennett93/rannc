@@ -131,6 +131,21 @@ namespace Rannc.Services
 
         }
 
+        public async Task<bool> UpdateCategoryGroupOrderAsync(List<CategoryGroupPutModelMapped> categoryGroups)
+        {
+
+            categoryGroups.ForEach(a =>
+                 _userContext.CategoryGroups
+                    .Where(c => c.CategoryModelId == a.CategoryId && c.Id == a.Id && c.Name == a.Name)
+                    .ForEachAsync(c => c.Order = a.Order).Wait());
+
+            if (await _userContext.SaveChangesAsync() > 0)
+                return true;
+            
+            return false;
+
+    }
+
         public async Task<bool> UserExists(long userId)
         {
 

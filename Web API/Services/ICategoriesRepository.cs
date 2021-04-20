@@ -18,5 +18,7 @@ namespace Rannc.Services
 
         Task<bool> DeleteCategoryItemAsync(long id, long userId);
         Task<bool> DeleteCategoryAsync(long id, long userId);
+
+        Task<bool> UpdateCategoryGroupOrderAsync(List<CategoryGroupPutModelMapped> categoryGroups);
     }
 }

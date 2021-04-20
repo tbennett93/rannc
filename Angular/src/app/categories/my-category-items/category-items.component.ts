@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { CategoryItemsModel } from 'src/app/models/category-items.model';
 import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/services/token.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import { CategoryGroups, Item } from 'src/app/models/category-groups';
+import { CategoryGroups, CategoryGroupDto, Item } from 'src/app/models/category-groups';
+import {LayoutModule} from '@angular/cdk/layout';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class CategoryItemsComponent implements OnInit {
       this.data.getCategoryItems(this.categoryId).subscribe({
         next: (data: CategoryGroups[]) => {
           data.sort(((a, b): any => parseInt(a.order) - parseInt(b.order)));
-          // console.log(data);
+          console.log(data);
           this.categoryGroups = data;
           console.log('category groups:');
           console.log(this.categoryGroups);
@@ -147,19 +148,6 @@ export class CategoryItemsComponent implements OnInit {
     }
   }
 
-  dropList(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
-    }
-  }
-
-
-
   
   //Each array list is assigned an id of that group's id via the HTML
   //[cdkDropListConnectedTo] allows you to specify which other lists belong to the same list group
@@ -171,7 +159,53 @@ export class CategoryItemsComponent implements OnInit {
 
   //this is taken from the dropItem() function above and allows the movement of groups
   dropGroup(event: CdkDragDrop<string[]>) {
+
+    console.log('categoryGroups');
+    console.log(this.categoryGroups);
+    let categoryGroupDtoSave: CategoryGroupDto[] = JSON.parse(JSON.stringify(this.categoryGroups.map(({items,...rest})=> rest)));
+    let categoryGroupSave: CategoryGroups[] = JSON.parse(JSON.stringify(this.categoryGroups));
+    console.log('categoryGroupSave');
+    console.log(categoryGroupSave);
     moveItemInArray(this.categoryGroups, event.previousIndex, event.currentIndex);
+    this.updateGroupOrder();
+
+    let categoryGroupDto = this.categoryGroups.map(({items,...rest})=> rest);
+    console.log('categoryGroupDto');
+    console.log(categoryGroupDto);
+
+    this.data.moveGroup(categoryGroupDto).subscribe({
+      next: data => {
+        console.log('Db order update successful');
+      },
+      error: err=> {
+        console.log(err);
+        this.categoryGroups = categoryGroupSave;
+        this.updateGroupOrder();
+
+      }
+    });
+    
+    // console.log('dropList');
+    // console.log(event.container.data);
+    // console.log('previousIndex');
+    // console.log(event.previousIndex +1);
+    // console.log('currentIndexv');
+    // console.log(event.currentIndex +1);    
+    // console.log('item');
+    // console.log(event.item.data.id)
   }
+
+  updateGroupOrder(){
+    console.log('updating group order');
+    let i = 0;
+
+    this.categoryGroups.forEach(
+      x => {
+        x.order = (i+1).toString();
+        i++;
+      }
+    );
+  }
+
 }
 
