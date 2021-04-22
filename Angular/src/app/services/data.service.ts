@@ -126,5 +126,19 @@ export class DataService {
     return this.http.put("https://localhost:44359/api/categories/", body, headers)
   }
 
+  moveItem(items: Array<CategoryGroups>){
+
+    let headers = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+      })
+    }
+
+    let body =  JSON.stringify(items);
+
+    return this.http.put("https://localhost:44359/api/categories/categorygroup", body, headers)
+
+  }
+
 }
 

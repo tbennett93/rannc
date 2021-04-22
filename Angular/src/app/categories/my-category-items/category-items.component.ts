@@ -30,6 +30,8 @@ export class CategoryItemsComponent implements OnInit {
       this.data.getCategoryItems(this.categoryId).subscribe({
         next: (data: CategoryGroups[]) => {
           data.sort(((a, b): any => parseInt(a.order) - parseInt(b.order)));
+          data.forEach( d => d.items.sort((a,b)=> parseInt(a.order) - parseInt(b.order)));
+          data.sort(((a, b): any => parseInt(a.order) - parseInt(b.order)));
           console.log(data);
           this.categoryGroups = data;
           console.log('category groups:');
@@ -54,6 +56,8 @@ export class CategoryItemsComponent implements OnInit {
         error: err => console.log(err)
       });
     }
+    console.log('itemIndex');
+    console.log(itemIndex);
   }
 
   deleteGroup(groupId, groupIndex) {
@@ -137,14 +141,60 @@ export class CategoryItemsComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    console.log(event);
+    // console.log(event);
+
+    if(event.previousIndex === event.currentIndex){
+      return;
+    }
+    
+    let categoryGroupSave: CategoryGroups[] = JSON.parse(JSON.stringify(this.categoryGroups));
+    var categoryGroupChanges = new Array<CategoryGroups>();
+
     if (event.previousContainer === event.container) {
+
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.updateItemOrder();
+
+      categoryGroupChanges.push(this.categoryGroups.find(m=> m.id == event.container.id));
+      // console.log('categoryGroupChanges');
+      // console.log(categoryGroupChanges);
+      this.data.moveItem(categoryGroupChanges).subscribe({
+        next: data => {
+          console.log('Db order update successful');
+        },
+        error: err=> {
+          console.log(err);
+          this.categoryGroups = categoryGroupSave;
+          this.updateGroupOrder();
+          this.updateItemOrder();
+  
+        }
+      });      
+      // this.data.moveItem()
     } else {
+      console.log(event);
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex);
+      this.updateItemOrder();
+
+      categoryGroupChanges.push(this.categoryGroups.find(m=> m.id == event.container.id));
+      categoryGroupChanges.push(this.categoryGroups.find(m=> m.id == event.previousContainer.id));
+      
+      this.data.moveItem(categoryGroupChanges).subscribe({
+        next: data => {
+          console.log('Db order update successful');
+        },
+        error: err=> {
+          console.log(err);
+          this.categoryGroups = categoryGroupSave;
+          this.updateGroupOrder();
+          this.updateItemOrder();
+  
+        }
+      });   
+
     }
   }
 
@@ -159,7 +209,9 @@ export class CategoryItemsComponent implements OnInit {
 
   //this is taken from the dropItem() function above and allows the movement of groups
   dropGroup(event: CdkDragDrop<string[]>) {
-
+    if(event.previousIndex === event.currentIndex){
+      return;
+    }
     // console.log('categoryGroups');
     // console.log(this.categoryGroups);
     let categoryGroupSave: CategoryGroups[] = JSON.parse(JSON.stringify(this.categoryGroups));
@@ -202,6 +254,26 @@ export class CategoryItemsComponent implements OnInit {
       x => {
         x.order = (i+1).toString();
         i++;
+      }
+    );
+  }
+
+
+  updateItemOrder(){
+    console.log('updating item order');
+    let i = 0;
+
+    this.categoryGroups.forEach(
+      x => {
+        let j = 0;
+        x.items.forEach(
+          y=> {
+            y.order = (j+1).toString();
+            j++;
+          }
+          
+        )
+
       }
     );
   }

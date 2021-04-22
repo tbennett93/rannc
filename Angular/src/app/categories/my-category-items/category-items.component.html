@@ -20,7 +20,7 @@
         <!-- <h2>{{group.title}}</h2> -->
         <div cdkDropList class="example-list" id={{list.id}} [cdkDropListData]="list.items"
           (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="getConnectedList()">
-          <div class="example-box" *ngFor="let item of list.items" cdkDrag [cdkDragData]="item">
+          <div class="example-box" *ngFor="let item of list.items;  let j = index" cdkDrag [cdkDragData]="item">
             <div>
               {{item.name}}
             </div>

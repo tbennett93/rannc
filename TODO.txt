@@ -10,8 +10,11 @@ Allow moveable groups
 				if moved in same card, only send that card info
 				end point to do an update against all data received, if that is 1 or 2 groups, it shouldn't matter
 				send on categoryGroups class
-				
+		ALERT if err on subscribe to rollback
+		if the number of items in the DTO doesn't match the number updates in the db, pass an error back to front end and GET new data, refreshing browser (kicking out error)		
 			
+	Surround DB context references with a 'using'?
+	
 	dragging to side of screen causes screen to drag
 	DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
 	DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
@@ -117,5 +120,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Group order updates are stored in the db"
+git commit -m "API built for moving/reordering items"
 git push

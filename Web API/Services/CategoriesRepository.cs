@@ -192,37 +192,39 @@ namespace Rannc.Services
 
         public async Task<bool> UpdateCategoryItemsOrderAsync(List<CategoryGroupsModel> categoryGroups)
         {
-            categoryGroups.ForEach( categoryModel =>
+            categoryGroups.ForEach(async categoryModel =>
             {
-                var groupsDb = _userContext.CategoryItems
-                        .Include(u=> u.CategoryGroupsModel)
-                        .Where(categoryGroupDb =>
-                            categoryGroupDb.CategoryGroupsModel.CategoryModelId == categoryModel.CategoryModelId &&
-                            categoryGroupDb.CategoryGroupsModel.Id == categoryModel.Id &&
-                            categoryGroupDb.CategoryGroupsModel.Name == categoryModel.Name)
-                        ;
+                var groupId = categoryModel.Id;
 
-      
-                if (groupsDb != null)
+
+                //get group
+                var itemsDb = _userContext.CategoryItems;
+                        
+
+                if (itemsDb != null)
                 {
-                    //_userContext.CategoryItems.Remove(test);
-                    _userContext.CategoryItems.RemoveRange(groupsDb);
-
-                    var categoryItems = new List<CategoryItemsModel>();
 
                     foreach (var item in categoryModel.CategoryItemsModels)
                     {
-                        var categoryItem = new CategoryItemsModel()
+                        var dbGroupItems = itemsDb
+                            .Where(g => 
+                                g.Id == item.Id &&
+                                g.Name == item.Name
+                            );
+                        foreach (var dbItem in dbGroupItems)
                         {
-                            Name = item.Name,
-                            Comment = item.Comment,
-                            CategoryGroupsId = categoryModel.Id,
-                            Order = item.Order
-                        };
-                        categoryItems.Add(categoryItem);
+                            dbItem.Order = item.Order;
+                            dbItem.CategoryGroupsId = groupId;
+                        }
+                        //await groupsDb.Where(g => g.Id == item.Id)
+                        //    .ForEachAsync(x=>
+                        //    {
+                        //        x.Order = item.Order;
+                        //        x.CategoryGroupsId = groupId;
+                        //        //&& x.CategoryGroupsId = groupId;
+                        //    });
                     }
-  
-                    _userContext.CategoryItems.AddRangeAsync(categoryItems);
+
 
                 }
 
