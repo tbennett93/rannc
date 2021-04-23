@@ -1,18 +1,10 @@
-Allow moveable groups	
-	moving updates order db
-		PUT categorygroups/categoryid
-			update id, name and order for the given category id at categorymodelid identifier
-		put full change after new array defined. if an error on the HTTP request roll it back -> say there has been an error and restore a stored version of th array
-		
-		PUT category items
-			only update the previous and current arrays. order via the front end and send that full snapshot to the backend after each move.
-				reorder before sending
-				if moved in same card, only send that card info
-				end point to do an update against all data received, if that is 1 or 2 groups, it shouldn't matter
-				send on categoryGroups class
+	Moving Items
 		ALERT if err on subscribe to rollback
 		if the number of items in the DTO doesn't match the number updates in the db, pass an error back to front end and GET new data, refreshing browser (kicking out error)		
-			
+		handle if user leaves page whilst updating. Apparently causes memory leak
+		adding new group scrolls you right
+		If entering blank group/item, flag 'Please enter a value'
+		
 	Surround DB context references with a 'using'?
 	
 	dragging to side of screen causes screen to drag
@@ -120,5 +112,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "API built for moving/reordering items"
+git commit -m "Added client functionality to move items. API improved."
 git push

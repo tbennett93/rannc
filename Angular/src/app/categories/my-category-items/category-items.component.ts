@@ -83,22 +83,25 @@ export class CategoryItemsComponent implements OnInit {
     if (this.tokenService.isAccessTokenValid) {
 
       let categoryGroup = new CategoryGroups;
-      categoryGroup.name = input.value;
       categoryGroup.categoryId = this.route.snapshot.params['id'];
+      categoryGroup.name = input.value;
       categoryGroup.order = (this.categoryGroups.length + 1).toString();
-      let categoryItemsModel = new Array<Item>();
-      categoryGroup.items = categoryItemsModel;
 
       this.data.postCategoryGroup(categoryGroup).subscribe({
         next: (data: any) => {
           console.log(data);
-          categoryGroup.id = data.id;
+          categoryGroup.id = data.id.toString();
+          categoryGroup.items = new Array<Item>();
           this.categoryGroups.push(categoryGroup)
+          console.log('categoryGroup:');
+          console.log(this.categoryGroups);
         }
         ,
         error: err => console.log(err)
       });
       input.value = '';
+
+
     }
   }
 
@@ -118,7 +121,7 @@ export class CategoryItemsComponent implements OnInit {
       else {
         categoryItem.order = (this.categoryGroups[categoryIndex]['items'].length + 1).toString();
       }
-      categoryItem.comment = "comment not implenmented";
+      categoryItem.comment = "comment not implemented";
       categoryItem.categoryModelId = this.categoryId;
       inputBox.value = '';
 
@@ -141,17 +144,17 @@ export class CategoryItemsComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    // console.log(event);
+    console.log(event);
 
-    if(event.previousIndex === event.currentIndex){
-      return;
-    }
+
     
     let categoryGroupSave: CategoryGroups[] = JSON.parse(JSON.stringify(this.categoryGroups));
     var categoryGroupChanges = new Array<CategoryGroups>();
 
     if (event.previousContainer === event.container) {
-
+      if(event.previousIndex === event.currentIndex){
+        return;
+      }
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.updateItemOrder();
 
@@ -181,7 +184,7 @@ export class CategoryItemsComponent implements OnInit {
 
       categoryGroupChanges.push(this.categoryGroups.find(m=> m.id == event.container.id));
       categoryGroupChanges.push(this.categoryGroups.find(m=> m.id == event.previousContainer.id));
-      
+
       this.data.moveItem(categoryGroupChanges).subscribe({
         next: data => {
           console.log('Db order update successful');
@@ -221,8 +224,8 @@ export class CategoryItemsComponent implements OnInit {
     this.updateGroupOrder();
 
     let categoryGroupDto = this.categoryGroups.map(({items,...rest})=> rest);
-    // console.log('categoryGroupDto');
-    // console.log(categoryGroupDto);
+    console.log('categoryGroupDto:');
+    console.log(categoryGroupDto);
 
     this.data.moveGroup(categoryGroupDto).subscribe({
       next: data => {
