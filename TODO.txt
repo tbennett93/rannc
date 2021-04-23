@@ -7,6 +7,8 @@
 		
 	Surround DB context references with a 'using'?
 	
+	ORGANNISE AND MODULARISE
+	
 	dragging to side of screen causes screen to drag
 	DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
 	DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
@@ -112,5 +114,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Added client functionality to move items. API improved."
+git commit -m "Bug fix. Could not move new groups or items after their initial creation"
 git push

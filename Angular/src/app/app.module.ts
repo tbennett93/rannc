@@ -5,18 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSliderModule } from '@angular/material/slider';
-import { TestAddressFormComponent } from './test-address-form/test-address-form.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CategoryComponent } from 'src/app/categories/my-categories/category.component';
@@ -30,6 +19,10 @@ import { CategoryItemsModule } from 'src/app/categories/my-category-items/catego
 import { SignUpComponent } from './sign-up/sign-up.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CoreModule } from './core/core.module'
+import { SharedModule } from './shared/shared.module';
+
+
 
 export function tokenGetter() {
   return localStorage.getItem("jwt"); 
@@ -38,32 +31,23 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    TestAddressFormComponent,
-    AppNavbarComponent,
     HomeComponent,
     TopCategoriesComponent,
     SocialComponent,
     LoginComponent,
     PageNotFoundComponent,
     CategoryComponent,
-    SignUpComponent,
+    SignUpComponent
 
   ],
   imports: [
     BrowserModule,
+    CoreModule,
+    SharedModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatSliderModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatCardModule,
     ReactiveFormsModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatIconModule,
     CategoryItemsModule,
     RouterModule.forRoot([
       {path: 'home', component: HomeComponent},

@@ -6,6 +6,7 @@ import { CategoryItemsComponent } from 'src/app/categories/my-category-items/cat
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/auth.guard';
 import {MatButtonModule} from '@angular/material/button';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -17,9 +18,10 @@ import {MatButtonModule} from '@angular/material/button';
     DragDropModule,
     CommonModule,
     MatButtonModule,
+    SharedModule,
     RouterModule.forChild([
       {path: 'my-ranking/:id', component: CategoryItemsComponent, canActivate: [AuthGuard]},
-    ]),
+    ])
   ]
 })
 export class CategoryItemsModule { }
