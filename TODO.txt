@@ -4,11 +4,14 @@
 		handle if user leaves page whilst updating. Apparently causes memory leak
 		adding new group scrolls you right
 		If entering blank group/item, flag 'Please enter a value'
+	
+	
 		
 	Surround DB context references with a 'using'?
 	
 	ORGANNISE AND MODULARISE
-	
+		Lazy vs eager loading
+		
 	dragging to side of screen causes screen to drag
 	DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
 	DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
@@ -114,5 +117,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Bug fix. Could not move new groups or items after their initial creation"
+git commit -m "Improved modularity and encapsulation of the app"
 git push

@@ -5,7 +5,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CategoryItemsComponent } from 'src/app/categories/my-category-items/category-items.component';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/auth.guard';
-import {MatButtonModule} from '@angular/material/button';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 
@@ -17,7 +16,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     DragDropModule,
     CommonModule,
-    MatButtonModule,
     SharedModule,
     RouterModule.forChild([
       {path: 'my-ranking/:id', component: CategoryItemsComponent, canActivate: [AuthGuard]},

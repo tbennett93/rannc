@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ErrorPopupComponent } from './error-popup/error-popup.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -8,7 +7,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
-    ErrorPopupComponent
   ],
   imports: [
     CommonModule,
@@ -16,7 +14,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule
   ],
   exports:[
-    ErrorPopupComponent,
     CommonModule,
     MatButtonModule
   ]

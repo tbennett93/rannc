@@ -4,8 +4,8 @@ import { CategoryItemsModel } from 'src/app/models/category-items.model';
 import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/services/token.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import { CategoryGroups, CategoryGroupDto, Item } from 'src/app/models/category-groups';
-import {LayoutModule} from '@angular/cdk/layout';
+import { CategoryGroups, Item } from 'src/app/models/category-groups';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -17,13 +17,20 @@ import {LayoutModule} from '@angular/cdk/layout';
 export class CategoryItemsComponent implements OnInit {
 
   categoryGroups: CategoryGroups[];
+  errorMsg: string = 'Error Processing Request';
 
 
+  constructor(private data: DataService, private route: ActivatedRoute, private tokenService: TokenService, private _snackBar: MatSnackBar) { }
 
-  constructor(private data: DataService, private route: ActivatedRoute, private tokenService: TokenService) { }
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'close', {
+      duration: 3000
+    });
+  }
 
   categoryId;
   ngOnInit(): void {
+    
     // console.log(this.testArray);
     this.categoryId = this.route.snapshot.params['id'];
     if (this.tokenService.isAccessTokenValid) {
@@ -38,7 +45,10 @@ export class CategoryItemsComponent implements OnInit {
           console.log(this.categoryGroups);
 
         },
-        error: () => console.log("error fetching category items")
+        error: () => {
+          console.log("error fetching category items");
+          this.openSnackBar('Error getting your data. Please try again later.');
+        }
       });
     }
   }
@@ -53,7 +63,10 @@ export class CategoryItemsComponent implements OnInit {
         next: data => {
           this.categoryGroups[groupIndex]['items'].splice(itemIndex, 1)
         },
-        error: err => console.log(err)
+        error: err => {
+          console.log(err);
+          this.openSnackBar('Error deleting item. Please try again later.');
+        }
       });
     }
     console.log('itemIndex');
@@ -68,7 +81,10 @@ export class CategoryItemsComponent implements OnInit {
       if (confirm("Are you sure you want to delete this group and all contents?")) {
         this.data.deleteCategoryGroup(categoryGroup).subscribe({
           next: resp => this.categoryGroups.splice(groupIndex, 1),
-          error: err => console.log(err)
+          error: err => {
+            console.log(err);
+            this.openSnackBar('Error deleting group. Please try again later.');
+          }
         })
       }
     }
@@ -97,11 +113,12 @@ export class CategoryItemsComponent implements OnInit {
           console.log(this.categoryGroups);
         }
         ,
-        error: err => console.log(err)
+        error: err => {
+          console.log(err);
+          this.openSnackBar('Error adding new group. Please try again later.');
+        }
       });
       input.value = '';
-
-
     }
   }
 
@@ -132,12 +149,13 @@ export class CategoryItemsComponent implements OnInit {
       this.data.postCategoryItems(categoryItem).subscribe(
 
         (data: any) => {
-
           this.categoryGroups[categoryIndex]['items'].push(data);
-
         },
         // (data: any) => console.log(data),
-        (error: any) => console.log(error)
+        (error: any) => {
+          console.log(error);
+          this.openSnackBar('Error adding new item. Please try again later.');
+        }
       );
       console.log(this.categoryGroups[categoryIndex]['items']);
     }
@@ -170,6 +188,8 @@ export class CategoryItemsComponent implements OnInit {
           this.categoryGroups = categoryGroupSave;
           this.updateGroupOrder();
           this.updateItemOrder();
+          this.openSnackBar('Error moving item. Please try again later.');
+
   
         }
       });      
@@ -194,6 +214,7 @@ export class CategoryItemsComponent implements OnInit {
           this.categoryGroups = categoryGroupSave;
           this.updateGroupOrder();
           this.updateItemOrder();
+          this.openSnackBar('Error moving item. Please try again later.');
   
         }
       });   
@@ -235,7 +256,7 @@ export class CategoryItemsComponent implements OnInit {
         console.log(err);
         this.categoryGroups = categoryGroupSave;
         this.updateGroupOrder();
-
+        this.openSnackBar('Error moving group. Please try again later.');
       }
     });
     

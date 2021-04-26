@@ -1,4 +1,5 @@
-import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryModel } from 'src/app/models/category.model';
 import { DataService } from 'src/app/services/data.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -13,7 +14,7 @@ export class CategoryComponent implements OnInit {
   title = 'Rannc';
   category: CategoryModel[];
 
-  constructor(private data: DataService, private tokenService: TokenService) { };
+  constructor(private data: DataService, private tokenService: TokenService, private _snackBar: MatSnackBar) { };
 
   ngOnInit(): void {
     if (this.isUserAuthenticated && this.tokenService.isAccessTokenValid()) {
@@ -21,11 +22,20 @@ export class CategoryComponent implements OnInit {
         next: (data: CategoryModel[]) => {
           this.category = data;
         },
-        error: () => console.log("error in getCategoriesObserver")
+        error: () => {
+          console.log("error in getCategoriesObserver");
+          this.openSnackBar('Error getting your data. Please try again later.');
+        }
       });
     }
   };
 
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'close', {
+      duration: 3000
+    });
+  }
+  
   isUserAuthenticated() {
     const token: string = localStorage.getItem("jwt");
     if (token) { return true; }
@@ -51,7 +61,10 @@ export class CategoryComponent implements OnInit {
           inputField.value = '';
 
         },
-        error: err => console.log(err)
+        error: err => {
+          console.log(err);
+          this.openSnackBar('Error adding a new category. Please try again later.');
+        }
       });
     }
 
@@ -66,14 +79,12 @@ export class CategoryComponent implements OnInit {
         console.log('deleting - ' + id);
         this.data.deleteCategory(id).subscribe({
           next: resp => this.category.splice(index, 1),
-          error: err => console.log(err)
+          error: err => {
+            console.log(err);
+            this.openSnackBar('Error deleting category. Please try again later.');
+          }
         })
       }
     }
   }
-
-
-
-
-
 }
