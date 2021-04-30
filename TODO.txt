@@ -1,7 +1,6 @@
 	Moving Items
-		ALERT if err on subscribe to rollback
-		if the number of items in the DTO doesn't match the number updates in the db, pass an error back to front end and GET new data, refreshing browser (kicking out error)		
 		handle if user leaves page whilst updating. Apparently causes memory leak
+			this happens if the NEXT function continues to process logic
 		adding new group scrolls you right
 		If entering blank group/item, flag 'Please enter a value'
 	
@@ -81,8 +80,6 @@ add angular progress spinner while loading
 max number of category item groups
 
 Rename TS javascript files on production so they aren't cached by users
-
-
 		
 	my rankings/id
 		build hand coded my-rankings/id and have it displayed on my-rankings/id page
@@ -117,5 +114,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Improved modularity and encapsulation of the app"
+git commit -m "Added error message popup on subscription failure"
 git push

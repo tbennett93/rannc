@@ -1,3 +1,4 @@
+import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryModel } from 'src/app/models/category.model';
@@ -9,7 +10,7 @@ import { TokenService } from 'src/app/services/token.service';
   selector: 'categories',
   styleUrls: ['./category.component.css']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, OnDestroy {
 
   title = 'Rannc';
   category: CategoryModel[];
@@ -29,6 +30,10 @@ export class CategoryComponent implements OnInit {
       });
     }
   };
+
+  ngOnDestroy(): void{
+
+  }
 
   openSnackBar(message: string) {
     this._snackBar.open(message, 'close', {

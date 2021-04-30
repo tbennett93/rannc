@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, OnInit, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
+import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { CategoryItemsModel } from 'src/app/models/category-items.model';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,7 @@ import { TokenService } from 'src/app/services/token.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { CategoryGroups, Item } from 'src/app/models/category-groups';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ViewportScroller } from '@angular/common';
 
 
 @Component({
@@ -19,8 +20,10 @@ export class CategoryItemsComponent implements OnInit {
   categoryGroups: CategoryGroups[];
   errorMsg: string = 'Error Processing Request';
 
+  
 
-  constructor(private data: DataService, private route: ActivatedRoute, private tokenService: TokenService, private _snackBar: MatSnackBar) { }
+
+  constructor(private data: DataService, private route: ActivatedRoute, private tokenService: TokenService, private _snackBar: MatSnackBar, private viewportScroller: ViewportScroller) { }
 
   openSnackBar(message: string) {
     this._snackBar.open(message, 'close', {
@@ -28,10 +31,20 @@ export class CategoryItemsComponent implements OnInit {
     });
   }
 
+
+
+  scrollRight(){
+    setTimeout(() => {
+      this.viewportScroller.scrollToPosition([9999999999999,0]);
+    }, 0);
+ 
+  }
+  
   categoryId;
   ngOnInit(): void {
     
     // console.log(this.testArray);
+    this.viewportScroller.setHistoryScrollRestoration("manual");
     this.categoryId = this.route.snapshot.params['id'];
     if (this.tokenService.isAccessTokenValid) {
       this.data.getCategoryItems(this.categoryId).subscribe({
@@ -105,12 +118,15 @@ export class CategoryItemsComponent implements OnInit {
 
       this.data.postCategoryGroup(categoryGroup).subscribe({
         next: (data: any) => {
-          console.log(data);
+          // console.log(data);
           categoryGroup.id = data.id.toString();
           categoryGroup.items = new Array<Item>();
-          this.categoryGroups.push(categoryGroup)
-          console.log('categoryGroup:');
-          console.log(this.categoryGroups);
+          this.categoryGroups.push(categoryGroup);
+
+          this.scrollRight();
+          
+          // console.log('categoryGroup:');
+          // console.log(categoryGroup);
         }
         ,
         error: err => {
