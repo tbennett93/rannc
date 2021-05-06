@@ -54,6 +54,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     let name = inputField.value;
 
     if (!name) {
+      this.openSnackBar('Enter a category name');
       return null;
     }
 

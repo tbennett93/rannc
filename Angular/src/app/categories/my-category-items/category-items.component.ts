@@ -106,6 +106,7 @@ export class CategoryItemsComponent implements OnInit {
 
   addNewGroup(input) {
     if (!input.value) {
+      this.openSnackBar('Enter a group name');
       return;
     }
 
@@ -140,6 +141,7 @@ export class CategoryItemsComponent implements OnInit {
 
   addNew(inputBox, groupId, categoryIndex) {
     if (!inputBox.value) {
+      this.openSnackBar('Enter an item name');
       return null;
     }
 

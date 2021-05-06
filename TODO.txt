@@ -1,8 +1,5 @@
 	Moving Items
-		handle if user leaves page whilst updating. Apparently causes memory leak
-			this happens if the NEXT function continues to process logic
-		adding new group scrolls you right
-		If entering blank group/item, flag 'Please enter a value'
+		'add new group' on right and fixed height window with scrolling capability in the cards
 	
 	
 		
@@ -114,5 +111,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Added error message popup on subscription failure"
+git commit -m "Adding a new group scrolls the window to the end"
 git push
