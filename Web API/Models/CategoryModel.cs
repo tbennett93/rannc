@@ -23,5 +23,7 @@ namespace Rannc.Models
         [ForeignKey("LoginModel")]
         public long LoginModelId { get; set; }
         public LoginModel LoginModel { get; set; }
+
+        public ICollection<CategoryGroupsModel> CategoryGroupsModels { get; set; }
     }
 }

@@ -1,10 +1,5 @@
-	Moving Items
-		'add new group' on right and fixed height window with scrolling capability in the cards
-	
-	
-		
-	Surround DB context references with a 'using'?
-	
+Make look nice. 
+Responsive.
 	ORGANNISE AND MODULARISE
 		Lazy vs eager loading
 		
@@ -17,38 +12,7 @@
 				There may need to be slight tweaks to the client as item arrays may be nested inside groups
 	
 Use angular material form from home screen to tidy up login
-	
 add try catch around data service in angular
-
-reordering
-
-
-	Reorder categories
-	updates db realtime
-	considerations
-		if moving item then deleting it quickly. before server catches up, another FE update might have gone through.
-		Solution:
-			every time an action is performed on a list. SEnd the whole list back to the db?
-			if an action is performed between arrays, update both arrays in db
-			or
-				keep it the same and on error or timeout, show error and refresh the data with db data so client knows what the db holds and is fresh data set
-			
-		adding new
-			adds order as current order +1
-		moving
-			updates db with new position
-		deleting
-			cascades order of all other items
-			
-
-handle ordering of items properly
-	new items last in list based off list length.
-		moving items in list updates their order (gets final order on 'save')
-		this needs to be kept up to date in the view and in the view model as data can be updated on server at any point
-		model and server validation on ordering
-
-
-Build Categories PAge a bit nicer
 
 Really think about server side validation on client requests as the access token can be used to make custom post requests. HOw can this be prevented? 
 	What if the user changes the categories URL ID?
@@ -111,5 +75,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Adding a new group scrolls the window to the end"
+git commit -m "Warning if attempting to add empty  category/group/item. Improved feel of new group button"
 git push

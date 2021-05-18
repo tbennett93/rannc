@@ -18,5 +18,6 @@ namespace Rannc.Models
         public byte[] PasswordSalt { get; set; }
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
+        public ICollection<CategoryModel> CategoryModels { get; set; }
     }
 }

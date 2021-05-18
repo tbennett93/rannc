@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Rannc.Data;
 using Rannc.Models;
+using Rannc.Models.DTOs;
 using Rannc.Services;
 
 
@@ -92,7 +94,8 @@ namespace Rannc.Controllers
 
         [HttpGet, Route("categoryitems")]
         [Authorize]
-        public async Task<ActionResult<CategoryGroupsViewModel>> GetCategoryItems([FromHeader] int categoryId)
+        //public async Task<ActionResult<CategoryGroupsViewModel>> GetCategoryItems([FromHeader] int categoryId)
+        public async Task<ActionResult<LoginModel>> GetCategoryItems([FromHeader] int categoryId)
         {
             _iLogger.LogInformation("Category.Get initiated");
             var userId = this.User.GetUserId();
@@ -106,8 +109,25 @@ namespace Rannc.Controllers
             var userCategoryItems = await _categoriesRepository.GetCategoryItems(categoryId, (long) userId);
 
             //var model = _mapper.Map<List<CategoryItemsViewModel>>(userCategoryItems);
-            var userCategoryItemsView = _mapper.Map<List<CategoryGroupsViewModel>>(userCategoryItems);
+            //var userCategoryItemsView = _mapper.Map<List<CategoryGroupsViewModel>>(userCategoryItems);
 
+            var userCategoryItemsView = _mapper.Map<CategoryGroupItemsViewModel>(userCategoryItems);
+
+            //foreach (var category in userCategoryItems)
+            //{
+            //    userCategoryItemsView.CategoryName = category.Name;
+            //    userCategoryItemsView.CategoryId = category.Id.ToString();
+            //    userCategoryItemsView.Groups = new CategoryGroupsViewModel[]{};
+
+
+            //    foreach (var group in category.CategoryGroupsModels)
+            //    {
+            //        userCategoryItemsView.Groups.Append(group.)
+            //    }
+
+
+            //}
+       
             _iLogger.LogInformation("Categories for user found");
             return Ok(userCategoryItemsView);
         }

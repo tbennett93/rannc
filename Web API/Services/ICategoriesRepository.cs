@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rannc.Models;
+using Rannc.Models.DTOs;
 
 namespace Rannc.Services
 {
@@ -10,7 +11,8 @@ namespace Rannc.Services
         //Task<List<CategoryItemsModel>> GetCategoryItems(long userId, int categoryId);
         Task<CategoryModel> PostCategory(CategoryModel categoryModel, long userId);
 
-        Task<List<CategoryGroupsModel>> GetCategoryItems(int categoryId, long userId);
+        //Task<List<CategoryGroupsModel>> GetCategoryItems(int categoryId, long userId);
+        Task<CategoryModel> GetCategoryItems(int categoryId, long userId);
 
         Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryModel, long userId, long categoryModelId);
         Task<CategoryGroupsModel> PostCategoryGroup(CategoryGroupsModel categoryModel, long userId, long categoryModelId);

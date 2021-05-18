@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ResIdObj } from '../models/res-id-obj.model';
 import { CategoryModel } from '../models/category.model';
-import { CategoryGroupDto, CategoryGroups } from '../models/category-groups';
+import { CategoryGroupDto,  Group } from '../models/category-groups';
 import { CategoryItem } from '../models/category-item';
 
 @Injectable({
@@ -87,7 +87,7 @@ export class DataService {
   }
 
 
-  postCategoryGroup(categoryGroup: CategoryGroups) {
+  postCategoryGroup(categoryGroup: CategoryGroupDto) {
     console.log('attempting to post category:');
     console.log(categoryGroup);
     let jsonObject = JSON.stringify(categoryGroup);
@@ -102,7 +102,7 @@ export class DataService {
 
   };
 
-  deleteCategoryGroup(categoryGroupItems: CategoryGroups){
+  deleteCategoryGroup(categoryGroupItems: CategoryGroupDto){
     let headers = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -126,7 +126,7 @@ export class DataService {
     return this.http.put("https://localhost:44359/api/categories/", body, headers)
   }
 
-  moveItem(items: Array<CategoryGroups>){
+  moveItem(items: Array<CategoryGroupDto>){
 
     let headers = {
       headers: new HttpHeaders({

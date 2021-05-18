@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Rannc.Models;
+using Rannc.Models.DTOs;
 
 namespace Rannc.Services
 {
@@ -53,28 +54,36 @@ namespace Rannc.Services
             return categoryModel;
         }
 
-        public async Task<List<CategoryGroupsModel>> GetCategoryItems(int categoryId, long userId)
+        public async Task<CategoryModel> GetCategoryItems(int categoryId, long userId)
+        //public async Task<List<LoginModel>> GetCategoryItems(int categoryId, long userId)
         {
             _iLogger.LogInformation("CategoriesRepo.Get called");
 
 
-            List<CategoryGroupsModel> userCategoryItems = await _userContext.CategoryGroups
-                .Include(u => u.CategoryItemsModels)
-                .Where(u => u.CategoryModelId == categoryId)
-                .Include(u => u.CategoryModel)
-                .ThenInclude(u => u.LoginModel)
-                .Where(u => u.CategoryModel.LoginModelId == userId)
-                .Select(u => new CategoryGroupsModel()
-                {
-                    Name = u.Name,
-                    Id = u.Id,
-                    Order = u.Order,
-                    CategoryModelId = categoryId,
-                    CategoryItemsModels = u.CategoryItemsModels
+            //List<CategoryGroupsModel> userCategoryItems = await _userContext.CategoryGroups
+            //    .Include(u => u.CategoryItemsModels)
+            //    .Where(u => u.CategoryModelId == categoryId)
+            //    .Include(u => u.CategoryModel)
+            //    .ThenInclude(u => u.LoginModel)
+            //    .Where(u => u.CategoryModel.LoginModelId == userId)
+            //    .Select(u => new CategoryGroupsModel()
+            //    {
+            //        Name = u.Name,
+            //        Id = u.Id,
+            //        Order = u.Order,
+            //        CategoryModelId = categoryId,
+            //        CategoryItemsModels = u.CategoryItemsModels
 
-                })
-                .ToListAsync();
-            if (userCategoryItems != null) return userCategoryItems;
+            //    })
+            //    .ToListAsync();
+            //List<CategoryGroupItemsViewModel> userCategoryGroupItems = await _userContext.LoginModel
+            var userCategoryGroupItems = await _userContext.Categories
+                .Where(u => u.LoginModelId == userId)
+                .Include(u=>u.CategoryGroupsModels)
+                .ThenInclude(u=>u.CategoryItemsModels)
+                .SingleOrDefaultAsync(u=>u.Id == categoryId)
+                ;
+            if (userCategoryGroupItems != null) return userCategoryGroupItems;
 
             _iLogger.LogWarning("Unable to retrieve user category items for category ID {id}", categoryId);
             return null;
