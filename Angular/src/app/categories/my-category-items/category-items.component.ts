@@ -19,6 +19,7 @@ export class CategoryItemsComponent implements OnInit {
 
   categoryGroupItems: CategoryGroupsItems;
   errorMsg: string = 'Error Processing Request';
+  getLoaded: boolean = false;
 
   constructor(private data: DataService, private route: ActivatedRoute, private tokenService: TokenService, private _snackBar: MatSnackBar, private viewportScroller: ViewportScroller) { }
 
@@ -52,6 +53,7 @@ export class CategoryItemsComponent implements OnInit {
           this.categoryGroupItems = data;
           console.log('category groups:');
           console.log(this.categoryGroupItems);
+          this.getLoaded = true;
 
         },    
         // next: (data: CategoryGroups[]) => {

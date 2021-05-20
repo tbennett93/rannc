@@ -1,3 +1,21 @@
+.page-container{
+  margin-top: 150px;
+
+}
+.title{
+  color: #000000;
+  position: fixed;
+  left: 0;
+  transform: translate(calc(50vw - 50%));
+  font-size: 30px;
+  border-width: 1px;
+  border-radius: 3px;
+  padding:5px 100px;
+  border:#000000;
+  border-style: solid;
+  
+}
+
 html, body {
   height: 100%;
   scroll-behavior: smooth;
@@ -7,38 +25,32 @@ html, body {
   margin-bottom: 20px;
 }
 
+
 .example-container {
-  width: 400px;
+  width: 250px;
   max-width: 100%;
   height:auto;
-
   display: inline-block;
   vertical-align: top;
-  border:black;
-  border-style: solid;
-  border-width: 1px;
   border-radius: 5px 15px 10px 15px;
   box-shadow: 2px 2px 3px #888888;
-  margin:10px 20px;
-  padding: 30px 20px;
-  background: white;
+  margin:10px 10px;
+  padding: 10px 10px;
+  background:#14213d;
   z-index: -1;
   
-
 }
 
+
 .example-list {
-  border: solid 1px #ccc;
   min-height: 60px;
-  background: white;
+  background: #14213d;
   border-radius: 4px;
-  overflow: hidden;
   display: block;
 }
 
 .example-box {
-  padding: 20px 10px;
-  border-bottom: solid 1px #ccc;
+  padding: 10px 10px;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
   flex-direction: row;
@@ -46,25 +58,41 @@ html, body {
   justify-content: space-between;
   box-sizing: border-box;
   cursor: move;
-  background: white;
+  background: #e5e5e5;
   font-size: 14px;
+  margin: 10px 0px;
+  border-radius: 2px 7px 5px 7px;
+  box-shadow: 2px 2px 3px #88888875;
+
+
 }
 
+.item{
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  word-break: break-all;
+  white-space: normal;
+
+}
+
+.list-title{
+  color: #FFFFFF;
+  font-size: 20px;
+  padding-top: 4px;
+  padding-left: 4px;
+}
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-              0 8px 10px 1px rgba(0, 0, 0, 0.14),
-              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              0 8px 10px 1px rgba(241, 239, 234,0.14),
+              0 3px 14px 2px rgb(241, 239, 234,0.12)
 }
 
 .cdk-drag-placeholder {
-  opacity: 0;
+  opacity: 0.5;
 }
 
-.cdk-drag-animating {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
+
 
 .example-box:last-child {
   border: none;
@@ -74,28 +102,16 @@ html, body {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.input-container {
-  margin: 20px 30px;
-  padding: 10px 10px;
-  color: #000000de;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-
-
 .close-icon { visibility: hidden; }
 
 .example-box:hover > .close-icon {
   visibility: visible;
 }
 
-
 .title-container{
   display:flex;
   justify-content: space-between;
+  padding:0;
 }
 .title-container:hover > .close-icon {
   visibility: visible;
@@ -127,19 +143,36 @@ html, body {
   flex-wrap: wrap;
 }
 
+.input-container {
+  padding: 20px 10px;
+  color: #000000de;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font-size: 10px;
+}
+
+
 .input-box {
   background: white;
-  padding: 10px;
-  font-size: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  font-size: 12px;
   border-radius: 5px;
   margin-right: 2px;
   border-width: 1px;
-  flex:none;
+  flex:3;
+  min-width: 0;
 }
 
 .input-button{
   padding: 2px 2px;
-  flex:none;
+  flex:1;
+  min-width: 0;
+
 }
 
 
@@ -147,7 +180,7 @@ html, body {
   cursor: move;
   width: 24px;
   height: 24px;
-  color: #4e4e4ec7;
+  color: #FFFFFF;
 }
 
 .inline-container{
@@ -157,5 +190,6 @@ html, body {
 .list-container{
   white-space : nowrap;
   margin-bottom: 40px;
-  display:flex
+  margin-top: 20px;
+  display:flex;
 }

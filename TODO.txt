@@ -1,15 +1,25 @@
 Make look nice. 
-Responsive.
-	ORGANNISE AND MODULARISE
-		Lazy vs eager loading
+	if logged in, only display 'logout'. if logged out, only display 'login/sign up'
+	'Rannc' takes you home
+	Responsive.
+		is responsiveness built into angular material? 
+			https://material.angular.io/cdk/layout/overview
+		Does it require custom media queries?
+		flex box?
 		
+		TODO
+			toolbar to be fixed. collapsable menu on smaller screens.
+			
 	dragging to side of screen causes screen to drag
-	DOES DELETING ITEMS STILL DELETE THE CORRECT ONE
-	DOES POSTING ITEMS STILL POST AGAINST THE CORRECT ONE
-	need to consider adding group order to the back end, otherwise the order won't be structured each time its received
-		will this need to be a case of separating groups into a sub table with items a  subset of groups?
-			This change could probably be isolated to the back end. As long as the APIs are returning the same data?
-				There may need to be slight tweaks to the client as item arrays may be nested inside groups
+	
+ORGANNISE AND MODULARISE
+	Lazy vs eager loading
+		
+	
+need to consider adding group order to the back end (not category order, this has been done. This applies to the order in which they appear on the home page), alternatively, if not dragging and dropping, these could be ordered alphabetically?
+	will this need to be a case of separating groups into a sub table with items a  subset of groups?
+		This change could probably be isolated to the back end. As long as the APIs are returning the same data?
+			There may need to be slight tweaks to the client as item arrays may be nested inside groups
 	
 Use angular material form from home screen to tidy up login
 add try catch around data service in angular
@@ -75,5 +85,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Warning if attempting to add empty  category/group/item. Improved feel of new group button"
+git commit -m "Back end and client rewrite to wrap initial GET objects in category id/name"
 git push
