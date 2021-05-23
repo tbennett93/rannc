@@ -11,7 +11,7 @@ import { ViewportScroller } from '@angular/common';
 
 @Component({
   templateUrl: './category-items.component.html',
-  styleUrls: ['./category-items.component.css']
+  styleUrls: ['./category-items.component.scss']
 })
 
 

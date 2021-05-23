@@ -85,5 +85,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Back end and client rewrite to wrap initial GET objects in category id/name"
+git commit -m "Improved look and feel of the categories page"
 git push

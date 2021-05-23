@@ -1,0 +1,16 @@
+// import our custom themes
+@import 'my-theme.scss';
+
+// always include only once per project
+@include mat-core();
+
+
+
+
+.my-theme {
+  @include angular-material-theme($my-theme);
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,19 +1,17 @@
 .page-container{
-  margin-top: 150px;
+  margin-top: 0px;
 
 }
 .title{
-  color: #000000;
-  position: fixed;
-  left: 0;
-  transform: translate(calc(50vw - 50%));
-  font-size: 30px;
-  border-width: 1px;
-  border-radius: 3px;
-  padding:5px 100px;
+  color: #FFFFFF;
+  text-decoration-color: #FFFFFF;
+  /* position: fixed; */
+  /* left: 0; */
+  /* transform: translate(calc(50vw - 50%)); */
+  font-size: 20px;
+  padding:20px 25px;
   border:#000000;
-  border-style: solid;
-  
+  height:20px
 }
 
 html, body {
@@ -36,7 +34,6 @@ html, body {
   box-shadow: 2px 2px 3px #888888;
   margin:10px 10px;
   padding: 10px 10px;
-  background:#14213d;
   z-index: -1;
   
 }
@@ -75,7 +72,6 @@ html, body {
 }
 
 .list-title{
-  color: #FFFFFF;
   font-size: 20px;
   padding-top: 4px;
   padding-left: 4px;

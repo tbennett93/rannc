@@ -1,73 +1,72 @@
-<h1 class="title" *ngIf="getLoaded">{{categoryGroupItems.categoryName}}</h1>
-<div class="page-container">
-  <div *ngIf="getLoaded" class="list-container" >
-
-    <div cdkDropList #container>
+  <h1 class="title" *ngIf="getLoaded">{{categoryGroupItems.categoryName}}</h1>
+  <div class="title-spacer"></div>
+  <div class="page-container">
+    <div *ngIf="getLoaded" class="list-container" >
   
-      <div cdkDropList [cdkDropListData]="categoryGroupItems.groups" (cdkDropListDropped)="dropGroup($event)"
-        cdkDropListOrientation="horizontal" #dropListHolder>
-        <div cdkDropListGroup class="example-container" cdkDragLockAxis="x"
-          *ngFor="let list of categoryGroupItems.groups;  let i = index " cdkDrag [cdkDragData]="list">
-          <div class="title-container">
-  
-            <h2 class="list-title">{{list.name}}</h2>
-  
-            <div class="close-icon inline-close-button">
-              <button (click)="deleteGroup(list.id, i)">
-                <span class="material-icons ">close</span>
+      <div cdkDropList #container>
+    
+        <div cdkDropList [cdkDropListData]="categoryGroupItems.groups" (cdkDropListDropped)="dropGroup($event)"
+          cdkDropListOrientation="horizontal" #dropListHolder>
+          <div cdkDropListGroup class="example-container" cdkDragLockAxis="x"
+            *ngFor="let list of categoryGroupItems.groups;  let i = index " cdkDrag [cdkDragData]="list">
+            <div class="title-container">
+    
+              <h2 class="list-title">{{list.name}}</h2>
+    
+              <button class="close-icon-button" mat-icon-button (click)="deleteGroup(list.id, i)">
+                <span class="material-icons close-icon">close</span>
               </button>
+
+
             </div>
-          </div>
-          <!-- <h2>{{group.title}}</h2> -->
-          <div cdkDropList class="example-list" id={{list.id}} [cdkDropListData]="list.items"
-            (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="getConnectedList()">
-            <div *ngFor="let item of list.items;  let j = index" cdkDrag [cdkDragData]="item">
-              <div class="example-box">
-                <div class="item">
-                  {{item.name}}
+            <!-- <h2>{{group.title}}</h2> -->
+            <div cdkDropList class="example-list" id={{list.id}} [cdkDropListData]="list.items"
+              (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="getConnectedList()">
+              <div *ngFor="let item of list.items;  let j = index" cdkDrag [cdkDragData]="item">
+                <div class="example-box">
+                  <div class="item">
+                    {{item.name}}
+                  </div>
+                  <div class="close-icon-button">
+                    <button mat-icon-button (click)="deleteItem(i, j, item.id)">
+                      <span class="material-icons close-icon">close</span>
+                    </button>
+                  </div>
                 </div>
-                <div class="close-icon">
-                  <button (click)="deleteItem(i, j, item.id)">
-                    <span class="material-icons">close</span>
-                  </button>
-                </div>
+                
               </div>
-              
+              <div class="item-spacer"></div>
+    
             </div>
-            <div class="item-spacer"></div>
-  
+            <div class="input-container">
+              <input class="input-box" (keyup.enter)="addNew(addNewInput, list.id, i)" #addNewInput placeholder="New Item">
+              <button class="input-button" mat-raised-button color="accent" (click)="addNew(addNewInput, list.id, i)">Add</button>
+            </div>
+    
+            <div class="example-handle" cdkDragHandle>
+              <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+                </path>
+                <path d="M0 0h24v24H0z" fill="none"></path>
+              </svg>
+            </div>
+          
           </div>
-          <div class="input-container">
-            <input class="input-box" (keyup.enter)="addNew(addNewInput, list.id, i)" #addNewInput placeholder="New Item">
-            <button class="input-button" mat-raised-button color="accent" (click)="addNew(addNewInput, list.id, i)">Add</button>
-          </div>
-  
-          <div class="example-handle" cdkDragHandle>
-            <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
-              </path>
-              <path d="M0 0h24v24H0z" fill="none"></path>
-            </svg>
-          </div>
-        
         </div>
       </div>
-    </div>
-  
-    <div>
-      <!-- <div class="new-group-container"> -->
-        <div class="new-group-container">
-          <!-- <h1>Add New Group</h1> -->
-          <div class="new-group-input-container" fxLayoutAlign="center">
-            <input class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput)">
-            <button class="input-button " mat-raised-button color="accent" (click)="addNewGroup(newGroupInput)">Add</button>
+    
+      <div>
+        <!-- <div class="new-group-container"> -->
+          <div class="new-group-container">
+            <!-- <h1>Add New Group</h1> -->
+            <div class="input-container" fxLayoutAlign="center">
+              <input class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput)">
+              <button class="input-button " mat-raised-button color="accent" (click)="addNewGroup(newGroupInput)">Add</button>
+            </div>
+     
           </div>
-   
-        </div>
+      </div>
     </div>
   </div>
-</div>
-
-
-
+  
