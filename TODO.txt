@@ -1,4 +1,5 @@
 Make look nice. 
+	move each element to be its own component
 	if logged in, only display 'logout'. if logged out, only display 'login/sign up'
 	'Rannc' takes you home
 	Responsive.
@@ -85,5 +86,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Improved look and feel of the categories page"
+git commit -m "Further improved look and feel of the categories page"
 git push

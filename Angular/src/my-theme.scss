@@ -2,7 +2,7 @@
 
 
 $my-theme-primary: mat-palette($mat-light-blue, 900, 700, 300);
-$my-theme-accent: mat-palette($mat-deep-purple, 300);
+$my-theme-accent: mat-palette($mat-deep-orange, 200);
 $my-theme-warn: mat-palette($mat-red, A400);
 
 // create theme (use mat-dark-theme for themes with dark backgrounds)
@@ -19,3 +19,7 @@ $accent: mat-color($my-theme-accent);
 $warn: mat-color($my-theme-warn);
 
 $shadow:#00000044;
+$background:#e9ecef;
+$card-colour:#495057;
+$inner-card-colour: #6c757d;
+$off-white:#f8f9fa;
