@@ -21,6 +21,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CoreModule } from './core/core.module'
 import { SharedModule } from './shared/shared.module';
+import { AppNavbarModule } from './core/app-navbar/app-navbar.module';
+import { AppNavbarComponent } from './core/app-navbar/app-navbar.component';
 
 
 
@@ -49,6 +51,7 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     CategoryItemsModule,
+    AppNavbarModule,
     RouterModule.forRoot([
       {path: 'home', component: HomeComponent},
       //route blocked by AuthGuard which only lets a page be accessible if a token exists and hasnt expired

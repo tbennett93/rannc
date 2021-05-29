@@ -51,22 +51,22 @@
     height:auto;
     display: inline-block;
     vertical-align: top;
-    border-radius: 5px 15px 10px 15px;
+    border-radius: 5px 5px ;
     box-shadow: 1px 1px 1px 2px $shadow;
     margin:10px 10px;
     z-index: -1;
-    background-color: $card-colour;
-    
-    
+    background-color: #495057;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L20 10.172 21.828 12h-3.656z' fill='%23e9ecef' fill-opacity='0.01' fill-rule='evenodd'/%3E%3C/svg%3E");
   }
 
   .inner-container{
-    border-radius: 7px 7px 7px 7px;
+    border-radius: 5px 5px;
     margin: 10px 5px 20px 5px;
     z-index: -1;
     background-color: $inner-card-colour;
     padding: 3px 0px;
     box-shadow: 1px 1px 1px 1px $shadow;
+
   }
   
   .title-container{
@@ -95,7 +95,6 @@
     margin:10px;
     min-height: 60px;
     
-    border-radius: 4px;
     display: block;
     
 
@@ -110,7 +109,7 @@
     box-sizing: border-box;
     cursor: move;
     margin: 10px 0px;
-    border-radius: 1px 7px 5px 7px;
+    border-radius: 3px;
     box-shadow:  1px 1px 1px 2px $shadow;
     background-color: $off-white;
   
@@ -176,8 +175,9 @@
   }
 
   .example-box .close-icon { 
-    color:$off-white;
+    color:$card-colour;
     font-size: 20px;
+    padding-right: 0px;
   }
   
 

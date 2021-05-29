@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatIconModule} from '@angular/material/icon';
+
 
 
 
@@ -11,11 +14,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   imports: [
     CommonModule,
     MatButtonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    FlexLayoutModule,
+    MatIconModule
   ],
   exports:[
-    CommonModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSnackBarModule,
+    FlexLayoutModule,
+    MatIconModule
   ]
 })
 export class SharedModule { }

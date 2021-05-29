@@ -23,7 +23,6 @@
               </div>
             <div class="inner-container">
 
-              <!-- <h2>{{group.title}}</h2> -->
               <div cdkDropList class="example-list" id={{list.id}} [cdkDropListData]="list.items"
                 (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="getConnectedList()">
                 <div *ngFor="let item of list.items;  let j = index" cdkDrag [cdkDragData]="item">
@@ -66,9 +65,7 @@
       </div>
     
       <div>
-        <!-- <div class="new-group-container"> -->
           <div class="new-group-container">
-            <!-- <h1>Add New Group</h1> -->
             <div class="input-container" fxLayoutAlign="center">
               <input class="input-box" #newGroupInput placeholder="New Group" (keyup.enter)="addNewGroup(newGroupInput)">
               <button class="input-button " mat-raised-button color="accent" (click)="addNewGroup(newGroupInput)">                 

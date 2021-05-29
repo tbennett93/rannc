@@ -1,23 +1,22 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { RouterModule } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { SharedModule } from '../shared/shared.module';
+import { AppNavbarModule } from './app-navbar/app-navbar.module';
 
 
 @NgModule({
   declarations: [
-    AppNavbarComponent
   ],
   imports: [
     RouterModule,
-    MatToolbarModule,
-    SharedModule
+    SharedModule,
+    AppNavbarModule
 
   ],
   exports: [
-    AppNavbarComponent
+    RouterModule,
+    SharedModule,
+    AppNavbarModule
   ]
 })
 

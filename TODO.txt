@@ -1,15 +1,16 @@
 Make look nice. 
-	move each element to be its own component
-	if logged in, only display 'logout'. if logged out, only display 'login/sign up'
-	'Rannc' takes you home
 	Responsive.
 		is responsiveness built into angular material? 
 			https://material.angular.io/cdk/layout/overview
 		Does it require custom media queries?
 		flex box?
-		
 		TODO
 			toolbar to be fixed. collapsable menu on smaller screens.
+
+	move each element to be its own component
+	if logged in, only display 'logout'. if logged out, only display 'login/sign up'
+	'Rannc' takes you home
+		
 			
 	dragging to side of screen causes screen to drag
 	
@@ -86,5 +87,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Further improved look and feel of the categories page"
+git commit -m "Further improved look and feel of the theme and categories page"
 git push
