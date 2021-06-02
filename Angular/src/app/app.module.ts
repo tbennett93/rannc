@@ -22,7 +22,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CoreModule } from './core/core.module'
 import { SharedModule } from './shared/shared.module';
 import { AppNavbarModule } from './core/app-navbar/app-navbar.module';
-import { AppNavbarComponent } from './core/app-navbar/app-navbar.component';
 
 
 
