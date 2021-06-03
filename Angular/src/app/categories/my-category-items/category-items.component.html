@@ -1,7 +1,5 @@
-  <h1 class="title" *ngIf="getLoaded">{{categoryGroupItems.categoryName}}</h1>
 
   <div class="page-container">
-    <div class="title-spacer"></div>
     <div *ngIf="getLoaded" class="list-container" >
       <app-drag-drop-card-list 
         [categoryId]="categoryId" [categoryGroupItems]="categoryGroupItems">

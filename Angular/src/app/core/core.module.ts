@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { AppNavbarModule } from './app-navbar/app-navbar.module';
+import { PageTitleBarModule } from './page-title-bar/page-title-bar.module';
 
 
 @NgModule({
@@ -10,13 +11,15 @@ import { AppNavbarModule } from './app-navbar/app-navbar.module';
   imports: [
     RouterModule,
     SharedModule,
-    AppNavbarModule
+    AppNavbarModule,
+    PageTitleBarModule
 
   ],
   exports: [
     RouterModule,
     SharedModule,
-    AppNavbarModule
+    AppNavbarModule,
+    PageTitleBarModule
   ]
 })
 

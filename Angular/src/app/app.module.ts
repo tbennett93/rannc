@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,8 +20,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CoreModule } from './core/core.module'
-import { SharedModule } from './shared/shared.module';
-import { AppNavbarModule } from './core/app-navbar/app-navbar.module';
+import { CategoryItemsComponent } from './categories/my-category-items/category-items.component';
+import { AuthGuard } from 'src/app/auth.guard';
 
 
 
@@ -44,20 +44,19 @@ export function tokenGetter() {
   imports: [
     BrowserModule,
     CoreModule,
-    SharedModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     CategoryItemsModule,
-    AppNavbarModule,
     RouterModule.forRoot([
-      {path: 'home', component: HomeComponent},
-      //route blocked by AuthGuard which only lets a page be accessible if a token exists and hasnt expired
-      {path: 'top-categories', component: TopCategoriesComponent},
-      {path: 'social', component: SocialComponent},
-      {path: 'login', component: LoginComponent},
-      {path: 'sign-up', component: SignUpComponent},
+      {path: 'home', component: HomeComponent, data : {title:'Home'}},
+      {path: 'my-rankings', component: CategoryItemsComponent, data : {title:'My Categories'}},
+      {path: 'my-ranking/:id', component: CategoryItemsComponent, canActivate: [AuthGuard], data : {title:'My Categories'}},
+      {path: 'top-categories', component: TopCategoriesComponent, data : {title:'Top Categories'}},
+      {path: 'social', component: SocialComponent, data : {title:'Social'}},
+      {path: 'login', component: LoginComponent, data : {title:'Login'}},
+      {path: 'sign-up', component: SignUpComponent, data : {title:'Sign Up'}},
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: '**', component: PageNotFoundComponent}
     ]),
@@ -71,7 +70,7 @@ export function tokenGetter() {
     FormsModule,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [Title],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

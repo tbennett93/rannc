@@ -6,9 +6,7 @@ Make look nice.
 			
 	dragging to side of screen causes screen to drag
 	
-ORGANNISE AND MODULARISE
-	child component to subscrive to observable emitted by parent, which detemines the IsAccessTokenValid?
-	Lazy vs eager loading
+ORGANNISE AND MODULARISE	
 	only load home page if all data retrieved first
 	
 need to consider adding group order to the back end (not category order, this has been done. This applies to the order in which they appear on the home page), alternatively, if not dragging and dropping, these could be ordered alphabetically?
@@ -80,5 +78,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Responsiveness and style improvements"
+git commit -m "Abstracted category lists into own component"
 git push

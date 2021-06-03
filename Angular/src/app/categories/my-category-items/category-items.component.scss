@@ -1,24 +1,6 @@
 @import "../../../../src/my-theme.scss";
 
 
-
-.title{
-  color: #f8f9fa;
-  font-size: 20px;
-  padding:0px 25px;
-  background-color: $secondary;
-  height: 30px;
-  width: 100%;
-  position: fixed;
-  align-items: center;
-  margin-bottom: 0px;
-  z-index: 1;
-}
-
-.title-spacer{
-  height: 30px;
-}
-
 .page-container{
     margin-top: 0px;
     background-color: $background;

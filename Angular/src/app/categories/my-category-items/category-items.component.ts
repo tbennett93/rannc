@@ -1,10 +1,8 @@
-import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import { CategoryItemsModel } from 'src/app/models/category-items.model';
 import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/services/token.service';
-import { CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import { CategoryGroupsItems, Item, CategoryGroupDto, Group, CategoryGroupsItemsDto } from 'src/app/models/category-groups';
+import { CategoryGroupsItems} from 'src/app/models/category-groups';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewportScroller } from '@angular/common';
 

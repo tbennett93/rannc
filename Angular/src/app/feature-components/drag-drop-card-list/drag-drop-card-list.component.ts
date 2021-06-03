@@ -6,7 +6,6 @@ import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewportScroller } from '@angular/common';
 import { CategoryItemsModel } from 'src/app/models/category-items.model';
-import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -277,11 +276,6 @@ export class DragDropCardListComponent implements OnInit {
       .map(({items,...rest})=> rest)//eliminates the items array. Takes an object with keys items and the remainder and outputs only the remainder
       .map(ite=>({...ite,categoryId:this.categoryGroupItems.categoryId})); //adds the categoryId. Takes the whole groups object and spits out that plus the categoryId
 
-    // console.log('categoryGroupDto');
-    // console.log(categoryGroupDto);
-
-
-
     this.data.moveGroup(categoryGroupDto).subscribe({
       next: data => {
         console.log('Db order update successful');
@@ -294,21 +288,13 @@ export class DragDropCardListComponent implements OnInit {
       }
     });
     
-
   }
 
   openSnackBar(message: string) {
     this._snackBar.open(message, 'close', {
       duration: 3000
     });
-    // console.log('dropList');
-    // console.log(event.container.data);
-    // console.log('previousIndex');
-    // console.log(event.previousIndex +1);
-    // console.log('currentIndexv');
-    // console.log(event.currentIndex +1);    
-    // console.log('item');
-    // console.log(event.item.data.id)
+
   }
 
   updateGroupOrder(){
