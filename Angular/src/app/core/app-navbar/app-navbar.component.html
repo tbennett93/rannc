@@ -4,19 +4,21 @@
     <span class="title-spacer"></span>
   
     <div  fxHide.sm fxHide.xs >
-      <a mat-button [routerLink]="'/home'">Home</a>
-      <a mat-button [routerLink]="'/my-rankings'">My Rankings</a>
+      <a *ngIf="loggedIn" mat-button [routerLink]="'/home'">Home</a>
+      <a *ngIf="!loggedIn" mat-button [routerLink]="'/sign-up'">Home</a>
+      <a mat-button [routerLink]="'/my-categories'">My Categories</a>
       <a mat-button [routerLink]="'/top-categories'">Top Categories</a>
       <a mat-button [routerLink]="'/social'">Social</a>
-      <a mat-button [routerLink]="'/login'">Login</a>
-      <a mat-button [routerLink]="'/sign-up'">Sign Up</a>
+      <a *ngIf="!loggedIn" mat-button [routerLink]="'/login'">Login</a>
+      <a *ngIf="!loggedIn" mat-button [routerLink]="'/sign-up'">Sign Up</a>
+      <a *ngIf="loggedIn" mat-button (click)="logout()" >Logout</a>
     </div>
     <div fxHide fxShow.sm fxShow.xs >
       <a mat-button [routerLink]="'/home'"><mat-icon>home</mat-icon></a>
     </div>
     <button  fxHide fxShow.sm fxShow.xs mat-icon-button [matMenuTriggerFor]="menu" ><mat-icon>menu</mat-icon></button>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item [routerLink]="'/my-rankings'">My Rankings</button>
+        <button mat-menu-item [routerLink]="'/my-categories'">My Categories</button>
         <button mat-menu-item [routerLink]="'/top-categories'">Top Categories</button>
         <button mat-menu-item [routerLink]="'/social'">Social</button>
         <button mat-menu-item [routerLink]="'/login'">Login</button>

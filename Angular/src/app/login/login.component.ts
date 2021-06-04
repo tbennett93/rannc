@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TokenService } from '../services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   invalidLogin: boolean;
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient, private token: TokenService) { }
 
 
   //login works by requesting a token from the server. This will expire in a period defined by the server.
@@ -36,6 +37,7 @@ export class LoginComponent {
       localStorage.setItem("refreshToken", refreshToken);
       this.invalidLogin = false;
       console.log(token);
+      this.token.announceLoginState(true);
       this.router.navigate(["/"]);
     }, err => {
       this.invalidLogin = true;
@@ -43,9 +45,5 @@ export class LoginComponent {
     });
   }
 
-  logOut() {
-    localStorage.removeItem("jwt");
-    localStorage.removeItem("refreshToken");
- }
 
 }

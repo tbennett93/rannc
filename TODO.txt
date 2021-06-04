@@ -1,11 +1,3 @@
-Make look nice. 
-	move each element to be its own component
-	if logged in, only display 'logout'. if logged out, only display 'login/sign up'
-	'Rannc' takes you home
-		
-			
-	dragging to side of screen causes screen to drag
-	
 ORGANNISE AND MODULARISE	
 	only load home page if all data retrieved first
 	
@@ -78,5 +70,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Abstracted category lists into own component"
+git commit -m "Abstracted title bar into own component"
 git push

@@ -51,8 +51,8 @@ export function tokenGetter() {
     CategoryItemsModule,
     RouterModule.forRoot([
       {path: 'home', component: HomeComponent, data : {title:'Home'}},
-      {path: 'my-rankings', component: CategoryItemsComponent, data : {title:'My Categories'}},
-      {path: 'my-ranking/:id', component: CategoryItemsComponent, canActivate: [AuthGuard], data : {title:'My Categories'}},
+      {path: 'my-categories', component: CategoryComponent, canActivate: [AuthGuard], data : {title:'My Categories'}},
+      {path: 'my-category/:id', component: CategoryItemsComponent, canActivate: [AuthGuard], data : {title:'My Categories'}},
       {path: 'top-categories', component: TopCategoriesComponent, data : {title:'Top Categories'}},
       {path: 'social', component: SocialComponent, data : {title:'Social'}},
       {path: 'login', component: LoginComponent, data : {title:'Login'}},

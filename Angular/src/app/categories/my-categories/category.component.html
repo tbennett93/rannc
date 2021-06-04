@@ -1,9 +1,7 @@
 
-
-<h2>Categories</h2>
 <ul>
   <li *ngFor="let item of category; let i = index">
-    <a [routerLink]="['/my-ranking', item.id]">
+    <a [routerLink]="['/my-category', item.id]">
       <span class="badge">{{ item.name }}</span>
     </a>
     <button class="input-button " mat-raised-button color="warn" (click)="deleteCategory(item.id, i)">Delete</button>

@@ -1,8 +1,5 @@
 <form class="form-signup" #signUpForm="ngForm" (ngSubmit)="signUp(signUpForm)">
     <div class="container-fluid">
-
-        <h2 class="form-signup-heading">Sign Up</h2>
-
         <div *ngIf="username.invalid && (username.dirty || username.touched) && notFocussed" class="alert alert-danger">
             <div *ngIf="username.errors.required">Username is required</div>
         </div>

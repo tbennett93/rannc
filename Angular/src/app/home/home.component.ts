@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(private data : DataService, private tokenService : TokenService) { };
 
   ngOnInit(): void {
-    if (this.isUserAuthenticated && this.tokenService.isAccessTokenValid()){
+    if (this.tokenService.isAccessTokenValid()){
       this.data.getCategories().subscribe({
         next: (data: CategoryModel[]) => {
           this.category = data;
@@ -26,21 +26,6 @@ export class HomeComponent implements OnInit {
       });
     }
   };
-
-  isUserAuthenticated() {
-    const token: string = localStorage.getItem("jwt");
-    if (token) {return true;}
-    else {return false;}
-  }
-
-  logout() {
-    localStorage.removeItem("jwt");
-    console.log("logged out");
-  }
-
-
-
-
 
 }
 

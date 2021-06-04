@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService} from "@auth0/angular-jwt";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Subject } from 'rxjs';
 
 
 @Injectable({
@@ -8,8 +9,15 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 })
 export class TokenService {
 
-
+  
   constructor(private http: HttpClient, private jwt: JwtHelperService ) {  }
+
+  private loggedInStateAnnounced = new Subject<boolean>();
+  loggedInStateAnnounced$ = this.loggedInStateAnnounced;
+
+  announceLoginState(state: boolean){
+    this.loggedInStateAnnounced.next(state);
+  }
 
   public async isAccessTokenValid(): Promise<boolean>{
 
