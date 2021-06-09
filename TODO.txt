@@ -1,13 +1,20 @@
-ORGANNISE AND MODULARISE	
-	only load home page if all data retrieved first
+LOOK AND FEEL
 	
+	categories
+	
+	home
+		logged in
+		not logged in
+
+
+
 need to consider adding group order to the back end (not category order, this has been done. This applies to the order in which they appear on the home page), alternatively, if not dragging and dropping, these could be ordered alphabetically?
 	will this need to be a case of separating groups into a sub table with items a  subset of groups?
 		This change could probably be isolated to the back end. As long as the APIs are returning the same data?
 			There may need to be slight tweaks to the client as item arrays may be nested inside groups
 	
-Use angular material form from home screen to tidy up login
-add try catch around data service in angular
+
+
 
 Really think about server side validation on client requests as the access token can be used to make custom post requests. HOw can this be prevented? 
 	What if the user changes the categories URL ID?
@@ -37,18 +44,6 @@ max number of category item groups
 
 Rename TS javascript files on production so they aren't cached by users
 		
-	my rankings/id
-		build hand coded my-rankings/id and have it displayed on my-rankings/id page
-		have user accessing my-rankings/id submit a GET for their rankings
-		display their rankings (loosely)
-		build my=rankings/id table
-		replace hard coded my-rankings with db call
-		
-		build post method for adding new rankings
-		build front end sorting and allow this to submit to db on submit/save
-		should update page async	
-		build post method for adding new rankings category
-		should update page async
 
 
 Build my-rankings/id model - hand built
@@ -70,5 +65,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Abstracted title bar into own component"
+git commit -m "Navbar login/logout/sign up buttons react to users logged in state"
 git push

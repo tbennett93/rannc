@@ -14,6 +14,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   title = 'Rannc';
   category: CategoryModel[];
+  getLoaded: boolean;
 
   constructor(private data: DataService, private tokenService: TokenService, private _snackBar: MatSnackBar) { };
 
@@ -22,6 +23,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       this.data.getCategories().subscribe({
         next: (data: CategoryModel[]) => {
           this.category = data;
+          this.getLoaded = true;
         },
         error: () => {
           console.log("error in getCategoriesObserver");
