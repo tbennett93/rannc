@@ -7,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CategoryComponent } from 'src/app/categories/my-categories/category.component';
 
 import { TopCategoriesComponent } from './top-categories/top-categories.component';
 import { SocialComponent } from './social/social.component';
@@ -22,6 +21,7 @@ import { CategoryItemsComponent } from './categories/my-category-items/category-
 import { AuthGuard } from 'src/app/auth.guard';
 import { LoginModule } from './login/login.module';
 import { HomeModule } from './home/home.module';
+import { CategoryModule } from './categories/my-categories/category.module';
 
 
 
@@ -35,7 +35,6 @@ export function tokenGetter() {
     TopCategoriesComponent,
     SocialComponent,
     PageNotFoundComponent,
-    CategoryComponent,
     SignUpComponent
 
   ],
@@ -48,7 +47,6 @@ export function tokenGetter() {
     ReactiveFormsModule,
     CategoryItemsModule,
     RouterModule.forRoot([
-      {path: 'my-categories', component: CategoryComponent, canActivate: [AuthGuard], data : {title:'My Categories'}},
       {path: 'my-category/:id', component: CategoryItemsComponent, canActivate: [AuthGuard], data : {title:'My Categories'}},
       {path: 'top-categories', component: TopCategoriesComponent, data : {title:'Top Categories'}},
       {path: 'social', component: SocialComponent, data : {title:'Social'}},
@@ -66,7 +64,8 @@ export function tokenGetter() {
     FormsModule,
     FlexLayoutModule,
     LoginModule,
-    HomeModule
+    HomeModule,
+    CategoryModule
   ],
   providers: [Title],
   bootstrap: [AppComponent]

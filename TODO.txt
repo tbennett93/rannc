@@ -1,3 +1,5 @@
+moduollarise the cateogory panel
+
 LOOK AND FEEL
 	
 	categories
@@ -65,5 +67,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Navbar login/logout/sign up buttons react to users logged in state"
+git commit -m "Home page improved"
 git push

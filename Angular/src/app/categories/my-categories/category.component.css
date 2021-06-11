@@ -79,4 +79,17 @@
     visibility: visible;
   }
   
-  
+  .tile-button{
+    cursor:pointer;
+  }
+
+  .tile-container{
+    width:80%;
+    margin:auto;
+  }
+  .tile{
+  }
+
+  .close-icon{
+    font-size: 24px;
+  }

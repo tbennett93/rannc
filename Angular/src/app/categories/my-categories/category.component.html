@@ -12,9 +12,27 @@
   </ul>
 
   <div class="input-container">
-      <input class="input-box" (keyup.enter)="addNew(addNewInput)" #addNewInput placeholder="New Category">
-      <button class="input-button" mat-raised-button color="accent" (click)="addNew(addNewInput)">Add</button>
+    <input class="input-box" (keyup.enter)="addNew(addNewInput)" #addNewInput placeholder="New Category">
+    <button class="input-button" mat-raised-button color="accent" (click)="addNew(addNewInput)">Add</button>
   </div>
 
 
+</div>
+
+
+<div class="tile-container">
+  <mat-grid-list cols="4" rowHeight="100px">
+    <div class="tile">
+      <mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows"
+        [style.background]="tile.colour" [routerLink]="['/my-category', tile.id]" class="tile-button">
+          
+        <button class="close-icon-button" mat-icon-button (click)="deleteCategory(item.id, i)">
+          <span class="material-icons">close</span>
+        </button>
+        
+        {{ tile.text }}
+      </mat-grid-tile>
+    </div>
+
+  </mat-grid-list>
 </div>
