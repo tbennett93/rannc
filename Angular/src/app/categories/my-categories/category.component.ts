@@ -1,6 +1,6 @@
 import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { CategoryModel } from 'src/app/models/category.model';
 import { DataService } from 'src/app/services/data.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -22,10 +22,23 @@ export class RowsColumns{
   columns: number;
 }
 
+
+@Component({
+  selector: 'snack-bar-component-example-snack',
+  template: '<span class="example-pizza-party">  Pizza party!!! 🍕</span>',
+  styles: [`
+    .example-pizza-party {
+      color: hotpink;
+    }
+  `],
+})
+export class PizzaPartyComponent {}
+
+
 @Component({
   templateUrl: './category.component.html',
   selector: 'categories',
-  styleUrls: ['./category.component.css']
+  styleUrls: ['./category.component.scss']
 })
 
 
@@ -47,6 +60,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
     {colour: '#bdb2ff' },
     {colour: '#ffc6ff' }
   ];
+
+  newCategoryColour : Color = {colour:'#ffc6ff'};
 
 
 
@@ -193,9 +208,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open(message, 'close', {
-      duration: 3000
-    });
+    const config = new MatSnackBarConfig();
+    config.panelClass = ['snackbar'];
+    config.duration = 3000;
+    this._snackBar.open(message, 'close', config);
   }
   
   isUserAuthenticated() {
@@ -211,7 +227,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     let name = inputField.value;
 
     if (!name) {
-      this.openSnackBar('Enter a category name');
+      this.openSnackBar('Error. Please enter a category name.');
       return null;
     }
 
@@ -222,6 +238,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         next: (resp: CategoryModel) => {
           this.category.push(resp);
           inputField.value = '';
+          this.tiles = [];
           this.populateTileArray();
         },
         error: err => {
@@ -234,20 +251,5 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   }
 
-  deleteCategory(id: string, index) {
-    if (confirm("Are you sure you want to delete this category and all contents?")) {
 
-      if (this.tokenService.isAccessTokenValid()) {
-
-        console.log('deleting - ' + id);
-        this.data.deleteCategory(id).subscribe({
-          next: resp => this.category.splice(index, 1),
-          error: err => {
-            console.log(err);
-            this.openSnackBar('Error deleting category. Please try again later.');
-          }
-        })
-      }
-    }
-  }
 }

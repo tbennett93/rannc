@@ -1,9 +1,14 @@
 
+  
   <div class="page-container">
     <div *ngIf="getLoaded" class="list-container" >
       <app-drag-drop-card-list 
         [categoryId]="categoryId" [categoryGroupItems]="categoryGroupItems">
       </app-drag-drop-card-list>
     </div>
+    <button class="input-button delete-button list-container" mat-raised-button color="warn" (click)="deleteCategory()">Delete Category</button>
   </div>
+
+
   
+            

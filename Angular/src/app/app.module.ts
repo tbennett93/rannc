@@ -52,8 +52,9 @@ export function tokenGetter() {
       {path: 'social', component: SocialComponent, data : {title:'Social'}},
       {path: 'sign-up', component: SignUpComponent, data : {title:'Sign Up'}},
       {path: '', redirectTo: 'home', pathMatch: 'full'},
-      {path: '**', component: PageNotFoundComponent}
-    ]),
+      {path: '**', component: PageNotFoundComponent},
+      
+    ], {scrollPositionRestoration: 'enabled'}),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

@@ -1,4 +1,5 @@
 moduollarise the cateogory panel
+can I only view my own categories? Try accessing one for another user via URL
 
 LOOK AND FEEL
 	
@@ -67,5 +68,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Home page improved"
+git commit -m "Categories laid out in tiles, which dynamically arrange"
 git push

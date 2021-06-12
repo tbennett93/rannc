@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { CategoryComponent } from './category.component';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/auth.guard';

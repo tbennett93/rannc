@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TokenService } from 'src/app/services/token.service';
 import { CategoryGroupsItems} from 'src/app/models/category-groups';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,7 +20,7 @@ export class CategoryItemsComponent implements OnInit {
 
   errorMsg: string = 'Error Processing Request';
 
-  constructor(private tokenService: TokenService, private data: DataService, private route: ActivatedRoute,  private _snackBar: MatSnackBar, private viewportScroller: ViewportScroller) { }
+  constructor(private tokenService: TokenService, private data: DataService, private route: ActivatedRoute,  private _snackBar: MatSnackBar, private viewportScroller: ViewportScroller, private router: Router) { }
 
   openSnackBar(message: string) {
     this._snackBar.open(message, 'close', {
@@ -65,6 +65,26 @@ export class CategoryItemsComponent implements OnInit {
     }
   }
 
+  deleteCategory(): void{
+    if (confirm("Are you sure you want to delete this category and all contents?")) {
+
+      if (this.tokenService.isAccessTokenValid()) {
+        this.data.deleteCategory(this.categoryId).subscribe({
+          next: resp => this.router.navigate(['/my-categories']),
+          error: err => {
+            console.log(err);
+            this.openSnackBar('Error deleting category. Please try again later.');
+          }
+        })
+      }
+    };
+  }
+
+
+
+
+
+  
 
 
 }
