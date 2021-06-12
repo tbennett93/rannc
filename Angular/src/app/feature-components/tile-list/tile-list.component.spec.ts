@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TopCategoriesComponent } from './top-categories.component';
+import { TileListComponent } from './tile-list.component';
 
-describe('TopCategoriesComponent', () => {
-  let component: TopCategoriesComponent;
-  let fixture: ComponentFixture<TopCategoriesComponent>;
+describe('TileListComponent', () => {
+  let component: TileListComponent;
+  let fixture: ComponentFixture<TileListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TopCategoriesComponent ]
+      declarations: [ TileListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TopCategoriesComponent);
+    fixture = TestBed.createComponent(TileListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

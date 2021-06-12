@@ -1,0 +1,17 @@
+@import '../../../my-theme.scss';
+
+.tile-button{
+  cursor:pointer;
+}
+
+
+
+
+.new-category-tile{
+  background: blue;
+}
+
+mat-grid-tile {
+  background: $card-colour;
+}
+

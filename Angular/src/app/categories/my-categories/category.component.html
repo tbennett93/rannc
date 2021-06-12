@@ -2,21 +2,13 @@
 
   <div class="content-spacer"></div>
   <div class="tile-container">
-    <mat-grid-list cols="4" rowHeight="100px">
-      <mat-grid-tile class="tile-button" *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows"
-        [style.background]="tile.colour" [routerLink]="['/my-category', tile.id]">
-        <h2 class="button-text"> {{ tile.text }} </h2>
-      </mat-grid-tile>
+    <app-tile-list [category]="category">
+    </app-tile-list>
+  </div>
 
-      
-      
-      <mat-grid-tile class="newCategoryTile" [colspan]="4" [rowspan]="1">
-        <div class="input-container">
-          <input class="input-box" (keyup.enter)="addNew(addNewInput)" #addNewInput placeholder="New Category">
-          <button class="input-button" mat-raised-button color="accent" (click)="addNew(addNewInput)">Add</button>
-        </div>
-      </mat-grid-tile>
-
-    </mat-grid-list>
+  
+  <div class="input-container">
+    <input class="input-box" (keyup.enter)="addNew(addNewInput)" #addNewInput placeholder="New Category">
+    <button class="input-button" mat-raised-button color="accent" (click)="addNew(addNewInput)">Add</button>
   </div>
 </div>

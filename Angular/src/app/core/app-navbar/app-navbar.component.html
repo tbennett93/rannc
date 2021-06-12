@@ -7,7 +7,7 @@
       <a *ngIf="loggedIn" mat-button [routerLink]="'/home'">Home</a>
       <a *ngIf="!loggedIn" mat-button [routerLink]="'/sign-up'">Home</a>
       <a mat-button [routerLink]="'/my-categories'">My Categories</a>
-      <a mat-button [routerLink]="'/top-categories'">Top Categories</a>
+      <a mat-button [routerLink]="'/templates'">Templates</a>
       <a mat-button [routerLink]="'/social'">Social</a>
       <a *ngIf="!loggedIn" mat-button [routerLink]="'/login'">Login</a>
       <a *ngIf="!loggedIn" mat-button [routerLink]="'/sign-up'">Sign Up</a>
@@ -19,7 +19,7 @@
     <button  fxHide fxShow.sm fxShow.xs mat-icon-button [matMenuTriggerFor]="menu" ><mat-icon>menu</mat-icon></button>
     <mat-menu #menu="matMenu">
         <button mat-menu-item [routerLink]="'/my-categories'">My Categories</button>
-        <button mat-menu-item [routerLink]="'/top-categories'">Top Categories</button>
+        <button mat-menu-item [routerLink]="'/templates'">Templates</button>
         <button mat-menu-item [routerLink]="'/social'">Social</button>
         <button mat-menu-item [routerLink]="'/login'">Login</button>
         <button mat-menu-item [routerLink]="'/sign-up'">Sign Up</button>

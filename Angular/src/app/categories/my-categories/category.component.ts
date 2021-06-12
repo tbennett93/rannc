@@ -23,17 +23,6 @@ export class RowsColumns{
 }
 
 
-@Component({
-  selector: 'snack-bar-component-example-snack',
-  template: '<span class="example-pizza-party">  Pizza party!!! 🍕</span>',
-  styles: [`
-    .example-pizza-party {
-      color: hotpink;
-    }
-  `],
-})
-export class PizzaPartyComponent {}
-
 
 @Component({
   templateUrl: './category.component.html',
@@ -50,140 +39,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
   category: CategoryModel[];
   getLoaded: boolean;
 
-  colours: Color[] = [
-    {colour: '#ffadad' },
-    {colour: '#ffd6a5' },
-    {colour: '#fdffb6' },
-    {colour: '#caffbf' },
-    {colour: '#9bf6ff' },
-    {colour: '#a0c4ff' },
-    {colour: '#bdb2ff' },
-    {colour: '#ffc6ff' }
-  ];
-
-  newCategoryColour : Color = {colour:'#ffc6ff'};
-
-
-
-  tiles: Tile[] = new Array<Tile>();
- 
-  colourIndex: number = 0;
-
   
-  getFullBlocksRowAndColumns(amount: number, remainder: number){
-    let rowsColumns = new Array<RowsColumns>();
-    console.log('whole');
-    console.log(amount);
-
-    console.log('remainder');
-    console.log(remainder);
-
-    let flip: boolean = false;
-
-    //full block
-    for (let index = 0; index < amount; index++) {
-      if(!flip){
-        rowsColumns = rowsColumns.concat([
-          {rows:1, columns:2},
-          {rows:2, columns:2},
-          {rows:1, columns:1},
-          {rows:1, columns:1}          
-        ])
-      }
-      else{
-        rowsColumns = rowsColumns.concat([
-          {rows:2, columns:2},
-          {rows:1, columns:2},
-          {rows:1, columns:1},
-          {rows:1, columns:1}          
-        ])        
-      }  
-      flip = !flip;
-    }
-
-
-    //partial block
-    switch(remainder) { 
-      case 1: { 
-         //statements; 
-         rowsColumns = rowsColumns.concat( [
-           {rows:1, columns:4}
-         ])
-         break; 
-      } 
-      case 2: { 
-        rowsColumns = rowsColumns.concat([
-          {rows:1, columns:2},
-          {rows:1, columns:2}
-        ]);
-         break; 
-      } 
-      case 3: { 
-        if(!flip){
-          rowsColumns = rowsColumns.concat([
-            {rows:1, columns:3},
-            {rows:2, columns:1},
-            {rows:1, columns:3}
-          ]);
-        }
-        else{
-          rowsColumns = rowsColumns.concat([
-            {rows:2, columns:1},
-            {rows:1, columns:3},
-            {rows:1, columns:3}
-          ]);
-        }
-         break; 
-      } 
-   } 
-   console.log('getFullBlocksRowAndColumns rowsColumns');
-   console.log(rowsColumns);
-    return rowsColumns;
-  }
-  calculateTileRowsAndColumns() : RowsColumns[]{
-    let arrayLength: number  = this.category.length;
-    
-    let fullBlocks: number = Math.floor(arrayLength/4);
-    let partialBlocks: number = arrayLength%4;
-
-    let rowsColumns : RowsColumns[];
-    
-    rowsColumns = this.getFullBlocksRowAndColumns(fullBlocks, partialBlocks);
-
-    console.log('arraykrngth');
-    console.log(arrayLength);
-
-   //TODO when over 4 in length, repeat, but mirror
-    return rowsColumns;
-  }
-
-  getTileColour(){
-    let colour: string =  this.colours[this.colourIndex].colour;
-    this.colourIndex++;
-    if (this.colourIndex >= this.colours.length){
-      this.colourIndex = 0;
-    }
-    return colour;
-  }
-
-  populateTileArray(){
-
-    let rowsAndColumns : RowsColumns[] = this.calculateTileRowsAndColumns();
-    console.log('rowsAndColumns');
-    console.log(rowsAndColumns);
-    this.category.forEach((cat, index) => {
-      console.log(cat.name);
-      let tile : Tile = new Tile();
-      tile.id = cat.id;
-      tile.text = cat.name;
-      tile.colour = this.getTileColour();
-      tile.rows = rowsAndColumns[index].rows;
-      tile.cols = rowsAndColumns[index].columns;
-      console.log(tile);
-      this.tiles.push(tile)
-    });
-
-  }
+  
+  
   constructor(private data: DataService, private tokenService: TokenService, private _snackBar: MatSnackBar) { };
 
   ngOnInit(): void {
@@ -192,7 +50,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
         next: (data: CategoryModel[]) => {
           this.category = data;
           console.log(data);
-          this.populateTileArray();
           this.getLoaded = true;
         },
         error: () => {
@@ -238,8 +95,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
         next: (resp: CategoryModel) => {
           this.category.push(resp);
           inputField.value = '';
-          this.tiles = [];
-          this.populateTileArray();
         },
         error: err => {
           console.log(err);

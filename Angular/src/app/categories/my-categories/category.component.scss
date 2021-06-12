@@ -60,9 +60,7 @@
     color: rgba(0, 0, 0, 0.87);
     display: flex;
     margin:auto;
-    left: 0px;
-    right:0px;
-
+    justify-content: center;
   }
   
   .input-box {
@@ -82,35 +80,13 @@
     visibility: visible;
   }
   
-  .tile-button{
-    cursor:pointer;
-  }
-
   .tile-container{
     width:80%;
     margin:auto;
   }
 
-  .close-icon{
-    font-size: 24px;
-  }
+  
 
-  .new-category-tile{
-    background: blue;
-  }
-
-  mat-grid-tile {
-    background: $card-colour;
-  }
-
-
-  .button-text{
-  }
-
-  ::ng-deep .mat-grid-tile.mat-figure{
-    border-radius: 50px;
-  }
-
-  .content-spacer{
-    height:40px;
-  }
+.content-spacer{
+  height:40px;
+}

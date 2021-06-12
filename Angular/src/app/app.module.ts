@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { TopCategoriesComponent } from './top-categories/top-categories.component';
+import { TemplatesComponent } from './templates/templates.component';
 import { SocialComponent } from './social/social.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -22,6 +22,7 @@ import { AuthGuard } from 'src/app/auth.guard';
 import { LoginModule } from './login/login.module';
 import { HomeModule } from './home/home.module';
 import { CategoryModule } from './categories/my-categories/category.module';
+import { TemplatesModule } from './templates/templates.module';
 
 
 
@@ -32,7 +33,6 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    TopCategoriesComponent,
     SocialComponent,
     PageNotFoundComponent,
     SignUpComponent
@@ -46,8 +46,8 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     CategoryItemsModule,
+    TemplatesModule,
     RouterModule.forRoot([
-      {path: 'top-categories', component: TopCategoriesComponent, data : {title:'Top Categories'}},
       {path: 'social', component: SocialComponent, data : {title:'Social'}},
       {path: 'sign-up', component: SignUpComponent, data : {title:'Sign Up'}},
       {path: '', redirectTo: 'home', pathMatch: 'full'},
