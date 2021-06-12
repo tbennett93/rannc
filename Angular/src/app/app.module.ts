@@ -47,7 +47,6 @@ export function tokenGetter() {
     ReactiveFormsModule,
     CategoryItemsModule,
     RouterModule.forRoot([
-      {path: 'my-category/:id', component: CategoryItemsComponent, canActivate: [AuthGuard], data : {title:'My Categories'}},
       {path: 'top-categories', component: TopCategoriesComponent, data : {title:'Top Categories'}},
       {path: 'social', component: SocialComponent, data : {title:'Social'}},
       {path: 'sign-up', component: SignUpComponent, data : {title:'Sign Up'}},

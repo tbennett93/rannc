@@ -106,6 +106,19 @@ namespace Rannc.Controllers
                 return BadRequest("Bad request");
             }
 
+            var userCategories = await _categoriesRepository.GetCategories((long) userId);
+            if (userCategories  == null)
+            {
+                _iLogger.LogWarning("No categories found for user");
+                return BadRequest("Bad request");
+            };
+
+            if (!userCategories.Any(u => u.Id == categoryId))
+            {
+                _iLogger.LogWarning("Unauthorised");
+                return StatusCode(403);
+            }
+
             var userCategoryItems = await _categoriesRepository.GetCategoryItems(categoryId, (long) userId);
 
             //var model = _mapper.Map<List<CategoryItemsViewModel>>(userCategoryItems);
@@ -113,6 +126,7 @@ namespace Rannc.Controllers
 
             var userCategoryItemsView = _mapper.Map<CategoryGroupItemsViewModel>(userCategoryItems);
 
+        
             //foreach (var category in userCategoryItems)
             //{
             //    userCategoryItemsView.CategoryName = category.Name;
@@ -127,7 +141,7 @@ namespace Rannc.Controllers
 
 
             //}
-       
+
             _iLogger.LogInformation("Categories for user found");
             return Ok(userCategoryItemsView);
         }

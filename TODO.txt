@@ -1,5 +1,5 @@
-moduollarise the cateogory panel
 can I only view my own categories? Try accessing one for another user via URL
+	can access the route but not view data or delete
 
 LOOK AND FEEL
 	
@@ -68,5 +68,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Categories laid out in tiles, which dynamically arrange"
+git commit -m "Further improvements and functionality to tiles on Categories page"
 git push

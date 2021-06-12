@@ -45,7 +45,6 @@ export class CategoryItemsComponent implements OnInit {
     if (this.tokenService.isAccessTokenValid) {
       this.data.getCategoryItems(this.categoryId).subscribe({
         next: (data: CategoryGroupsItems) => {
-
           data.groups.sort(((a, b): any => parseInt(a.order) - parseInt(b.order)));
           data.groups.forEach( d => d.items.sort((a,b)=> parseInt(a.order) - parseInt(b.order)));
           data.groups.sort(((a, b): any => parseInt(a.order) - parseInt(b.order)));
@@ -54,14 +53,21 @@ export class CategoryItemsComponent implements OnInit {
           console.log('category groups:');
           console.log(this.categoryGroupItems);
           this.getLoaded = true;
-
         },    
 
-        error: () => {
+        error: (err) => {
           console.log("error fetching category items");
+          if (err.status === 403){
+            this.openSnackBar('You do not have access to view this data.');
+            this.router.navigate(['/home']);
+          }
           this.openSnackBar('Error getting your data. Please try again later.');
-        }
+        },
+        complete: () => console.log('finished fetch')
       });
+    }
+    else{
+      console.log('NOT LOGGED IN');
     }
   }
 
