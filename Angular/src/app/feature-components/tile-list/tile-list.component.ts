@@ -1,4 +1,4 @@
-import { Component, Input, IterableDiffers, OnInit } from '@angular/core';
+import { Component, DefaultIterableDiffer, Input, IterableDiffers, KeyValueDiffers, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Color, Tile, RowsColumns } from 'src/app/categories/my-categories/category.component';
 import { CategoryModel } from 'src/app/models/category.model';
@@ -25,22 +25,23 @@ export class TileListComponent implements OnInit {
     {colour: '#9bf6ff' },
     {colour: '#a0c4ff' },
     {colour: '#bdb2ff' },
-    {colour: '#ffc6ff' }
+    {colour: '#ffc6ff' },
+    {colour: '#E4E3D3' },
+
   ];
 
   newCategoryColour : Color = {colour:'#ffc6ff'};
   tiles: Tile[] = new Array<Tile>();
   colourIndex: number = 0;
   
-  constructor(private data: DataService, private tokenService: TokenService, private _snackBar: MatSnackBar, differs: IterableDiffers) {
-    this.differ = differs.find([]).create(null);
+  constructor(private data: DataService, private tokenService: TokenService, private _snackBar: MatSnackBar, differs: KeyValueDiffers) {
+    this.differ = differs.find({}).create();
 
    };
 
    ngDoCheck() {
-    // const change = this.differ.diff(this.category);
-    // console.log(change);
-    if(this.getLoaded){
+    const change = this.differ.diff(this.category) ;
+    if(this.getLoaded && change){
       this.tiles=[];
       this.populateTileArray();
     }
@@ -55,11 +56,11 @@ export class TileListComponent implements OnInit {
   
   getFullBlocksRowAndColumns(amount: number, remainder: number){
     let rowsColumns = new Array<RowsColumns>();
-    console.log('whole');
-    console.log(amount);
+    // console.log('whole');
+    // console.log(amount);
 
-    console.log('remainder');
-    console.log(remainder);
+    // console.log('remainder');
+    // console.log(remainder);
 
     let flip: boolean = false;
 
@@ -119,8 +120,8 @@ export class TileListComponent implements OnInit {
          break; 
       } 
    } 
-   console.log('getFullBlocksRowAndColumns rowsColumns');
-   console.log(rowsColumns);
+  //  console.log('getFullBlocksRowAndColumns rowsColumns');
+  //  console.log(rowsColumns);
     return rowsColumns;
   }
   calculateTileRowsAndColumns() : RowsColumns[]{
@@ -133,8 +134,8 @@ export class TileListComponent implements OnInit {
     
     rowsColumns = this.getFullBlocksRowAndColumns(fullBlocks, partialBlocks);
 
-    console.log('arraykrngth');
-    console.log(arrayLength);
+    // console.log('arraykrngth');
+    // console.log(arrayLength);
 
    //TODO when over 4 in length, repeat, but mirror
     return rowsColumns;
@@ -152,17 +153,17 @@ export class TileListComponent implements OnInit {
   populateTileArray(){
 
     let rowsAndColumns : RowsColumns[] = this.calculateTileRowsAndColumns();
-    console.log('rowsAndColumns');
-    console.log(rowsAndColumns);
+    // console.log('rowsAndColumns');
+    // console.log(rowsAndColumns);
     this.category.forEach((cat, index) => {
-      console.log(cat.name);
+      // console.log(cat.name);
       let tile : Tile = new Tile();
       tile.id = cat.id;
       tile.text = cat.name;
       tile.colour = this.getTileColour();
       tile.rows = rowsAndColumns[index].rows;
       tile.cols = rowsAndColumns[index].columns;
-      console.log(tile);
+      // console.log(tile);
       this.tiles.push(tile)
     });
 

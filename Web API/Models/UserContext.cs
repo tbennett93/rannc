@@ -18,6 +18,7 @@ namespace Rannc.Models
         public DbSet<CategoryModel> Categories { get; set; }
         public DbSet<CategoryGroupsModel> CategoryGroups { get; set; }
         public DbSet<CategoryItemsModel> CategoryItems { get; set; }
+        public DbSet<TemplateLoggerModel> TemplatesLog { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

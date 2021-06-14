@@ -19,7 +19,7 @@ import { AuthGuard } from 'src/app/auth.guard';
     DragDropCardListModule,
     PageTitleBarModule,
     RouterModule.forRoot([
-      {path: 'my-category/:id', component: CategoryItemsComponent, canActivate: [AuthGuard], data : {title:'My Categories'}},
+      {path: 'my-category/:id', component: CategoryItemsComponent, canActivate: [AuthGuard], data : {title:'My Category'}},
     ], {scrollPositionRestoration: 'enabled'}),
   ]
 })

@@ -1,5 +1,63 @@
-can I only view my own categories? Try accessing one for another user via URL
-	can access the route but not view data or delete
+templates
+	TV by Genre
+		Cartoons
+		Drama
+		Comedy
+		Fantasy
+	
+	Films to watch
+		Should watch
+		Must Watch
+		Don't watch
+		
+	Films Tier
+		S, A, B, C, D, E
+		
+	Games Tier
+		S, A, B, C, D, E
+	
+	TV Tier
+		S, A, B, C, D, E
+		
+	Food Tier
+		S, A, B, C, D, E
+		
+	Music Tier
+		S, A, B, C, D, E
+		
+	Project
+		TODO
+		In Progress
+		Complete
+		
+	Kanban
+		Backlog
+		Design
+		To Do
+		Doing
+		Code Review
+		Testing
+		Done
+		
+	Music
+		Metal
+		Electronic
+		Rock
+		
+	Pokemon
+		Strongest
+		
+	Pokemon by Type
+		Water
+		Fire
+		Earth
+		Electricity
+		
+	Food
+		Fruit
+		Vegetables
+		Cereal
+		
 
 LOOK AND FEEL
 	
@@ -68,5 +126,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Further improvements and functionality to tiles on Categories page"
+git commit -m "Bug fix and colour improvements on tile list. Added tiles to template page - unimplemented"
 git push

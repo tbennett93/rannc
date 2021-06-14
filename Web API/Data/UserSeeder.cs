@@ -38,6 +38,21 @@ namespace Rannc.Data
                 _userContext.SaveChanges();
             }
 
+            var templateOwnerUser = _userContext.LoginModel.FirstOrDefault(m => m.UserName == "TemplateOwnerUser");
+            var passwordSalt2 = _passwordHasher.GetSalt();
+            if (templateOwnerUser == null)
+            {
+                templateOwnerUser = new LoginModel()
+                {
+                    UserName = "TemplateOwnerUser",
+                    Password = _passwordHasher.GetHashedSaltedPassword("TemplateOwnerUserPassword", passwordSalt2),
+                    PasswordSalt = passwordSalt2,
+                    RefreshToken = _iTokenService.GenerateRefreshToken(),
+                    RefreshTokenExpiryTime = _iTokenService.RefreshTokenTime
+                };
+                _userContext.Add(templateOwnerUser);
+                _userContext.SaveChanges();
+            }
             var usercategory = _userContext.Categories
                 .Include(u=>u.LoginModel)
                 .FirstOrDefault(u=>u.LoginModelId == user.Id);

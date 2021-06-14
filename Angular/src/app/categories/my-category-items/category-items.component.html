@@ -1,11 +1,17 @@
 <div class="page-container">
-  <div *ngIf="getLoaded">
-    <div class="list-container">
-      <app-drag-drop-card-list [categoryId]="categoryId" [categoryGroupItems]="categoryGroupItems">
-        <button class="input-button delete-button list-container" mat-raised-button color="warn"
-          (click)="deleteCategory()">Delete Category</button>
-      </app-drag-drop-card-list>
+  <div class="content-container">
+    <div class="category-title">
+      {{categoryGroupItems.categoryName}}
     </div>
-
+    <div *ngIf="getLoaded">
+      <div class="list-container">
+        <app-drag-drop-card-list [categoryId]="categoryId" [categoryGroupItems]="categoryGroupItems">
+          <button class="input-button delete-button list-container" mat-raised-button color="warn"
+            (click)="deleteCategory()">Delete Category</button>
+        </app-drag-drop-card-list>
+      </div>
+  
+    </div>
   </div>
+  
 </div>
