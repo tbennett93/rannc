@@ -1,63 +1,6 @@
-templates
-	TV by Genre
-		Cartoons
-		Drama
-		Comedy
-		Fantasy
-	
-	Films to watch
-		Should watch
-		Must Watch
-		Don't watch
-		
-	Films Tier
-		S, A, B, C, D, E
-		
-	Games Tier
-		S, A, B, C, D, E
-	
-	TV Tier
-		S, A, B, C, D, E
-		
-	Food Tier
-		S, A, B, C, D, E
-		
-	Music Tier
-		S, A, B, C, D, E
-		
-	Project
-		TODO
-		In Progress
-		Complete
-		
-	Kanban
-		Backlog
-		Design
-		To Do
-		Doing
-		Code Review
-		Testing
-		Done
-		
-	Music
-		Metal
-		Electronic
-		Rock
-		
-	Pokemon
-		Strongest
-		
-	Pokemon by Type
-		Water
-		Fire
-		Earth
-		Electricity
-		
-	Food
-		Fruit
-		Vegetables
-		Cereal
-		
+*categorygroups in template are being deleted upon copying
+*add save button to templates
+*'Templates' sends 'true' in header to get from template user
 
 LOOK AND FEEL
 	
@@ -126,5 +69,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Bug fix and colour improvements on tile list. Added tiles to template page - unimplemented"
+git commit -m "Seeded TemplateOwnerUser and created a db table for it."
 git push

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.Internal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
@@ -95,10 +96,21 @@ namespace Rannc.Controllers
         [HttpGet, Route("categoryitems")]
         [Authorize]
         //public async Task<ActionResult<CategoryGroupsViewModel>> GetCategoryItems([FromHeader] int categoryId)
-        public async Task<ActionResult<LoginModel>> GetCategoryItems([FromHeader] int categoryId)
+        public async Task<ActionResult<LoginModel>> GetCategoryItems([FromHeader] int categoryId, [FromHeader] bool fromTemplateUser)
         {
             _iLogger.LogInformation("Category.Get initiated");
-            var userId = this.User.GetUserId();
+
+            long? userId ;
+
+            if (fromTemplateUser)
+            {
+                var user = await _categoriesRepository.GetTemplateUser();
+                userId = user.Id;
+            }
+            else
+            {
+                userId = this.User.GetUserId();
+            }
 
             if (userId == null)
             {
@@ -107,11 +119,13 @@ namespace Rannc.Controllers
             }
 
             var userCategories = await _categoriesRepository.GetCategories((long) userId);
-            if (userCategories  == null)
+            if (userCategories == null)
             {
                 _iLogger.LogWarning("No categories found for user");
                 return BadRequest("Bad request");
-            };
+            }
+
+            ;
 
             if (!userCategories.Any(u => u.Id == categoryId))
             {
@@ -126,7 +140,7 @@ namespace Rannc.Controllers
 
             var userCategoryItemsView = _mapper.Map<CategoryGroupItemsViewModel>(userCategoryItems);
 
-        
+
             //foreach (var category in userCategoryItems)
             //{
             //    userCategoryItemsView.CategoryName = category.Name;
@@ -369,5 +383,41 @@ namespace Rannc.Controllers
 
 
         }
+
+        [HttpPost, Route("savetemplate")]
+        [Authorize]
+        public async Task<ActionResult> SaveTemplate([FromHeader] int categoryId)
+        {
+            _iLogger.LogInformation("Attempting to save category template");
+
+
+            var templateUser = await _categoriesRepository.GetTemplateUser();
+
+            var category = new CategoryModel();
+            
+            category = await _categoriesRepository.GetCategoryItemsForClone(categoryId, templateUser.Id);
+
+            category.Id = 0;
+            category.CategoryGroupsModels.ForAll(u => u.Id = 0);
+            category.CategoryGroupsModels.ForAll(u => u.CategoryItemsModels.ForAll(x => x.Id = 0));
+
+            category.LoginModelId = (long)this.User.GetUserId(); 
+            
+
+
+            if (!await _categoriesRepository.CopyTemplateToUser(category))
+            {
+                _iLogger.LogError("Unable to save template");
+                return BadRequest("Unable to update db");
+            }
+
+            _iLogger.LogInformation("Template save successful");
+
+
+            return Ok();
+
+
+        }
+
     }
 }

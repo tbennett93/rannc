@@ -23,5 +23,9 @@ namespace Rannc.Services
 
         Task<bool> UpdateCategoryGroupOrderAsync(List<CategoryGroupPutModelMapped> categoryGroups);
         Task<bool> UpdateCategoryItemsOrderAsync(List<CategoryGroupsModel> categoryGroups);
+
+        Task<bool> CopyTemplateToUser(CategoryModel categoryModel);
+        Task<LoginModel> GetTemplateUser();
+        Task<CategoryModel> GetCategoryItemsForClone(int categoryId, long userId);
     }
 }

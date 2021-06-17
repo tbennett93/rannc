@@ -59,29 +59,30 @@ namespace Rannc.Services
         {
             _iLogger.LogInformation("CategoriesRepo.Get called");
 
-
-            //List<CategoryGroupsModel> userCategoryItems = await _userContext.CategoryGroups
-            //    .Include(u => u.CategoryItemsModels)
-            //    .Where(u => u.CategoryModelId == categoryId)
-            //    .Include(u => u.CategoryModel)
-            //    .ThenInclude(u => u.LoginModel)
-            //    .Where(u => u.CategoryModel.LoginModelId == userId)
-            //    .Select(u => new CategoryGroupsModel()
-            //    {
-            //        Name = u.Name,
-            //        Id = u.Id,
-            //        Order = u.Order,
-            //        CategoryModelId = categoryId,
-            //        CategoryItemsModels = u.CategoryItemsModels
-
-            //    })
-            //    .ToListAsync();
-            //List<CategoryGroupItemsViewModel> userCategoryGroupItems = await _userContext.LoginModel
             var userCategoryGroupItems = await _userContext.Categories
                 .Where(u => u.LoginModelId == userId)
                 .Include(u=>u.CategoryGroupsModels)
                 .ThenInclude(u=>u.CategoryItemsModels)
                 .SingleOrDefaultAsync(u=>u.Id == categoryId)
+                ;
+            if (userCategoryGroupItems != null) return userCategoryGroupItems;
+
+            _iLogger.LogWarning("Unable to retrieve user category items for category ID {id}", categoryId);
+            return null;
+
+        }
+
+        public async Task<CategoryModel> GetCategoryItemsForClone(int categoryId, long userId)
+            //public async Task<List<LoginModel>> GetCategoryItems(int categoryId, long userId)
+        {
+            _iLogger.LogInformation("CategoriesRepo.Get called");
+
+            var userCategoryGroupItems = await _userContext.Categories
+                    .Where(u => u.LoginModelId == userId)
+                    .Include(u => u.CategoryGroupsModels)
+                    .ThenInclude(u => u.CategoryItemsModels)
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(u => u.Id == categoryId)
                 ;
             if (userCategoryGroupItems != null) return userCategoryGroupItems;
 
@@ -242,5 +243,37 @@ namespace Rannc.Services
             return await _userContext.SaveChangesAsync() > 0;
         }
 
+        public async Task<bool> CopyTemplateToUser(CategoryModel categoryModel)
+        {
+
+            await _userContext.Categories.AddAsync(categoryModel);
+
+            if (await _userContext.SaveChangesAsync() != 0)
+            {
+                var templateLog = new TemplateLoggerModel()
+                {
+                    DateSaved = DateTime.Now,
+                    CategoryModelId = categoryModel.Id,
+                    CategoryModel = categoryModel
+                };
+                await _userContext.TemplatesLog.AddAsync(templateLog);
+            }
+            
+            return await _userContext.SaveChangesAsync() != 0;
+
+
+
+        }
+
+        public async Task<LoginModel> GetTemplateUser()
+        {
+            return await _userContext.LoginModel.FirstOrDefaultAsync(u => u.UserName == "TemplateOwnerUser");
+        }
+
+       
+
+
     }
+
+
 }
