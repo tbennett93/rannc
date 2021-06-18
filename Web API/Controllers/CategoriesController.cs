@@ -405,7 +405,7 @@ namespace Rannc.Controllers
             
 
 
-            if (!await _categoriesRepository.CopyTemplateToUser(category))
+            if (!await _categoriesRepository.CopyTemplateToUser(category, categoryId))
             {
                 _iLogger.LogError("Unable to save template");
                 return BadRequest("Unable to update db");
@@ -416,7 +416,29 @@ namespace Rannc.Controllers
 
             return Ok();
 
+        }
 
+
+        [HttpGet, Route("top5")]
+        [Authorize]
+        public async Task<ActionResult> GetTop5()
+        {
+            _iLogger.LogInformation("Categories.Get initiated");
+
+            var user = await _categoriesRepository.GetTemplateUser();
+            var userId = user.Id;
+
+            if (userId == null)
+            {
+                _iLogger.LogWarning("Template user could not be found");
+                return BadRequest("Bad request");
+            }
+
+            var userCategories = await _categoriesRepository.GetTop5Categories(userId);
+            var model = _mapper.Map<List<CategoryViewModel>>(userCategories);
+
+            _iLogger.LogInformation("Categories for user found");
+            return Ok(model);
         }
 
     }

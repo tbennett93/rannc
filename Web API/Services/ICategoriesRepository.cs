@@ -8,6 +8,9 @@ namespace Rannc.Services
     public interface ICategoriesRepository
     {
         Task<List<CategoryModel>> GetCategories(long userId);
+        Task<List<CategoryModel>> GetTop5Categories(long userId);
+
+        
         //Task<List<CategoryItemsModel>> GetCategoryItems(long userId, int categoryId);
         Task<CategoryModel> PostCategory(CategoryModel categoryModel, long userId);
 
@@ -24,7 +27,7 @@ namespace Rannc.Services
         Task<bool> UpdateCategoryGroupOrderAsync(List<CategoryGroupPutModelMapped> categoryGroups);
         Task<bool> UpdateCategoryItemsOrderAsync(List<CategoryGroupsModel> categoryGroups);
 
-        Task<bool> CopyTemplateToUser(CategoryModel categoryModel);
+        Task<bool> CopyTemplateToUser(CategoryModel categoryModel, int categoryId);
         Task<LoginModel> GetTemplateUser();
         Task<CategoryModel> GetCategoryItemsForClone(int categoryId, long userId);
     }

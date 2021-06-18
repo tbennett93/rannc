@@ -243,7 +243,7 @@ namespace Rannc.Services
             return await _userContext.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> CopyTemplateToUser(CategoryModel categoryModel)
+        public async Task<bool> CopyTemplateToUser(CategoryModel categoryModel, int categoryId)
         {
 
             await _userContext.Categories.AddAsync(categoryModel);
@@ -253,8 +253,9 @@ namespace Rannc.Services
                 var templateLog = new TemplateLoggerModel()
                 {
                     DateSaved = DateTime.Now,
-                    CategoryModelId = categoryModel.Id,
-                    CategoryModel = categoryModel
+                    CategoryModelId = categoryId
+                    //,
+                    //CategoryModel = categoryModel
                 };
                 await _userContext.TemplatesLog.AddAsync(templateLog);
             }
@@ -270,7 +271,42 @@ namespace Rannc.Services
             return await _userContext.LoginModel.FirstOrDefaultAsync(u => u.UserName == "TemplateOwnerUser");
         }
 
-       
+
+        public async Task<List<CategoryModel>> GetTop5Categories(long userId)
+        {
+            _iLogger.LogInformation("CategoriesRepo.GetTop5 called");
+            var Templates = _userContext.TemplatesLog
+                .GroupBy(u => u.CategoryModelId)
+                .Select(group => new
+                {
+                    Category = group.Key,
+                    Count = group.Count()
+
+                }).OrderByDescending(x => x.Count);
+                ;
+
+            var userCategories = new List<CategoryModel>();
+
+                int loopCount = 0;
+                foreach (var category in Templates)
+                {
+                    loopCount++;
+                    if (loopCount > 5)
+                        break;
+                    var userCategory = await _userContext.Categories
+                        .FirstOrDefaultAsync(u => u.Id == category.Category)
+                        ;
+                    userCategories.Add(userCategory);
+                }
+
+           
+            if (userCategories == null)
+                _iLogger.LogWarning("Unable to retrieve user categories");
+            else
+                _iLogger.LogInformation("User categories retrieved from db");
+            return userCategories;
+        }
+
 
 
     }

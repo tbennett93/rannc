@@ -1,4 +1,8 @@
-*categorygroups in template are being deleted upon copying
+**Build APIs for templates
+	TOp 10
+	Trending
+	New
+**Display templates - these should have different route and display a 'save' button. re-use the component for displaying data
 *add save button to templates
 *'Templates' sends 'true' in header to get from template user
 
@@ -69,5 +73,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Seeded TemplateOwnerUser and created a db table for it."
+git commit -m "Built API to copy templates to user's categories"
 git push
