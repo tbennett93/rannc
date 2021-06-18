@@ -8,9 +8,11 @@ namespace Rannc.Services
     public interface ICategoriesRepository
     {
         Task<List<CategoryModel>> GetCategories(long userId);
-        Task<List<CategoryModel>> GetTop5Categories(long userId);
+        Task<List<CategoryModel>> GetTop5Categories();
+        Task<List<CategoryModel>> GetTrendingCategories();
+        Task<List<CategoryModel>> GetNewCategories(long userId);
 
-        
+
         //Task<List<CategoryItemsModel>> GetCategoryItems(long userId, int categoryId);
         Task<CategoryModel> PostCategory(CategoryModel categoryModel, long userId);
 

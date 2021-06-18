@@ -423,7 +423,33 @@ namespace Rannc.Controllers
         [Authorize]
         public async Task<ActionResult> GetTop5()
         {
-            _iLogger.LogInformation("Categories.Get initiated");
+            _iLogger.LogInformation("Categories.GetTop5 initiated");
+
+            var userCategories = await _categoriesRepository.GetTop5Categories();
+            var model = _mapper.Map<List<CategoryViewModel>>(userCategories);
+
+            _iLogger.LogInformation("Top 10 categories found");
+            return Ok(model);
+        }
+
+        [HttpGet, Route("trending")]
+        [Authorize]
+        public async Task<ActionResult> GetTrending()
+        {
+            _iLogger.LogInformation("Categories.GetTrending initiated");
+
+            var userCategories = await _categoriesRepository.GetTrendingCategories();
+            var model = _mapper.Map<List<CategoryViewModel>>(userCategories);
+
+            _iLogger.LogInformation("Trending categories found");
+            return Ok(model);
+        }
+
+        [HttpGet, Route("new")]
+        [Authorize]
+        public async Task<ActionResult> GetNew()
+        {
+            _iLogger.LogInformation("Categories.GetNew initiated");
 
             var user = await _categoriesRepository.GetTemplateUser();
             var userId = user.Id;
@@ -434,10 +460,10 @@ namespace Rannc.Controllers
                 return BadRequest("Bad request");
             }
 
-            var userCategories = await _categoriesRepository.GetTop5Categories(userId);
+            var userCategories = await _categoriesRepository.GetNewCategories(userId);
             var model = _mapper.Map<List<CategoryViewModel>>(userCategories);
 
-            _iLogger.LogInformation("Categories for user found");
+            _iLogger.LogInformation("Trending categories found");
             return Ok(model);
         }
 

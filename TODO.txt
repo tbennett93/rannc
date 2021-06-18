@@ -1,5 +1,4 @@
 **Build APIs for templates
-	TOp 10
 	Trending
 	New
 **Display templates - these should have different route and display a 'save' button. re-use the component for displaying data
@@ -73,5 +72,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Built API to copy templates to user's categories"
+git commit -m "Built API to retrieve top 5 templates"
 git push

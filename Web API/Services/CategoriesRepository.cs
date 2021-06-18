@@ -272,7 +272,7 @@ namespace Rannc.Services
         }
 
 
-        public async Task<List<CategoryModel>> GetTop5Categories(long userId)
+        public async Task<List<CategoryModel>> GetTop5Categories()
         {
             _iLogger.LogInformation("CategoriesRepo.GetTop5 called");
             var Templates = _userContext.TemplatesLog
@@ -307,7 +307,66 @@ namespace Rannc.Services
             return userCategories;
         }
 
+        public async Task<List<CategoryModel>> GetTrendingCategories()
+        {
+            _iLogger.LogInformation("CategoriesRepo.GetTop5 called");
+            var Templates = _userContext.TemplatesLog
+                .Where(u => u.DateSaved > DateTime.Now.AddDays(-10))
+                .GroupBy(u => u.CategoryModelId)
+                .Select(group => new
+                {
+                    Category = group.Key,
+                    Count = group.Count()
 
+                }).OrderByDescending(x => x.Count);
+            ;
+
+            var userCategories = new List<CategoryModel>();
+
+
+            foreach (var category in Templates)
+            {
+
+                var userCategory = await _userContext.Categories
+                        .FirstOrDefaultAsync(u => u.Id == category.Category)
+                    ;
+                userCategories.Add(userCategory);
+            }
+
+
+            if (userCategories == null)
+                _iLogger.LogWarning("Unable to retrieve user categories");
+            else
+                _iLogger.LogInformation("User categories retrieved from db");
+            return userCategories;
+        }
+        public async Task<List<CategoryModel>> GetNewCategories(long userId)
+        {
+            _iLogger.LogInformation("CategoriesRepo.GetNew called");
+            var Templates = _userContext.Categories
+                .Where(u => u.LoginModelId == userId)
+                .OrderByDescending(x => x.DateCreated);
+            ;
+
+            var userCategories = new List<CategoryModel>();
+            int loopCount = 0;
+
+            foreach (var category in Templates)
+            {
+                loopCount++;
+                if (loopCount > 5)
+                    break;
+                userCategories.Add(category);
+            }
+
+
+            if (userCategories == null)
+                _iLogger.LogWarning("Unable to retrieve user categories");
+            else
+                _iLogger.LogInformation("User categories retrieved from db");
+            return userCategories;
+        }
+        
 
     }
 
