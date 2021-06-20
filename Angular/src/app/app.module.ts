@@ -23,6 +23,7 @@ import { LoginModule } from './login/login.module';
 import { HomeModule } from './home/home.module';
 import { CategoryModule } from './categories/my-categories/category.module';
 import { TemplatesModule } from './templates/templates.module';
+import { TemplateItemsModule } from './templates/template-items/template-items.module';
 
 
 
@@ -44,6 +45,8 @@ export function tokenGetter() {
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    TemplatesModule,
+    TemplateItemsModule,
     ReactiveFormsModule,
     CategoryItemsModule,
     TemplatesModule,

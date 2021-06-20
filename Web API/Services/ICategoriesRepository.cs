@@ -17,7 +17,7 @@ namespace Rannc.Services
         Task<CategoryModel> PostCategory(CategoryModel categoryModel, long userId);
 
         //Task<List<CategoryGroupsModel>> GetCategoryItems(int categoryId, long userId);
-        Task<CategoryModel> GetCategoryItems(int categoryId, long userId);
+        Task<LoginModel> GetCategoryItems(int categoryId);
 
         Task<CategoryItemsModel> PostCategoryItem(CategoryItemsModel categoryModel, long userId, long categoryModelId);
         Task<CategoryGroupsModel> PostCategoryGroup(CategoryGroupsModel categoryModel, long userId, long categoryModelId);

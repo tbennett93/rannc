@@ -1,5 +1,6 @@
 import { Component, DefaultIterableDiffer, Input, IterableDiffers, KeyValueDiffers, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Color, Tile, RowsColumns } from 'src/app/categories/my-categories/category.component';
 import { CategoryModel } from 'src/app/models/category.model';
 import { DataService } from 'src/app/services/data.service';
@@ -13,18 +14,21 @@ import { TokenService } from 'src/app/services/token.service';
 export class TileListComponent implements OnInit {
 
   @Input() category: CategoryModel[];
+  @Input() colourIndex: number = 0;
+  @Input() templateUser: boolean  = false;
+
   differ: any;
 
   getLoaded: boolean;
 
   colours: Color[] = [
     {colour: '#ffadad' },
-    {colour: '#ffd6a5' },
-    {colour: '#fdffb6' },
     {colour: '#caffbf' },
+    {colour: '#ffd6a5' },
     {colour: '#9bf6ff' },
     {colour: '#a0c4ff' },
     {colour: '#bdb2ff' },
+    {colour: '#fdffb6' },
     {colour: '#ffc6ff' },
     {colour: '#E4E3D3' },
 
@@ -32,9 +36,8 @@ export class TileListComponent implements OnInit {
 
   newCategoryColour : Color = {colour:'#ffc6ff'};
   tiles: Tile[] = new Array<Tile>();
-  colourIndex: number = 0;
   
-  constructor(private data: DataService, private tokenService: TokenService, private _snackBar: MatSnackBar, differs: KeyValueDiffers) {
+  constructor(private data: DataService, private tokenService: TokenService, private _snackBar: MatSnackBar, differs: KeyValueDiffers, private router: Router) {
     this.differ = differs.find({}).create();
 
    };
@@ -45,9 +48,16 @@ export class TileListComponent implements OnInit {
       this.tiles=[];
       this.populateTileArray();
     }
-    // here you can do what you want on array change
-    // you can check for forEachAddedItem or forEachRemovedItem on change object to see the added/removed items
-    // Attention: ngDoCheck() is triggered at each binded variable on componenet; if you have more than one in your component, make sure you filter here the one you want.
+
+  }
+
+  tileClicked(id: number){
+    if(!this.templateUser){
+      this.router.navigate(['/my-category/'+id]);
+    }else{
+      this.router.navigate(['/template/'+id]);
+    }
+
   }
 
   ngOnInit(): void {
@@ -56,12 +66,6 @@ export class TileListComponent implements OnInit {
   
   getFullBlocksRowAndColumns(amount: number, remainder: number){
     let rowsColumns = new Array<RowsColumns>();
-    // console.log('whole');
-    // console.log(amount);
-
-    // console.log('remainder');
-    // console.log(remainder);
-
     let flip: boolean = false;
 
     //full block
@@ -125,6 +129,9 @@ export class TileListComponent implements OnInit {
     return rowsColumns;
   }
   calculateTileRowsAndColumns() : RowsColumns[]{
+    
+
+
     let arrayLength: number  = this.category.length;
     
     let fullBlocks: number = Math.floor(arrayLength/4);
@@ -142,11 +149,13 @@ export class TileListComponent implements OnInit {
   }
 
   getTileColour(){
-    let colour: string =  this.colours[this.colourIndex].colour;
     this.colourIndex++;
     if (this.colourIndex >= this.colours.length){
       this.colourIndex = 0;
     }
+
+    let colour: string =  this.colours[this.colourIndex].colour;
+
     return colour;
   }
 

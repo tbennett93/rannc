@@ -1,23 +1,29 @@
 <h1>These are the top templates designed by others</h1>
 <p>These should implement a 'save' button, which adds them to the current user's categories after renaming.</p>
-<p>Keep a log of the template and when it was saved. This will allow the retrieval of 'top' aswell as 'trending' </p>
 
-<h2>Top 10</h2>
-<app-tile-list >
-</app-tile-list>
+<h2>Top 5</h2>
+<div class="content-spacer"></div>
+<div class="tile-container">
+    <app-tile-list  [category]="categoryTop5" [colourIndex]="0" [templateUser]="true">
+    </app-tile-list>
+</div>
 
 
-<!-- <app-tiles>
-
-</app-tiles> -->
 <h2>Trending</h2>
-<app-tile-list >
-</app-tile-list>
 
-<h2>New (top 5 new)</h2>
-<app-tile-list >
-</app-tile-list>
+<div class="content-spacer"></div>
+<div class="tile-container">
+    <app-tile-list [category]="categoryTrending" [colourIndex]="1" [templateUser]="true">
+    </app-tile-list>
+</div>
 
+
+<div class="content-spacer"></div>
+<div class="tile-container">
+    <h2>New (top 5 new)</h2>
+    <app-tile-list [category]="categoryNew" [colourIndex]="2" [templateUser]="true">
+    </app-tile-list>
+</div>
 
 <h2>Implement save feature</h2>
 <app-tile-list >

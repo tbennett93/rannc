@@ -1,19 +1,18 @@
-import { Component, OnInit} from '@angular/core';
-import { DataService } from 'src/app/services/data.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TokenService } from 'src/app/services/token.service';
-import { CategoryGroupsItems} from 'src/app/models/category-groups';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewportScroller } from '@angular/common';
-
+import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CategoryGroupsItems } from 'src/app/models/category-groups';
+import { DataService } from 'src/app/services/data.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
-  templateUrl: './category-items.component.html',
-  styleUrls: ['./category-items.component.scss']
+  selector: 'app-template-items',
+  templateUrl: './template-items.component.html',
+  styleUrls: ['./template-items.component.scss']
 })
+export class TemplateItemsComponent implements OnInit {
 
-
-export class CategoryItemsComponent implements OnInit {
 
   categoryGroupItems: CategoryGroupsItems;
   getLoaded: boolean = false;
@@ -72,6 +71,12 @@ export class CategoryItemsComponent implements OnInit {
     }
   }
 
+  saveTemplate(id: number){
+  
+  }
+  
+  
+
   deleteCategory(): void{
     if (confirm("Are you sure you want to delete this category and all contents?")) {
 
@@ -88,11 +93,4 @@ export class CategoryItemsComponent implements OnInit {
   }
 
 
-
-
-
-  
-
-
 }
-

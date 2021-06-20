@@ -1,6 +1,6 @@
 <mat-grid-list cols="4" rowHeight="100px">
     <mat-grid-tile class="tile-button" *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows"
-        [style.background]="tile.colour" [routerLink]="['/my-category', tile.id]">
+        [style.background]="tile.colour"  (click)="tileClicked(tile.id)">
         <h2 class="button-text"> {{ tile.text }} </h2>
     </mat-grid-tile>
 

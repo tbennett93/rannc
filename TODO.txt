@@ -1,9 +1,9 @@
-**Build APIs for templates
-	Trending
-	New
-**Display templates - these should have different route and display a 'save' button. re-use the component for displaying data
-*add save button to templates
+style and add functionality for save button - API already built
+Allow editing of templates within template OR make it visible that they CANNOT be edited in template view. Saving template snack bar = link to own version
+All snackbars to be styles properly so theyre visible
+
 *'Templates' sends 'true' in header to get from template user
+block template:id where the category items belong to a user, not a template
 
 LOOK AND FEEL
 	
@@ -72,5 +72,5 @@ git
 
 cd C:\Users\tbenn\source\repos\Rannc
 git add --all
-git commit -m "Built API to retrieve top 5 templates"
+git commit -m "Templates page built with separate endpoints to categories"
 git push

@@ -1,0 +1,23 @@
+<p>template-items works!</p>
+
+
+<div class="page-container">
+    <div class="content-container">
+        <div *ngIf="getLoaded">
+
+        <div class="category-title">
+            {{categoryGroupItems.categoryName}}
+        </div>
+            <div class="list-container">
+                <app-drag-drop-card-list [categoryId]="categoryId" [categoryGroupItems]="categoryGroupItems">
+                </app-drag-drop-card-list>
+            </div>
+
+        </div>
+        <button  (click)="saveTemplate(categoryId)">Save Template</button>
+    
+    </div>
+
+
+
+</div>

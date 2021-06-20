@@ -10,13 +10,23 @@ import { CategoryItem } from '../models/category-item';
 })
 export class DataService {
 
-
-
   constructor(private http: HttpClient) { }
 
   getCategories() {
     return this.http.get('https://localhost:44359/api/categories')
   }
+
+  getCategoriesTop5() {
+    return this.http.get('https://localhost:44359/api/categories/top5')
+  }
+  
+  getCategoriesTrending() {
+    return this.http.get('https://localhost:44359/api/categories/trending')
+  }
+  
+  getCategoriesNew() {
+    return this.http.get('https://localhost:44359/api/categories/new')
+  }  
 
   postCategory(categoryModel: CategoryModel) {
 

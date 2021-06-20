@@ -54,18 +54,28 @@ namespace Rannc.Services
             return categoryModel;
         }
 
-        public async Task<CategoryModel> GetCategoryItems(int categoryId, long userId)
+        public async Task<LoginModel> GetCategoryItems(int categoryId)
         //public async Task<List<LoginModel>> GetCategoryItems(int categoryId, long userId)
         {
             _iLogger.LogInformation("CategoriesRepo.Get called");
 
             var userCategoryGroupItems = await _userContext.Categories
-                .Where(u => u.LoginModelId == userId)
-                .Include(u=>u.CategoryGroupsModels)
-                .ThenInclude(u=>u.CategoryItemsModels)
-                .SingleOrDefaultAsync(u=>u.Id == categoryId)
+                    .Include(u => u.CategoryGroupsModels)
+                    .ThenInclude(u => u.CategoryItemsModels)
+                    .FirstOrDefaultAsync( u=> u.Id == categoryId)
                 ;
-            if (userCategoryGroupItems != null) return userCategoryGroupItems;
+
+            
+            
+            var user = new LoginModel();
+
+            user = await _userContext.LoginModel.FirstOrDefaultAsync(u =>
+                u.Id == userCategoryGroupItems.LoginModelId);
+
+
+            user.CategoryModels.Add(userCategoryGroupItems);
+
+            if (user != null) return user;
 
             _iLogger.LogWarning("Unable to retrieve user category items for category ID {id}", categoryId);
             return null;

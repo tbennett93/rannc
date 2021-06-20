@@ -96,65 +96,34 @@ namespace Rannc.Controllers
         [HttpGet, Route("categoryitems")]
         [Authorize]
         //public async Task<ActionResult<CategoryGroupsViewModel>> GetCategoryItems([FromHeader] int categoryId)
-        public async Task<ActionResult<LoginModel>> GetCategoryItems([FromHeader] int categoryId, [FromHeader] bool fromTemplateUser)
+        public async Task<ActionResult<LoginModel>> GetCategoryItems([FromHeader] int categoryId)
         {
             _iLogger.LogInformation("Category.Get initiated");
 
-            long? userId ;
 
-            if (fromTemplateUser)
-            {
-                var user = await _categoriesRepository.GetTemplateUser();
-                userId = user.Id;
-            }
-            else
-            {
-                userId = this.User.GetUserId();
-            }
-
-            if (userId == null)
+            if (this.User.GetUserId() == null)
             {
                 _iLogger.LogWarning("Claim identity could not be found");
                 return BadRequest("Bad request");
             }
 
-            var userCategories = await _categoriesRepository.GetCategories((long) userId);
-            if (userCategories == null)
-            {
-                _iLogger.LogWarning("No categories found for user");
-                return BadRequest("Bad request");
-            }
 
-            ;
+            var userModel = await _categoriesRepository.GetCategoryItems(categoryId);
 
-            if (!userCategories.Any(u => u.Id == categoryId))
+
+
+            if (userModel!= null && 
+                userModel.Id != this.User.GetUserId() &&
+                userModel.UserName != "TemplateOwnerUser")
             {
                 _iLogger.LogWarning("Unauthorised");
                 return StatusCode(403);
             }
 
-            var userCategoryItems = await _categoriesRepository.GetCategoryItems(categoryId, (long) userId);
+            var userCategoryItems = userModel.CategoryModels.First();
 
-            //var model = _mapper.Map<List<CategoryItemsViewModel>>(userCategoryItems);
-            //var userCategoryItemsView = _mapper.Map<List<CategoryGroupsViewModel>>(userCategoryItems);
 
             var userCategoryItemsView = _mapper.Map<CategoryGroupItemsViewModel>(userCategoryItems);
-
-
-            //foreach (var category in userCategoryItems)
-            //{
-            //    userCategoryItemsView.CategoryName = category.Name;
-            //    userCategoryItemsView.CategoryId = category.Id.ToString();
-            //    userCategoryItemsView.Groups = new CategoryGroupsViewModel[]{};
-
-
-            //    foreach (var group in category.CategoryGroupsModels)
-            //    {
-            //        userCategoryItemsView.Groups.Append(group.)
-            //    }
-
-
-            //}
 
             _iLogger.LogInformation("Categories for user found");
             return Ok(userCategoryItemsView);
